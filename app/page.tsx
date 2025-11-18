@@ -12,7 +12,10 @@ import {
   Database,
   Zap,
   Shield,
-  Smartphone
+  Smartphone,
+  Target,
+  Clock,
+  TrendingUp
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -76,6 +79,66 @@ export default function Portfolio() {
       image: "✨",
       color: "from-pink-500 to-rose-600",
       icon: Sparkles
+    }
+  ];
+
+  const caseStudies = [
+    {
+      name: "EventVerse",
+      summary: "Digitized the entire event lifecycle for organizers who previously relied on spreadsheets and manual payment reconciliation.",
+      role: "Lead Full-Stack Engineer & Product Designer",
+      timeline: "12 weeks",
+      stackHighlight: "Next.js 14 • Prisma • Stripe • M-Pesa • WebSockets",
+      challenge: "Create a unified experience for hybrid events with real-time ticketing, universal payments, and on-site verification queues that previously took 20+ minutes.",
+      solution: [
+        "Designed dual payment architecture (Stripe for cards, M-Pesa for mobile money) with webhook-based reconciliation.",
+        "Built a scanner-first PWA that caches QR codes offline and syncs check-ins once connectivity is back.",
+        "Shipped live ops dashboard showing ticket sales, attendee flow, and payment status across venues."
+      ],
+      metrics: [
+        { label: "Payment success rate", value: "+38%" },
+        { label: "Average check-in time", value: "-65%" },
+        { label: "Support tickets per event", value: "-45%" }
+      ],
+      result: "Launched across 4 pilot conferences, processing over 3,200 attendees with zero double scans and instant refunds when STK pushes failed."
+    },
+    {
+      name: "ShopStar",
+      summary: "Scaled a founder's MVP into an enterprise retail platform capable of handling flash sales, fulfillment, and multi-warehouse inventory.",
+      role: "Full-Stack Engineer & Systems Designer",
+      timeline: "10 weeks",
+      stackHighlight: "Next.js 16 • Node.js • MongoDB • Stripe • Resend",
+      challenge: "Replace fragmented tooling (Google Sheets + WhatsApp orders) with a single source of truth for sales, stock, and customer communication.",
+      solution: [
+        "Implemented double-entry inventory ledger with low-stock automations and supplier notifications.",
+        "Added role-based admin portal featuring cohort-based analytics, AOV tracking, and refund workflows.",
+        "Embedded transactional comms (email + SMS) covering order lifecycle, shipping labels, and settlement reports."
+      ],
+      metrics: [
+        { label: "Checkout conversion", value: "+27%" },
+        { label: "Fulfillment speed", value: "2× faster" },
+        { label: "Refund rate", value: "-18%" }
+      ],
+      result: "Enabled the merchant to process 5,000+ monthly orders with SLA-backed fulfillment, automated reconciliation, and audit-ready exports."
+    },
+    {
+      name: "Fashion Fit",
+      summary: "Built a cost-aware, AI-powered styling assistant capable of delivering computer-vision outfit suggestions in markets with unreliable bandwidth.",
+      role: "AI Engineer & Product Designer",
+      timeline: "14 weeks",
+      stackHighlight: "Next.js • Custom CV Engine • Node.js • Cloudinary • OAuth 2.0",
+      challenge: "Provide real-time item detection and styling tips without sending every image to expensive third-party APIs.",
+      solution: [
+        "Developed a hybrid CV pipeline: local canvas pixel parsing for color + silhouette, optional GPT-4 calls for semantic tagging.",
+        "Created wardrobe intelligence layer that learns per-user fit preferences, occasions, and seasonal constraints.",
+        "Internationalized the experience (11 languages) with RTL support, currency awareness, and localized content."
+      ],
+      metrics: [
+        { label: "Inference cost", value: "-95%" },
+        { label: "Detection accuracy", value: "88%+" },
+        { label: "Supported locales", value: "11 languages" }
+      ],
+      result: "Delivered sub-3s detection on mid-tier Android devices, making AI styling accessible globally while preserving privacy."
     }
   ];
 
@@ -315,6 +378,100 @@ export default function Portfolio() {
                         GitHub
                       </a>
                     )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Case Studies */}
+      <section id="case-studies" className="py-20 px-4 bg-gray-900/30 backdrop-blur-sm border-y border-purple-500/10">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <p className="uppercase tracking-[0.3em] text-sm text-purple-300 mb-4">Deep Dive</p>
+            <h2 className="text-4xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent mb-6">
+              Case Studies & Product Outcomes
+            </h2>
+            <p className="text-gray-400 max-w-3xl mx-auto">
+              Beyond shipping features, I help teams reach measurable outcomes. Here’s how each flagship project evolved from problem definition to launch-ready solution.
+            </p>
+          </div>
+
+          <div className="space-y-10">
+            {caseStudies.map((study, index) => (
+              <motion.div
+                key={study.name}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="bg-gray-800/60 border border-purple-500/20 rounded-3xl p-8 lg:p-10 shadow-2xl shadow-purple-500/10"
+              >
+                <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-8 mb-10">
+                  <div className="space-y-3">
+                    <span className="px-4 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-200 text-xs tracking-[0.2em] uppercase">
+                      {study.name}
+                    </span>
+                    <h3 className="text-3xl font-semibold text-white">{study.summary}</h3>
+                    <p className="text-gray-400">{study.result}</p>
+                  </div>
+                  <div className="grid sm:grid-cols-3 gap-4 w-full lg:w-auto">
+                    <div className="bg-gray-900/60 rounded-2xl border border-gray-700/60 p-4">
+                      <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-2">Role</p>
+                      <p className="text-sm text-gray-200">{study.role}</p>
+                    </div>
+                    <div className="bg-gray-900/60 rounded-2xl border border-gray-700/60 p-4">
+                      <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-2 flex items-center gap-2">
+                        <Clock className="w-4 h-4 text-cyan-400" /> Timeline
+                      </p>
+                      <p className="text-sm text-gray-200">{study.timeline}</p>
+                    </div>
+                    <div className="bg-gray-900/60 rounded-2xl border border-gray-700/60 p-4">
+                      <p className="text-xs uppercase tracking-[0.3em] text-gray-500 mb-2">Stack</p>
+                      <p className="text-sm text-gray-200">{study.stackHighlight}</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-8 mb-10">
+                  <div className="bg-gray-900/40 rounded-2xl border border-gray-700/50 p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Target className="w-6 h-6 text-pink-400" />
+                      <h4 className="text-xl font-semibold text-white">Challenge</h4>
+                    </div>
+                    <p className="text-gray-300 leading-relaxed">{study.challenge}</p>
+                  </div>
+
+                  <div className="bg-gray-900/40 rounded-2xl border border-gray-700/50 p-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <Zap className="w-6 h-6 text-cyan-400" />
+                      <h4 className="text-xl font-semibold text-white">Approach</h4>
+                    </div>
+                    <ul className="space-y-3 text-gray-300">
+                      {study.solution.map((item, idx) => (
+                        <li key={idx} className="flex gap-3">
+                          <span className="text-purple-400 mt-1">▹</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-cyan-500/10 border border-purple-500/20 rounded-2xl p-6">
+                  <div className="flex items-center gap-3 mb-6">
+                    <TrendingUp className="w-6 h-6 text-purple-300" />
+                    <h4 className="text-lg font-semibold text-white">Impact Metrics</h4>
+                  </div>
+                  <div className="grid sm:grid-cols-3 gap-4">
+                    {study.metrics.map((metric) => (
+                      <div key={metric.label} className="bg-gray-900/60 rounded-2xl border border-gray-700/40 p-4 text-center">
+                        <p className="text-2xl font-bold text-white">{metric.value}</p>
+                        <p className="text-xs uppercase tracking-[0.2em] text-gray-400 mt-1">{metric.label}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </motion.div>

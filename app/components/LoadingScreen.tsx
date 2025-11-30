@@ -80,42 +80,27 @@ function AnimatedTextRotator() {
 }
 
 export default function LoadingScreen() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true); // Start with true, check after mount
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   const [mounted, setMounted] = useState(false);
-  const [hasShownOnce, setHasShownOnce] = useState(false);
 
   useEffect(() => {
     // Only run on client side to prevent hydration mismatch
-    setMounted(true);
-    // Get window dimensions
-    if (typeof window !== 'undefined') {
-      setDimensions({ width: window.innerWidth, height: window.innerHeight });
-    }
-
-    // Check if we've already shown the loading screen in this session
-    const hasSeenLoading = sessionStorage.getItem('hasSeenLoadingScreen');
+    if (typeof window === 'undefined') return;
     
-    if (hasSeenLoading === 'true') {
-      // Already shown, skip loading screen
-      setIsLoading(false);
-      setHasShownOnce(true);
-      return;
-    }
-
-    // First time visit - show loading screen
+    setMounted(true);
+    setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    
+    // Show loading screen every time (on first visit AND on every refresh)
+    setIsLoading(true);
+    
     const timer = setTimeout(() => {
       setIsLoading(false);
-      setHasShownOnce(true);
-      // Mark that we've shown it in this session
-      sessionStorage.setItem('hasSeenLoadingScreen', 'true');
     }, 5000); // 5 seconds
 
     // Fallback: ensure content is always visible after 6 seconds
     const fallbackTimer = setTimeout(() => {
       setIsLoading(false);
-      setHasShownOnce(true);
-      sessionStorage.setItem('hasSeenLoadingScreen', 'true');
     }, 6000);
 
     return () => {
@@ -151,8 +136,8 @@ export default function LoadingScreen() {
     }));
   }, [dimensions, mounted]);
 
-  // Don't render anything if not loading to prevent blocking
-  if (!isLoading) return null;
+  // Don't render anything if not loading or not mounted (prevents hydration mismatch)
+  if (!mounted || !isLoading) return null;
 
   return (
     <AnimatePresence mode="wait">

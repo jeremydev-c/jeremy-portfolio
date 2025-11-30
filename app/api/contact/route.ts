@@ -1,7 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Initialize Resend lazily to avoid build-time errors
+function getResend() {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    throw new Error('RESEND_API_KEY is not configured');
+  }
+  return new Resend(apiKey);
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -26,6 +33,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Send email using Resend
+    const resend = getResend();
     const fromEmail = process.env.FROM_EMAIL || 'onboarding@resend.dev';
     const { data, error } = await resend.emails.send({
       from: `Portfolio Contact <${fromEmail}>`,

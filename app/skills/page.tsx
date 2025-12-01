@@ -406,8 +406,9 @@ export default function Skills() {
                     <span>🏆</span> Certified & Verified
                   </h4>
                   <p className="text-gray-300 leading-relaxed">
-                    Backed by 8+ verified certificates from Coursera, FreeCodeCamp, Forage (EA), and academic institutions. 
-                    Continuous learning ensures I stay current with industry best practices.
+                    Backed by 8+ verified certificates from Coursera, FreeCodeCamp, Forage (EA), academic institutions, 
+                    and competition awards like the Kenya Science & Engineering Fair. Continuous learning ensures I stay 
+                    current with industry best practices.
                   </p>
                 </div>
                 <div>

@@ -87,6 +87,19 @@ export default function Certificates() {
       pdf: null
     },
     {
+      title: "Kenya Science & Engineering Fair 2025",
+      issuer: "Ministry of Education, Science and Technology – Kirinyaga County",
+      description: "Awarded Certificate of Merit for placing 3rd in the Computer Science category at the Kirinyaga County Students’ Science and Engineering Fair 2025, demonstrating strong problem-solving, innovation, and applied computer science skills.",
+      date: "March 2025",
+      type: "Competition Achievement",
+      rank: "3rd Place – County Level",
+      icon: Trophy,
+      color: "from-red-500 to-green-600",
+      badge: "County Level • Position 3",
+      skills: ["Computer Science", "Problem Solving", "Innovation", "Presentation", "Teamwork"],
+      pdf: "/CERTIFICATES/Kenya_Science_Engineering_Fair_2025.pdf"
+    },
+    {
       title: "Moringa School Highschool Certificate",
       issuer: "Moringa School",
       description: "Highschool completion certificate from Moringa School, demonstrating academic excellence and foundational education.",
@@ -238,7 +251,7 @@ export default function Certificates() {
                 transition={{ delay: 0.4 }}
                 className="text-center"
               >
-                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">7+</div>
+                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">8+</div>
                 <div className="text-sm text-gray-400">Certificates</div>
               </motion.div>
               <motion.div

@@ -53,6 +53,13 @@ export default function Testimonials() {
       initials: "10A",
       gradient: "from-purple-500 to-indigo-500",
       quote: "Jeremy's Fiscal Intelligence Dashboard demonstrated exceptional data science and ML engineering skills. Ranking #50 out of 1,995 participants showcases his ability to build sophisticated analytics platforms with advanced machine learning models and interactive visualizations."
+    },
+    {
+      name: "Kenya Science & Engineering Fair",
+      role: "Kirinyaga County – Computer Science Category",
+      initials: "KS",
+      gradient: "from-green-500 to-red-500",
+      quote: "Jeremy presented a Computer Science project that earned 3rd place at the county level, demonstrating strong problem-solving, creativity, and clear communication of complex technical ideas to a non-technical judging panel."
     }
   ];
 
@@ -108,7 +115,7 @@ export default function Testimonials() {
                 transition={{ delay: 0.4 }}
                 className="text-center"
               >
-                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">7</div>
+                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">8</div>
                 <div className="text-sm text-gray-400">Testimonials</div>
               </motion.div>
               <motion.div

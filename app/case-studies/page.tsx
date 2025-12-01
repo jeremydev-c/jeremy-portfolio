@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { Target, Clock, TrendingUp, Zap } from 'lucide-react';
 import Link from 'next/link';
+import Navigation from '../components/Navigation';
+import ScrollToTop from '../components/ScrollToTop';
 
 export default function CaseStudies() {
   const caseStudies = [
@@ -88,22 +90,7 @@ export default function CaseStudies() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 particle-bg">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full glass-effect-strong z-50 border-b border-purple-500/20 shadow-lg shadow-purple-500/10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-gradient">
-            Jeremy Nduati
-          </Link>
-          <div className="flex gap-6">
-            <Link href="/#about" className="nav-link">About</Link>
-            <Link href="/projects" className="nav-link">Projects</Link>
-            <Link href="/certificates" className="nav-link">Certificates</Link>
-            <Link href="/skills" className="nav-link">Skills</Link>
-            <Link href="/testimonials" className="nav-link">Testimonials</Link>
-            <Link href="/contact" className="nav-link">Contact</Link>
-          </div>
-        </div>
-      </nav>
+      <Navigation activePage="case-studies" />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 relative overflow-hidden">
@@ -131,7 +118,7 @@ export default function CaseStudies() {
             </p>
             
             {/* Key Achievements */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-12">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-5xl mx-auto mt-12">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -176,6 +163,15 @@ export default function CaseStudies() {
               >
                 <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">8+</div>
                 <div className="text-sm text-gray-400">Certificates</div>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 }}
+                className="text-center"
+              >
+                <div className="text-3xl md:text-4xl font-bold text-gradient mb-2">3rd</div>
+                <div className="text-sm text-gray-400">County CS Fair</div>
               </motion.div>
             </div>
           </motion.div>
@@ -306,6 +302,7 @@ export default function CaseStudies() {
           </motion.div>
         </div>
       </section>
+      <ScrollToTop />
     </div>
   );
 }

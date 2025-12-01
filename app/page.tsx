@@ -90,16 +90,17 @@ export default function Portfolio() {
               </div>
               <div>
                 <div className="text-2xl md:text-3xl font-bold text-pink-400">#50</div>
-                <div className="text-sm text-gray-400">Hackathon Ranking</div>
-                <div className="text-xs text-gray-500">Out of 1,995</div>
+                <div className="text-sm text-gray-400">Global Hackathon Rank</div>
+                <div className="text-xs text-gray-500">Out of 1,995 (10Alytics)</div>
               </div>
               <div>
-                <div className="text-2xl md:text-3xl font-bold text-cyan-400">2</div>
-                <div className="text-sm text-gray-400">Payment Gateways</div>
+                <div className="text-2xl md:text-3xl font-bold text-cyan-400">3rd</div>
+                <div className="text-sm text-gray-400">County CS Fair Position</div>
+                <div className="text-xs text-gray-500">Computer Science Category</div>
               </div>
               <div>
-                <div className="text-2xl md:text-3xl font-bold text-yellow-400">100%</div>
-                <div className="text-sm text-gray-400">Production Ready</div>
+                <div className="text-2xl md:text-3xl font-bold text-yellow-400">8+</div>
+                <div className="text-sm text-gray-400">Certificates & Awards</div>
               </div>
             </div>
           </motion.div>
@@ -187,6 +188,10 @@ export default function Portfolio() {
                   <li className="flex items-start gap-3 text-gray-300">
                     <span className="text-purple-400 mt-1">🏆</span>
                     <span>Ranked <span className="text-cyan-400 font-semibold">#50 out of 1,995</span> in 10Alytics Global Data Hackathon 2025</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-gray-300">
+                    <span className="text-green-400 mt-1">🎖️</span>
+                    <span>Placed <span className="text-green-400 font-semibold">3rd in Computer Science</span> at the Kirinyaga County Science & Engineering Fair 2025</span>
                   </li>
                   <li className="flex items-start gap-3 text-gray-300">
                     <span className="text-pink-400 mt-1">⚡</span>

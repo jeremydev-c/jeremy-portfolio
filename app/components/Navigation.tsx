@@ -11,6 +11,7 @@ export default function Navigation({ activePage }: NavigationProps) {
   const navLinks = [
     { href: '/#about', label: 'About', id: 'about' },
     { href: '/projects', label: 'Projects', id: 'projects' },
+    { href: '/case-studies', label: 'Case Studies', id: 'case-studies' },
     { href: '/certificates', label: 'Certificates', id: 'certificates' },
     { href: '/skills', label: 'Skills', id: 'skills' },
     { href: '/testimonials', label: 'Testimonials', id: 'testimonials' },

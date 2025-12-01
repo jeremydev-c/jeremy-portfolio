@@ -197,8 +197,9 @@ export default function Contact() {
                     <span>🏆</span> Proven Excellence
                   </h4>
                   <p className="text-gray-300 text-sm leading-relaxed mb-4">
-                    Ranked #50 out of 1,995 participants in 10Alytics Global Data Hackathon 2025, 
-                    demonstrating expertise in data science, ML, and full-stack development.
+                    Ranked #50 out of 1,995 participants in 10Alytics Global Data Hackathon 2025 and 
+                    3rd place in the Computer Science category at the Kirinyaga County Science & Engineering Fair 2025— 
+                    demonstrating expertise in data science, ML, and full-stack development at both global and county levels.
                   </p>
                 </div>
                 <div>

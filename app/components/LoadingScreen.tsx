@@ -136,8 +136,10 @@ export default function LoadingScreen() {
     }));
   }, [dimensions, mounted]);
 
-  // Don't render anything if not loading or not mounted (prevents hydration mismatch)
-  if (!mounted || !isLoading) return null;
+  // Don't render anything if not loading.
+  // We still render on the server while `mounted` is false so that the loader
+  // covers the page immediately and prevents the underlying content from flashing.
+  if (!isLoading) return null;
 
   return (
     <AnimatePresence mode="wait">

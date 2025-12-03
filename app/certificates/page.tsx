@@ -84,7 +84,7 @@ export default function Certificates() {
       badge: "Top 2.5%",
       link: "https://moonlit-starlight-601077.netlify.app",
       skills: ["Data Science", "Machine Learning", "Python", "Plotly", "Data Visualization", "ML Models", "Risk Scoring"],
-      pdf: null
+      pdf: "/CERTIFICATES/Jeremy_Nduati_Hackathon_Certificate.pdf"
     },
     {
       title: "Kenya Science & Engineering Fair 2025",
@@ -351,7 +351,7 @@ export default function Certificates() {
                     </div>
 
                     {/* Links */}
-                    <div className="flex gap-3 flex-wrap">
+                    <div className="flex gap-3 flex-wrap relative z-20" style={{ pointerEvents: 'auto' }}>
                       {cert.link && (
                         <a
                           href={cert.link}
@@ -376,7 +376,12 @@ export default function Certificates() {
                           href={cert.pdf}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className={`flex items-center gap-2 flex-1 justify-center min-w-[140px] ${cert.link ? 'btn-secondary' : 'btn-primary'}`}
+                          className={`flex items-center gap-2 flex-1 justify-center min-w-[140px] relative z-20 ${cert.link ? 'btn-secondary' : 'btn-primary'}`}
+                          style={{ pointerEvents: 'auto', cursor: 'pointer', position: 'relative', zIndex: 20 }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.open(cert.pdf, '_blank');
+                          }}
                         >
                           <FileText className="w-4 h-4" />
                           View Certificate

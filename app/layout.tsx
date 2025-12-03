@@ -9,10 +9,10 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: {
-    default: "Jeremy Nduati - Full-Stack Developer & UI/UX Designer",
+    default: "Jeremy Nduati - Full-Stack Developer, UI/UX Designer & Portfolio Builder",
     template: "%s | Jeremy Nduati",
   },
-  description: "15-year-old full-stack developer and UI/UX designer building enterprise-grade applications. Specializing in Next.js, TypeScript, payment integrations (Stripe & M-Pesa), AI/ML solutions, and production-ready deployments.",
+  description: "15-year-old full-stack developer, UI/UX designer, and portfolio builder creating enterprise-grade applications. Specializing in Next.js, TypeScript, payment integrations (Stripe & M-Pesa), AI/ML solutions, and custom portfolio development.",
   keywords: [
     "full-stack developer",
     "UI/UX designer",
@@ -38,8 +38,8 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://modenova.co.ke",
     siteName: "Jeremy Nduati Portfolio",
-    title: "Jeremy Nduati - Full-Stack Developer & UI/UX Designer",
-    description: "15-year-old full-stack developer building enterprise-grade applications with Next.js, TypeScript, and modern design principles.",
+    title: "Jeremy Nduati - Full-Stack Developer, UI/UX Designer & Portfolio Builder",
+    description: "15-year-old full-stack developer, UI/UX designer, and portfolio builder creating enterprise-grade applications with Next.js, TypeScript, and modern design principles.",
     images: [
       {
         url: "/og-image.jpg",
@@ -51,8 +51,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jeremy Nduati - Full-Stack Developer & UI/UX Designer",
-    description: "Building enterprise-grade applications at 15. Full-stack development, payment integrations, and beautiful UI/UX design.",
+    title: "Jeremy Nduati - Full-Stack Developer, UI/UX Designer & Portfolio Builder",
+    description: "Building enterprise-grade applications and custom portfolios at 15. Full-stack development, payment integrations, beautiful UI/UX design, and portfolio building services.",
     creator: "@jeremydev-c",
   },
   robots: {

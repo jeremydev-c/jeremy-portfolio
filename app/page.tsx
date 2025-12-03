@@ -56,13 +56,14 @@ export default function Portfolio() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-6xl md:text-7xl font-bold mb-6 text-gradient" id="main-heading">
-              Full-Stack Developer & UI/UX Designer
+              Full-Stack Developer, UI/UX Designer & Portfolio Builder
             </h1>
             <p className="text-xl md:text-2xl text-gray-300 mb-4">
               Building beautiful, modern, and production-ready web applications through innovative design and robust development
             </p>
             <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
               Specializing in Next.js, TypeScript, payment integrations (Stripe & M-Pesa), and creating exceptional user experiences. 
+              Leveraging AI tools like ChatGPT, Claude, and GitHub Copilot to accelerate development and deliver exceptional results. 
               At 15 years old, I'm already building enterprise-grade applications that solve real-world problems.
             </p>
             <div className="flex justify-center gap-4 flex-wrap mb-8" role="group" aria-label="Call to action buttons">
@@ -163,8 +164,12 @@ export default function Portfolio() {
                   What started as curiosity about how websites work has evolved into a passion for creating exceptional digital experiences.
                 </p>
                 <p className="text-gray-300 leading-relaxed mb-4">
-                  I'm a full-stack developer and creative web designer specializing in modern UI/UX design, visual design, and user-centered interfaces. 
-                  My work combines aesthetic excellence with functional design principles, creating beautiful and intuitive web experiences.
+                  I'm a full-stack developer, creative web designer, and portfolio builder specializing in modern UI/UX design, visual design, and user-centered interfaces. 
+                  My work combines aesthetic excellence with functional design principles, creating beautiful and intuitive web experiences. I also build custom portfolios for professionals looking to showcase their work effectively.
+                </p>
+                <p className="text-gray-300 leading-relaxed mb-4">
+                  I leverage cutting-edge <span className="text-purple-400 font-semibold">AI tools like ChatGPT, Claude, and GitHub Copilot</span> to accelerate development, 
+                  solve complex problems faster, and focus on what matters most—creating exceptional user experiences. AI doesn't replace my skills; it amplifies them.
                 </p>
                 <p className="text-gray-300 leading-relaxed">
                   My unique strength lies in both <span className="text-pink-400 font-semibold">design and implementation</span>—I don't just create beautiful designs, 
@@ -216,6 +221,10 @@ export default function Portfolio() {
                   <li className="flex items-start gap-3 text-gray-300">
                     <span className="text-indigo-400 mt-1">🏆</span>
                     <span><span className="text-indigo-400 font-semibold">8+ verified certificates</span> from Coursera, FreeCodeCamp, Forage, and more</span>
+                  </li>
+                  <li className="flex items-start gap-3 text-gray-300">
+                    <span className="text-purple-400 mt-1">🤖</span>
+                    <span>Leveraging <span className="text-purple-400 font-semibold">AI tools (ChatGPT, Claude, Copilot)</span> to accelerate development and enhance creativity</span>
                   </li>
                 </ul>
               </motion.div>
@@ -290,6 +299,15 @@ export default function Portfolio() {
                     <div>
                       <h4 className="text-white font-semibold mb-1">Certified Professional</h4>
                       <p className="text-gray-400 text-sm">8+ verified certificates from top platforms including Coursera, FreeCodeCamp, Forage (EA), and academic institutions.</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-4">
+                    <div className="p-2 bg-purple-500/10 rounded-lg">
+                      <Sparkles className="w-5 h-5 text-purple-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-semibold mb-1">AI-Powered Development</h4>
+                      <p className="text-gray-400 text-sm">Leveraging ChatGPT, Claude, GitHub Copilot, and Cursor AI to accelerate development, enhance creativity, and deliver exceptional results faster.</p>
                     </div>
                   </div>
                 </div>
@@ -422,7 +440,7 @@ export default function Portfolio() {
                 Jeremy Nduati
               </h3>
               <p className="text-gray-400 text-sm">
-                Full-Stack Developer & UI/UX Designer creating beautiful, production-ready web applications.
+                Full-Stack Developer, UI/UX Designer & Portfolio Builder creating beautiful, production-ready web applications.
               </p>
             </div>
             <div>

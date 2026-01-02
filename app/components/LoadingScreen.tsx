@@ -83,7 +83,7 @@ function AnimatedTextRotator({ reducedMotion }: { reducedMotion: boolean }) {
 }
 
 export default function LoadingScreen() {
-  const prefersReducedMotion = useReducedMotion();
+  const prefersReducedMotion = useReducedMotion() ?? false;
   const [isLoading, setIsLoading] = useState(true);
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   const [mounted, setMounted] = useState(false);

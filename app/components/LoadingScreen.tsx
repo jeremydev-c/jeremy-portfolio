@@ -1,10 +1,10 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState, useMemo } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useEffect, useMemo, useRef, useState } from 'react';
 
 // Rotating compelling messages component
-function AnimatedTextRotator() {
+function AnimatedTextRotator({ reducedMotion }: { reducedMotion: boolean }) {
   const messages = [
     {
       main: "Building the Future",
@@ -31,18 +31,21 @@ function AnimatedTextRotator() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    if (reducedMotion) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % messages.length);
-    }, 1200); // Change message every 1.2 seconds
+    }, 1400); // Change message every 1.4 seconds
 
     return () => clearInterval(interval);
-  }, [messages.length]);
+  }, [messages.length, reducedMotion]);
+
+  const active = reducedMotion ? messages[0] : messages[currentIndex];
 
   return (
     <div className="relative">
       <AnimatePresence mode="wait">
         <motion.div
-          key={currentIndex}
+          key={reducedMotion ? 'static' : currentIndex}
           initial={{ opacity: 0, y: 20, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: -20, scale: 0.9 }}
@@ -53,17 +56,17 @@ function AnimatedTextRotator() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-4"
+            className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3"
           >
-            {messages[currentIndex].main}
+            {active.main}
           </motion.p>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-3xl md:text-5xl lg:text-6xl font-bold text-gradient mb-2"
+            className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-gradient mb-2"
           >
-            {messages[currentIndex].sub}
+            {active.sub}
           </motion.p>
           <motion.p
             initial={{ opacity: 0 }}
@@ -71,7 +74,7 @@ function AnimatedTextRotator() {
             transition={{ delay: 0.3 }}
             className="text-lg md:text-xl text-gray-300 mt-4"
           >
-            {messages[currentIndex].tagline}
+            {active.tagline}
           </motion.p>
         </motion.div>
       </AnimatePresence>
@@ -80,9 +83,12 @@ function AnimatedTextRotator() {
 }
 
 export default function LoadingScreen() {
-  const [isLoading, setIsLoading] = useState(true); // Start with true, check after mount
+  const prefersReducedMotion = useReducedMotion();
+  const [isLoading, setIsLoading] = useState(true);
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   const [mounted, setMounted] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
     // Only run on client side to prevent hydration mismatch
@@ -91,29 +97,39 @@ export default function LoadingScreen() {
     setMounted(true);
     setDimensions({ width: window.innerWidth, height: window.innerHeight });
     
-    // Show loading screen every time (on first visit AND on every refresh)
+    // Show on every reload
     setIsLoading(true);
+    setProgress(0);
     
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 5000); // 5 seconds
+    // Long enough to actually enjoy the intro + read everything
+    const duration = prefersReducedMotion ? 2500 : 5200;
 
-    // Fallback: ensure content is always visible after 6 seconds
-    const fallbackTimer = setTimeout(() => {
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      // easeOutCubic
+      const eased = 1 - Math.pow(1 - t, 3);
+      setProgress(eased);
+      if (t < 1) rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+
+    const timer = window.setTimeout(() => {
       setIsLoading(false);
-    }, 6000);
+    }, duration + 250);
 
     return () => {
-      clearTimeout(timer);
-      clearTimeout(fallbackTimer);
+      window.clearTimeout(timer);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, []); // Empty dependency array - only run once on mount
+  }, [prefersReducedMotion]); // run on mount
 
   // Generate particle positions - only on client side
   const particles = useMemo(() => {
-    if (!mounted) return [];
+    if (!mounted || prefersReducedMotion) return [];
     const colors = ['rgba(147, 51, 234, 0.4)', 'rgba(236, 72, 153, 0.4)', 'rgba(6, 182, 212, 0.4)'];
-    return Array.from({ length: 15 }, (_, i) => ({
+    const count = dimensions.width < 640 ? 8 : 14;
+    return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * dimensions.width,
       y: Math.random() * dimensions.height,
@@ -126,7 +142,7 @@ export default function LoadingScreen() {
 
   // Generate tech icon positions - only on client side
   const techIcons = useMemo(() => {
-    if (!mounted) return [];
+    if (!mounted || prefersReducedMotion) return [];
     return ['💻', '🎨', '⚡', '🚀', '🔒', '📱'].map((icon, i) => ({
       id: i,
       icon: icon,
@@ -136,10 +152,8 @@ export default function LoadingScreen() {
     }));
   }, [dimensions, mounted]);
 
-  // Don't render anything if not loading.
-  // We still render on the server while `mounted` is false so that the loader
-  // covers the page immediately and prevents the underlying content from flashing.
-  if (!isLoading) return null;
+  // Don't render anything if not loading or not mounted (prevents hydration mismatch)
+  if (!mounted || !isLoading) return null;
 
   return (
     <AnimatePresence mode="wait">
@@ -149,13 +163,9 @@ export default function LoadingScreen() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          onAnimationComplete={(definition) => {
-            // Ensure component knows when exit is complete
-            if (definition === 'exit') {
-              setIsLoading(false);
-            }
-          }}
           className="fixed inset-0 z-[100] bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center overflow-hidden"
+          role="status"
+          aria-label="Loading"
         >
           {/* Animated Background */}
           <div className="absolute inset-0 overflow-hidden">
@@ -204,40 +214,55 @@ export default function LoadingScreen() {
 
           {/* Main Content */}
           <div className="relative z-10 text-center">
-            {/* Logo/Name */}
+            {/* Premium mark */}
             <motion.div
-              initial={{ scale: 0, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, type: "spring", bounce: 0.4 }}
-              className="mb-8"
+              transition={{ duration: 0.6 }}
+              className="mb-8 flex flex-col items-center"
             >
-              <h1 className="text-6xl md:text-8xl font-bold text-gradient mb-4">
+              <div className="relative">
+                <motion.div
+                  className="w-20 h-20 rounded-3xl bg-gradient-to-br from-purple-500 via-pink-500 to-cyan-500 p-[1px] shadow-2xl shadow-purple-500/30"
+                  animate={prefersReducedMotion ? {} : { rotate: [0, 360] }}
+                  transition={prefersReducedMotion ? {} : { duration: 6, repeat: Infinity, ease: 'linear' }}
+                >
+                  <div className="w-full h-full rounded-3xl bg-gray-900/70 backdrop-blur flex items-center justify-center border border-white/10">
+                    <span className="text-white font-bold text-2xl">JN</span>
+                  </div>
+                </motion.div>
+                <div className="absolute -inset-6 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-cyan-500/10 blur-2xl -z-10" />
+              </div>
+              <h1 className="mt-5 text-4xl sm:text-5xl md:text-7xl font-bold text-gradient">
                 Jeremy Nduati
               </h1>
+              <p className="mt-2 text-sm sm:text-base text-gray-300">
+                Full-Stack • UI/UX • Payments • AI/ML
+              </p>
             </motion.div>
 
             {/* Powerful Text - Rotating Messages */}
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="mb-12 min-h-[200px]"
+              transition={{ delay: 0.25, duration: 0.8 }}
+              className="mb-10 min-h-[170px]"
             >
-              <AnimatedTextRotator />
+              <AnimatedTextRotator reducedMotion={prefersReducedMotion} />
             </motion.div>
 
             {/* Impressive Stats */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.3, duration: 0.8 }}
+              transition={{ delay: 0.9, duration: 0.8 }}
               className="mb-12"
             >
               <div className="grid grid-cols-3 gap-6 md:gap-8 max-w-2xl mx-auto">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 1.5, type: "spring", bounce: 0.5 }}
+                  transition={{ delay: 1.1, type: "spring", bounce: 0.5 }}
                   className="text-center"
                 >
                   <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">3+</div>
@@ -246,7 +271,7 @@ export default function LoadingScreen() {
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 1.7, type: "spring", bounce: 0.5 }}
+                  transition={{ delay: 1.2, type: "spring", bounce: 0.5 }}
                   className="text-center"
                 >
                   <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">95%</div>
@@ -255,7 +280,7 @@ export default function LoadingScreen() {
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
-                  transition={{ delay: 1.9, type: "spring", bounce: 0.5 }}
+                  transition={{ delay: 1.3, type: "spring", bounce: 0.5 }}
                   className="text-center"
                 >
                   <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">100%</div>
@@ -268,7 +293,7 @@ export default function LoadingScreen() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2.1, duration: 0.8 }}
+              transition={{ delay: 1.6, duration: 0.8 }}
               className="mb-8"
             >
               <div className="flex flex-wrap justify-center gap-3 text-sm md:text-base">
@@ -299,65 +324,18 @@ export default function LoadingScreen() {
               </div>
             </motion.div>
 
-            {/* Loading Animation */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 2.3, duration: 0.8 }}
-              className="flex justify-center items-center gap-2 mb-4"
-            >
-              <motion.div
-                className="w-3 h-3 bg-purple-400 rounded-full"
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.5, 1, 0.5],
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  delay: 0,
-                }}
-              />
-              <motion.div
-                className="w-3 h-3 bg-pink-400 rounded-full"
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.5, 1, 0.5],
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  delay: 0.2,
-                }}
-              />
-              <motion.div
-                className="w-3 h-3 bg-cyan-400 rounded-full"
-                animate={{
-                  scale: [1, 1.5, 1],
-                  opacity: [0.5, 1, 0.5],
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  delay: 0.4,
-                }}
-              />
-            </motion.div>
-
             {/* Progress Bar */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 2.5, duration: 0.8 }}
+              transition={{ delay: 0.6, duration: 0.8 }}
               className="w-72 md:w-96 mx-auto"
             >
               <div className="h-2 bg-gray-700/50 rounded-full overflow-hidden shadow-lg border border-gray-600/30">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 rounded-full relative"
-                  initial={{ width: "0%" }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 5, ease: "easeInOut" }}
+                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 rounded-full relative transition-[width] duration-150"
                   style={{
+                    width: `${Math.round(progress * 100)}%`,
                     boxShadow: "0 0 30px rgba(147, 51, 234, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1)",
                   }}
                 >
@@ -380,26 +358,12 @@ export default function LoadingScreen() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 2.7, duration: 0.5 }}
-                className="flex items-center justify-center gap-2 mt-3"
+                transition={{ delay: 0.8, duration: 0.5 }}
+                className="flex flex-col items-center justify-center gap-2 mt-4"
               >
-                <motion.span
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="text-purple-400"
-                >
-                  ⚡
-                </motion.span>
                 <p className="text-xs md:text-sm text-gray-300 font-medium">
-                  Preparing an extraordinary experience...
+                  Loading… {Math.min(100, Math.round(progress * 100))}%
                 </p>
-                <motion.span
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                  className="text-cyan-400"
-                >
-                  ✨
-                </motion.span>
               </motion.div>
             </motion.div>
           </div>

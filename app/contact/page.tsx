@@ -13,7 +13,7 @@ export default function Contact() {
       <Navigation activePage="contact" />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden min-h-screen flex items-center">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 relative overflow-hidden min-h-screen flex items-center">
         {/* Animated gradient background */}
         <div className="absolute inset-0 bg-animated-gradient opacity-90"></div>
         <div className="absolute inset-0 bg-gray-900/50"></div>
@@ -37,14 +37,18 @@ export default function Contact() {
               Let's Work Together
             </motion.p>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 text-shadow-glow">
-              Get In Touch
+              Let's Build Something Extraordinary Together
             </h1>
             <p className="text-xl md:text-2xl text-gray-200 mb-4">
-              Interested in working together? I'm always open to discussing new projects and opportunities.
+              Award-winning developer ready to transform your ideas into production-ready applications that drive real business results.
             </p>
-            <p className="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-              Whether you need a full-stack application, a beautiful UI/UX design, or both—I'm here to help bring your vision to life. 
-              Let's create something amazing together!
+            <p className="text-lg md:text-xl text-gray-300 mb-4 max-w-2xl mx-auto">
+              Whether you need a full-stack application, a beautiful UI/UX design, a professional portfolio, or AI-powered solutions—I deliver 
+              enterprise-grade applications that solve real-world problems and exceed expectations.
+            </p>
+            <p className="text-base text-purple-400/90 mb-12 max-w-2xl mx-auto font-medium">
+              🏆 Top 50 Global Hackathon Rank • 🚀 4+ Production Apps • 💼 Portfolio Builder for Professionals • 
+              ⚡ Fast Response Times • 🤖 AI-Powered Development Expert
             </p>
             
             {/* Quick Stats */}

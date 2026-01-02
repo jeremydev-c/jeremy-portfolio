@@ -43,7 +43,7 @@ export default function ScrollToTop() {
               scrollToTop();
             }
           }}
-          className="fixed bottom-8 right-8 z-50 p-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full shadow-lg shadow-purple-500/50 hover:shadow-purple-500/80 transition-all focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900"
+          className="fixed bottom-6 right-4 sm:bottom-8 sm:right-8 z-50 p-3 sm:p-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full shadow-lg shadow-purple-500/50 hover:shadow-purple-500/80 transition-all focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900"
           aria-label="Scroll to top"
           tabIndex={isVisible ? 0 : -1}
         >

@@ -219,7 +219,7 @@ export default function Certificates() {
       <Navigation activePage="certificates" />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-mesh opacity-50"></div>
         <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div

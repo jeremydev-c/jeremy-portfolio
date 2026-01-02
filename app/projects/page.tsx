@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { ExternalLink, Github, Code, ShoppingCart, Sparkles, TrendingUp, Award } from 'lucide-react';
 import Link from 'next/link';
+import Navigation from '../components/Navigation';
+import ScrollToTop from '../components/ScrollToTop';
 
 export default function Projects() {
   const projects = [
@@ -92,25 +94,10 @@ export default function Projects() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 particle-bg">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full glass-effect-strong z-50 border-b border-purple-500/20 shadow-lg shadow-purple-500/10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-gradient">
-            Jeremy Nduati
-          </Link>
-          <div className="flex gap-6">
-            <Link href="/#about" className="nav-link">About</Link>
-            <Link href="/projects" className="nav-link text-purple-400">Projects</Link>
-            <Link href="/certificates" className="nav-link">Certificates</Link>
-            <Link href="/skills" className="nav-link">Skills</Link>
-            <Link href="/testimonials" className="nav-link">Testimonials</Link>
-            <Link href="/contact" className="nav-link">Contact</Link>
-          </div>
-        </div>
-      </nav>
+      <Navigation activePage="projects" />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-mesh opacity-50"></div>
         <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div
@@ -130,8 +117,13 @@ export default function Projects() {
             <h1 className="text-5xl md:text-7xl font-bold mb-6 text-gradient">
               Projects That Define Excellence
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-8">
-              Enterprise-grade applications built with modern technologies, featuring payment integrations, AI capabilities, and production-ready deployments. Backed by verified certifications and proven expertise.
+            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto mb-4">
+              Enterprise-grade applications built with cutting-edge technologies, AI-assisted development, 
+              payment integrations, and production-ready deployments. Backed by verified certifications and proven expertise.
+            </p>
+            <p className="text-base text-purple-400/80 max-w-2xl mx-auto mb-8">
+              🏆 Top 50 Global Hackathon Rank • 🚀 4+ Production Applications • 💼 Portfolio Builder for Professionals • 
+              🤖 AI-Powered Development Expert • ⚡ Payment Gateway Integration Specialist
             </p>
             
             {/* Impressive Stats */}
@@ -186,83 +178,136 @@ export default function Projects() {
           </motion.div>
 
           {/* Projects Grid */}
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             {projects.map((project, index) => (
               <motion.div
                 key={project.name}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                transition={{ duration: 0.6, delay: index * 0.15 }}
                 viewport={{ once: true }}
-                className="card card-hover glow-border overflow-hidden"
+                whileHover={{ y: -8 }}
+                className="card card-hover glow-border overflow-hidden group"
               >
-                <div className={`h-48 bg-gradient-to-r ${project.color} flex items-center justify-center relative overflow-hidden`}>
-                  <div className="absolute inset-0 bg-black/20"></div>
-                  <div className="text-8xl relative z-10 drop-shadow-2xl animate-float">{project.image}</div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
+                <div className={`h-56 bg-gradient-to-r ${project.color} flex items-center justify-center relative overflow-hidden`}>
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all duration-300"></div>
+                  <motion.div 
+                    className="text-8xl relative z-10 drop-shadow-2xl"
+                    animate={{ 
+                      y: [0, -10, 0],
+                      rotate: [0, 5, -5, 0]
+                    }}
+                    transition={{ 
+                      duration: 6,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                      delay: index * 0.5
+                    }}
+                  >
+                    {project.image}
+                  </motion.div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent"></div>
                   {project.badge && (
-                    <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold text-white bg-gradient-to-r ${project.badgeColor} shadow-lg flex items-center gap-1 z-20`}>
-                      <Award className="w-3 h-3" />
+                    <motion.div 
+                      initial={{ scale: 0, rotate: -180 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ delay: index * 0.2 + 0.3, type: "spring" }}
+                      className={`absolute top-4 right-4 px-4 py-2 rounded-full text-xs font-bold text-white bg-gradient-to-r ${project.badgeColor} shadow-xl flex items-center gap-2 z-20 backdrop-blur-sm border border-white/20`}
+                    >
+                      <Award className="w-4 h-4" />
                       {project.badge}
-                    </div>
+                    </motion.div>
                   )}
                 </div>
                 <div className="p-8 bg-gray-800/50">
-                  <div className="flex items-center gap-3 mb-3">
-                    <project.icon className="w-6 h-6 text-purple-400" />
+                  <div className="flex items-center gap-3 mb-4">
+                    <motion.div
+                      whileHover={{ rotate: 360, scale: 1.2 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <project.icon className="w-7 h-7 text-purple-400" />
+                    </motion.div>
                     <h3 className="text-3xl font-bold text-gradient">{project.name}</h3>
                   </div>
-                  <p className="text-cyan-400 font-semibold mb-4">{project.tagline}</p>
-                  <p className="text-gray-300 mb-6">{project.description}</p>
+                  <p className="text-cyan-400 font-semibold mb-4 text-lg">{project.tagline}</p>
+                  <p className="text-gray-300 mb-6 leading-relaxed">{project.description}</p>
                   
                   <div className="mb-6">
-                    <h4 className="font-semibold text-purple-400 mb-3">Key Features:</h4>
-                    <ul className="space-y-2">
+                    <h4 className="font-semibold text-purple-400 mb-4 flex items-center gap-2">
+                      <Sparkles className="w-4 h-4" />
+                      Key Features:
+                    </h4>
+                    <ul className="space-y-3">
                       {project.features.map((feature, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-gray-300">
-                          <span className="text-purple-400 mt-1">✓</span>
-                          <span>{feature}</span>
-                        </li>
+                        <motion.li 
+                          key={idx} 
+                          className="flex items-start gap-3 text-gray-300 group"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 + idx * 0.05 }}
+                          viewport={{ once: true }}
+                        >
+                          <motion.span 
+                            className="text-purple-400 mt-1 text-lg"
+                            whileHover={{ scale: 1.3, rotate: 360 }}
+                            transition={{ duration: 0.3 }}
+                          >
+                            ✓
+                          </motion.span>
+                          <span className="group-hover:text-white transition-colors">{feature}</span>
+                        </motion.li>
                       ))}
                     </ul>
                   </div>
 
                   <div className="mb-6">
-                    <h4 className="font-semibold text-cyan-400 mb-3">Technologies Used:</h4>
+                    <h4 className="font-semibold text-cyan-400 mb-4 flex items-center gap-2">
+                      <Code className="w-4 h-4" />
+                      Technologies Used:
+                    </h4>
                     <div className="flex flex-wrap gap-2">
                       {project.tech.map((tech, idx) => (
-                        <span
+                        <motion.span
                           key={idx}
-                          className="px-3 py-1 bg-gray-700/50 text-gray-200 rounded-full text-sm border border-gray-600/50 hover:border-cyan-400/50 hover:bg-gray-700/70 transition-all"
+                          initial={{ opacity: 0, scale: 0.8 }}
+                          whileInView={{ opacity: 1, scale: 1 }}
+                          transition={{ delay: index * 0.1 + idx * 0.03 }}
+                          viewport={{ once: true }}
+                          whileHover={{ scale: 1.1, y: -2 }}
+                          className="px-3 py-1.5 bg-gray-700/50 text-gray-200 rounded-full text-sm border border-gray-600/50 hover:border-cyan-400/70 hover:bg-cyan-500/10 hover:text-cyan-300 transition-all cursor-default"
                         >
                           {tech}
-                        </span>
+                        </motion.span>
                       ))}
                     </div>
                   </div>
 
                   <div className="flex gap-4 flex-wrap">
                     {project.liveUrl !== "#" && (
-                      <a
+                      <motion.a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-primary flex items-center gap-2"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
                         <ExternalLink className="w-4 h-4" />
                         Live Demo
-                      </a>
+                      </motion.a>
                     )}
                     {project.githubUrl !== "#" && (
-                      <a
+                      <motion.a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="btn-secondary flex items-center gap-2"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                       >
                         <Github className="w-4 h-4" />
                         GitHub
-                      </a>
+                      </motion.a>
                     )}
                   </div>
                 </div>
@@ -292,6 +337,7 @@ export default function Projects() {
           </motion.div>
         </div>
       </section>
+      <ScrollToTop />
     </div>
   );
 }

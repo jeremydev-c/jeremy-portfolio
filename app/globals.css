@@ -331,23 +331,11 @@
   }
 
   .nav-link {
-    @apply text-gray-300 hover:text-purple-400 transition-all duration-300 
-           font-medium relative;
-  }
-
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: linear-gradient(90deg, #9333ea, #ec4899, #06b6d4);
-    transition: width 0.3s;
-  }
-
-  .nav-link:hover::after {
-    width: 100%;
+    @apply inline-flex items-center justify-center h-10 px-3 rounded-xl
+           text-gray-200/90 hover:text-white
+           hover:bg-white/5
+           transition-all duration-200
+           font-medium;
   }
 }
 
@@ -355,6 +343,78 @@
 @media (max-width: 768px) {
   .section-title {
     @apply text-3xl mb-12;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    @apply px-6 py-3 text-base;
+    min-height: 44px; /* Better touch target */
+  }
+
+  .card {
+    @apply p-4;
+  }
+
+  /* Improve text readability on mobile */
+  body {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 640px) {
+  .section-title {
+    @apply text-2xl mb-8;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    @apply px-4 py-2.5 text-sm w-full;
+  }
+
+  .card {
+    @apply p-3;
+  }
+}
+
+/* Touch targets (avoid applying to all anchors globally) */
+button,
+.btn-primary,
+.btn-secondary,
+.nav-link {
+  min-height: 44px;
+}
+
+@media (max-width: 640px) {
+  button,
+  .btn-primary,
+  .btn-secondary,
+  .nav-link {
+    min-height: 48px;
+  }
+}
+
+/* Better keyboard UX on cards containing links/buttons */
+.card:focus-within {
+  border-color: rgba(168, 85, 247, 0.55);
+  box-shadow:
+    0 0 0 3px rgba(168, 85, 247, 0.15),
+    0 20px 40px rgba(147, 51, 234, 0.2);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
 

@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import Navigation from '../components/Navigation';
+import ScrollToTop from '../components/ScrollToTop';
 
 export default function Testimonials() {
   const testimonials = [
@@ -65,25 +67,10 @@ export default function Testimonials() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 particle-bg">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full glass-effect-strong z-50 border-b border-purple-500/20 shadow-lg shadow-purple-500/10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-gradient">
-            Jeremy Nduati
-          </Link>
-          <div className="flex gap-6">
-            <Link href="/#about" className="nav-link">About</Link>
-            <Link href="/projects" className="nav-link">Projects</Link>
-            <Link href="/certificates" className="nav-link">Certificates</Link>
-            <Link href="/skills" className="nav-link">Skills</Link>
-            <Link href="/testimonials" className="nav-link text-purple-400">Testimonials</Link>
-            <Link href="/contact" className="nav-link">Contact</Link>
-          </div>
-        </div>
-      </nav>
+      <Navigation activePage="testimonials" />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-mesh opacity-50"></div>
         <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div
@@ -226,6 +213,7 @@ export default function Testimonials() {
           </motion.div>
         </div>
       </section>
+      <ScrollToTop />
     </div>
   );
 }

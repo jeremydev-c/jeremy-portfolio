@@ -1,9 +1,11 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Code, Database, Zap, Shield, Smartphone, Sparkles, Github, Globe, Server, Lock, FileCode, Palette, Layers, Terminal, Cpu, Cloud, Smartphone as Mobile, Mail, FileImage, Calendar, QrCode, GitBranch, CheckCircle, Settings, Eye, Layout, Type, Grid, Layers as LayersIcon, TrendingUp } from 'lucide-react';
 import Link from 'next/link';
 import { useMemo, useState, useEffect } from 'react';
+import Navigation from '../components/Navigation';
+import ScrollToTop from '../components/ScrollToTop';
 
 // Technology icons mapping
 const techIcons = [
@@ -38,6 +40,7 @@ const techIcons = [
 export default function Skills() {
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   const [mounted, setMounted] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     // Only run on client side to prevent hydration mismatch
@@ -56,8 +59,12 @@ export default function Skills() {
 
   // Generate floating tech icons - only on client side
   const floatingIcons = useMemo(() => {
-    if (!mounted) return [];
-    return Array.from({ length: 30 }, (_, i) => {
+    if (!mounted || prefersReducedMotion) return [];
+
+    // Reduce visual noise / GPU load on smaller screens
+    const count = dimensions.width < 640 ? 14 : dimensions.width < 1024 ? 22 : 30;
+
+    return Array.from({ length: count }, (_, i) => {
       const tech = techIcons[Math.floor(Math.random() * techIcons.length)];
       return {
         id: i,
@@ -72,7 +79,7 @@ export default function Skills() {
         floatX: Math.random() * 200 - 100, // -100 to 100px horizontal movement
       };
     });
-  }, [dimensions, mounted]);
+  }, [dimensions, mounted, prefersReducedMotion]);
 
   const skillCategories = [
     {
@@ -110,6 +117,12 @@ export default function Skills() {
       icon: Zap,
       color: "yellow",
       skills: ["Git & GitHub", "Vercel Deployment", "MongoDB Atlas", "Prisma Studio", "TypeScript", "ESLint", "Postman", "VS Code"]
+    },
+    {
+      title: "AI-Assisted Development",
+      icon: Sparkles,
+      color: "purple",
+      skills: ["ChatGPT", "Claude AI", "GitHub Copilot", "Cursor AI", "AI Code Generation", "Prompt Engineering", "AI-Powered Debugging", "AI Design Tools", "AI Content Generation"]
     },
     {
       title: "Data Science & ML",
@@ -234,25 +247,10 @@ export default function Skills() {
         </div>
       )}
 
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full glass-effect-strong z-50 border-b border-purple-500/20 shadow-lg shadow-purple-500/10">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-gradient">
-            Jeremy Nduati
-          </Link>
-          <div className="flex gap-6">
-            <Link href="/#about" className="nav-link">About</Link>
-            <Link href="/projects" className="nav-link">Projects</Link>
-            <Link href="/certificates" className="nav-link">Certificates</Link>
-            <Link href="/skills" className="nav-link text-purple-400">Skills</Link>
-            <Link href="/testimonials" className="nav-link">Testimonials</Link>
-            <Link href="/contact" className="nav-link">Contact</Link>
-          </div>
-        </div>
-      </nav>
+      <Navigation activePage="skills" />
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 relative overflow-hidden">
+      <section className="pt-24 sm:pt-32 pb-12 sm:pb-20 px-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-mesh opacity-50"></div>
         <div className="container mx-auto max-w-6xl relative z-10">
           <motion.div
@@ -420,11 +418,21 @@ export default function Skills() {
                     and transforming complex data into actionable insights.
                   </p>
                 </div>
+                <div>
+                  <h4 className="text-xl font-semibold text-purple-400 mb-4 flex items-center gap-2">
+                    <span>🤖</span> AI-Assisted Development
+                  </h4>
+                  <p className="text-gray-300 leading-relaxed">
+                    I leverage cutting-edge AI tools (ChatGPT, Claude, GitHub Copilot, Cursor) to accelerate development, 
+                    solve complex problems faster, and focus on what matters most—creating exceptional user experiences.
+                  </p>
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
+      <ScrollToTop />
     </div>
   );
 }

@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import LoadingScreen from "./components/LoadingScreen";
 import ErrorBoundary from "./components/ErrorBoundary";
 import StructuredData from "./components/StructuredData";
 import NavigationPopup from "./components/NavigationPopup";
+import ScrollProgress from "./components/ScrollProgress";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -89,8 +96,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <StructuredData />
       </head>
-      <body className="antialiased">
+      <body className={`${inter.className} antialiased`}>
         <ErrorBoundary>
+          <ScrollProgress />
           <LoadingScreen />
           {children}
           <NavigationPopup />

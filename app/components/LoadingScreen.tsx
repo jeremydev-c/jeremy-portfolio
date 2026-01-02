@@ -89,6 +89,7 @@ export default function LoadingScreen() {
   const [mounted, setMounted] = useState(false);
   const [progress, setProgress] = useState(0);
   const rafRef = useRef<number | null>(null);
+  const isSmallScreen = mounted && dimensions.width < 640;
 
   useEffect(() => {
     // Only run on client side to prevent hydration mismatch
@@ -128,7 +129,7 @@ export default function LoadingScreen() {
   const particles = useMemo(() => {
     if (!mounted || prefersReducedMotion) return [];
     const colors = ['rgba(147, 51, 234, 0.4)', 'rgba(236, 72, 153, 0.4)', 'rgba(6, 182, 212, 0.4)'];
-    const count = dimensions.width < 640 ? 8 : 14;
+    const count = dimensions.width < 640 ? 6 : 14;
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * dimensions.width,
@@ -142,7 +143,8 @@ export default function LoadingScreen() {
 
   // Generate tech icon positions - only on client side
   const techIcons = useMemo(() => {
-    if (!mounted || prefersReducedMotion) return [];
+    // Hide floating icons on mobile (too busy) + respect reduced motion
+    if (!mounted || prefersReducedMotion || dimensions.width < 640) return [];
     return ['💻', '🎨', '⚡', '🚀', '🔒', '📱'].map((icon, i) => ({
       id: i,
       icon: icon,
@@ -213,13 +215,19 @@ export default function LoadingScreen() {
           </div>
 
           {/* Main Content */}
-          <div className="relative z-10 text-center">
+          <div
+            className="relative z-10 w-full max-w-4xl px-4 sm:px-6 text-center"
+            style={{
+              paddingTop: 'env(safe-area-inset-top)',
+              paddingBottom: 'env(safe-area-inset-bottom)',
+            }}
+          >
             {/* Premium mark */}
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6 }}
-              className="mb-8 flex flex-col items-center"
+              className="mb-6 sm:mb-8 flex flex-col items-center"
             >
               <div className="relative">
                 <motion.div
@@ -233,32 +241,48 @@ export default function LoadingScreen() {
                 </motion.div>
                 <div className="absolute -inset-6 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-cyan-500/10 blur-2xl -z-10" />
               </div>
-              <h1 className="mt-5 text-4xl sm:text-5xl md:text-7xl font-bold text-gradient">
+              <h1 className="mt-4 sm:mt-5 text-3xl sm:text-5xl md:text-7xl font-bold text-gradient">
                 Jeremy Nduati
               </h1>
-              <p className="mt-2 text-sm sm:text-base text-gray-300">
+              <p className="mt-2 text-xs sm:text-base text-gray-300">
                 Full-Stack • UI/UX • Payments • AI/ML
               </p>
             </motion.div>
 
-            {/* Powerful Text - Rotating Messages */}
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.25, duration: 0.8 }}
-              className="mb-10 min-h-[170px]"
-            >
-              <AnimatedTextRotator reducedMotion={prefersReducedMotion} />
-            </motion.div>
+            {/* Powerful Text */}
+            {isSmallScreen ? (
+              <motion.div
+                initial={{ y: 12, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.25, duration: 0.6 }}
+                className="mb-6"
+              >
+                <p className="text-lg font-semibold text-white">
+                  Preparing your portfolio experience
+                </p>
+                <p className="text-sm text-gray-300 mt-2">
+                  Clean UI/UX • Production-ready • Fast & secure
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 0.25, duration: 0.8 }}
+                className="mb-10 min-h-[170px]"
+              >
+                <AnimatedTextRotator reducedMotion={prefersReducedMotion} />
+              </motion.div>
+            )}
 
             {/* Impressive Stats */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.9, duration: 0.8 }}
-              className="mb-12"
+              className="mb-7 sm:mb-12"
             >
-              <div className="grid grid-cols-3 gap-6 md:gap-8 max-w-2xl mx-auto">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-2xl mx-auto">
                 <motion.div
                   initial={{ scale: 0 }}
                   animate={{ scale: 1 }}
@@ -277,15 +301,17 @@ export default function LoadingScreen() {
                   <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">95%</div>
                   <div className="text-sm md:text-base text-gray-300">Cost Reduction</div>
                 </motion.div>
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 1.3, type: "spring", bounce: 0.5 }}
-                  className="text-center"
-                >
-                  <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">100%</div>
-                  <div className="text-sm md:text-base text-gray-300">Production Ready</div>
-                </motion.div>
+                {!isSmallScreen && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ delay: 1.3, type: "spring", bounce: 0.5 }}
+                    className="text-center"
+                  >
+                    <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">100%</div>
+                    <div className="text-sm md:text-base text-gray-300">Production Ready</div>
+                  </motion.div>
+                )}
               </div>
             </motion.div>
 
@@ -294,34 +320,48 @@ export default function LoadingScreen() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.6, duration: 0.8 }}
-              className="mb-8"
+              className="mb-6 sm:mb-8"
             >
-              <div className="flex flex-wrap justify-center gap-3 text-sm md:text-base">
-                <motion.span
-                  whileHover={{ scale: 1.1 }}
-                  className="px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-300"
-                >
-                  Full-Stack Developer
-                </motion.span>
-                <motion.span
-                  whileHover={{ scale: 1.1 }}
-                  className="px-4 py-2 bg-pink-500/20 border border-pink-500/30 rounded-full text-pink-300"
-                >
-                  UI/UX Designer
-                </motion.span>
-                <motion.span
-                  whileHover={{ scale: 1.1 }}
-                  className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/30 rounded-full text-cyan-300"
-                >
-                  AI Engineer
-                </motion.span>
-                <motion.span
-                  whileHover={{ scale: 1.1 }}
-                  className="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-300"
-                >
-                  Payment Integration Expert
-                </motion.span>
-              </div>
+              {isSmallScreen ? (
+                <div className="flex flex-wrap justify-center gap-2 text-xs">
+                  <span className="px-3 py-1.5 bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-200">
+                    Full-Stack
+                  </span>
+                  <span className="px-3 py-1.5 bg-pink-500/20 border border-pink-500/30 rounded-full text-pink-200">
+                    UI/UX
+                  </span>
+                  <span className="px-3 py-1.5 bg-cyan-500/20 border border-cyan-500/30 rounded-full text-cyan-200">
+                    Payments
+                  </span>
+                </div>
+              ) : (
+                <div className="flex flex-wrap justify-center gap-3 text-sm md:text-base">
+                  <motion.span
+                    whileHover={{ scale: 1.1 }}
+                    className="px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-300"
+                  >
+                    Full-Stack Developer
+                  </motion.span>
+                  <motion.span
+                    whileHover={{ scale: 1.1 }}
+                    className="px-4 py-2 bg-pink-500/20 border border-pink-500/30 rounded-full text-pink-300"
+                  >
+                    UI/UX Designer
+                  </motion.span>
+                  <motion.span
+                    whileHover={{ scale: 1.1 }}
+                    className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/30 rounded-full text-cyan-300"
+                  >
+                    AI Engineer
+                  </motion.span>
+                  <motion.span
+                    whileHover={{ scale: 1.1 }}
+                    className="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-300"
+                  >
+                    Payment Integration Expert
+                  </motion.span>
+                </div>
+              )}
             </motion.div>
 
             {/* Progress Bar */}
@@ -329,7 +369,7 @@ export default function LoadingScreen() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="w-72 md:w-96 mx-auto"
+              className="w-full max-w-xs sm:max-w-md mx-auto"
             >
               <div className="h-2 bg-gray-700/50 rounded-full overflow-hidden shadow-lg border border-gray-600/30">
                 <motion.div

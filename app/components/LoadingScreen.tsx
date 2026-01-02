@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useReducedMotion, useMotionValue, animate } from 'framer-motion';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
 // Rotating compelling messages component
@@ -87,8 +87,9 @@ export default function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   const [mounted, setMounted] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const rafRef = useRef<number | null>(null);
+  const progressMv = useMotionValue(0);
+  const [progressLabel, setProgressLabel] = useState(0);
+  const progressCleanupRef = useRef<(() => void) | null>(null);
   const isSmallScreen = mounted && dimensions.width < 640;
 
   useEffect(() => {
@@ -100,20 +101,30 @@ export default function LoadingScreen() {
     
     // Show on every reload
     setIsLoading(true);
-    setProgress(0);
+    progressMv.set(0);
+    setProgressLabel(0);
     
     // Long enough to actually enjoy the intro + read everything
     const duration = prefersReducedMotion ? 2500 : 5200;
 
-    const start = performance.now();
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      // easeOutCubic
-      const eased = 1 - Math.pow(1 - t, 3);
-      setProgress(eased);
-      if (t < 1) rafRef.current = requestAnimationFrame(tick);
+    // Animate progress with motion value (GPU-friendly, fewer React renders)
+    const controls = animate(progressMv, 1, {
+      duration: duration / 1000,
+      ease: [0.16, 1, 0.3, 1], // easeOutExpo-ish
+    });
+
+    // Throttle percent label updates to keep mobile smooth
+    const lastRef = { t: 0 };
+    const unsub = progressMv.on('change', (v) => {
+      const now = performance.now();
+      if (now - lastRef.t < (isSmallScreen ? 120 : 70)) return;
+      lastRef.t = now;
+      setProgressLabel(Math.min(100, Math.round(v * 100)));
+    });
+    progressCleanupRef.current = () => {
+      unsub();
+      controls.stop();
     };
-    rafRef.current = requestAnimationFrame(tick);
 
     const timer = window.setTimeout(() => {
       setIsLoading(false);
@@ -121,15 +132,16 @@ export default function LoadingScreen() {
 
     return () => {
       window.clearTimeout(timer);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      progressCleanupRef.current?.();
+      progressCleanupRef.current = null;
     };
-  }, [prefersReducedMotion]); // run on mount
+  }, [prefersReducedMotion, isSmallScreen, progressMv]); // run on mount
 
   // Generate particle positions - only on client side
   const particles = useMemo(() => {
     if (!mounted || prefersReducedMotion) return [];
     const colors = ['rgba(147, 51, 234, 0.4)', 'rgba(236, 72, 153, 0.4)', 'rgba(6, 182, 212, 0.4)'];
-    const count = dimensions.width < 640 ? 6 : 14;
+    const count = dimensions.width < 640 ? 4 : 14;
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * dimensions.width,
@@ -163,7 +175,7 @@ export default function LoadingScreen() {
         <motion.div
           initial={{ opacity: 1 }}
           animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          exit={{ opacity: 0, scale: 0.99 }}
           transition={{ duration: 0.5 }}
           className="fixed inset-0 z-[100] bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center overflow-hidden"
           role="status"
@@ -373,9 +385,10 @@ export default function LoadingScreen() {
             >
               <div className="h-2 bg-gray-700/50 rounded-full overflow-hidden shadow-lg border border-gray-600/30">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 rounded-full relative transition-[width] duration-150"
+                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 rounded-full relative will-change-transform"
                   style={{
-                    width: `${Math.round(progress * 100)}%`,
+                    scaleX: progressMv,
+                    transformOrigin: 'left',
                     boxShadow: "0 0 30px rgba(147, 51, 234, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1)",
                   }}
                 >
@@ -385,7 +398,7 @@ export default function LoadingScreen() {
                       x: ["-100%", "100%"],
                     }}
                     transition={{
-                      duration: 1.5,
+                      duration: isSmallScreen ? 2.2 : 1.5,
                       repeat: Infinity,
                       ease: "linear",
                     }}
@@ -402,7 +415,7 @@ export default function LoadingScreen() {
                 className="flex flex-col items-center justify-center gap-2 mt-4"
               >
                 <p className="text-xs md:text-sm text-gray-300 font-medium">
-                  Loading… {Math.min(100, Math.round(progress * 100))}%
+                  Loading… {progressLabel}%
                 </p>
               </motion.div>
             </motion.div>

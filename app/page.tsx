@@ -60,7 +60,7 @@ export default function Portfolio() {
                           ⚡ 24h reply
                         </span>
                         <span className="px-3 py-1.5 rounded-full text-xs bg-black/40 border border-white/15 text-white backdrop-blur">
-                          🏆 #50 Global
+                          🌍 Remote-friendly
                         </span>
                       </div>
                     </div>
@@ -75,23 +75,6 @@ export default function Portfolio() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.05 }}
-              className="flex flex-wrap justify-center lg:justify-start gap-2 mb-6"
-              aria-label="Availability and trust indicators"
-            >
-              <span className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs sm:text-sm text-gray-200 backdrop-blur-sm">
-                ✅ Available for internships / freelance
-              </span>
-              <span className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs sm:text-sm text-gray-200 backdrop-blur-sm">
-                ⚡ Replies within 24 hours
-              </span>
-              <span className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-xs sm:text-sm text-gray-200 backdrop-blur-sm">
-                🌍 Remote-friendly
-              </span>
-            </motion.div>
             <motion.h1 
               className="text-5xl sm:text-6xl md:text-7xl font-bold mb-5 sm:mb-6 text-gradient" 
               id="main-heading"

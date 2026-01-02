@@ -91,6 +91,7 @@ export default function LoadingScreen() {
   const [progressLabel, setProgressLabel] = useState(0);
   const progressCleanupRef = useRef<(() => void) | null>(null);
   const isSmallScreen = mounted && dimensions.width < 640;
+  const isSmallScreenRef = useRef(false);
 
   useEffect(() => {
     // Only run on client side to prevent hydration mismatch
@@ -98,6 +99,7 @@ export default function LoadingScreen() {
     
     setMounted(true);
     setDimensions({ width: window.innerWidth, height: window.innerHeight });
+    isSmallScreenRef.current = window.innerWidth < 640;
     
     // Show on every reload
     setIsLoading(true);
@@ -117,7 +119,8 @@ export default function LoadingScreen() {
     const lastRef = { t: 0 };
     const unsub = progressMv.on('change', (v) => {
       const now = performance.now();
-      if (now - lastRef.t < (isSmallScreen ? 120 : 70)) return;
+      const minDelta = isSmallScreenRef.current ? 120 : 70;
+      if (now - lastRef.t < minDelta) return;
       lastRef.t = now;
       setProgressLabel(Math.min(100, Math.round(v * 100)));
     });
@@ -135,7 +138,7 @@ export default function LoadingScreen() {
       progressCleanupRef.current?.();
       progressCleanupRef.current = null;
     };
-  }, [prefersReducedMotion, isSmallScreen, progressMv]); // run on mount
+  }, [prefersReducedMotion, progressMv]); // run on mount
 
   // Generate particle positions - only on client side
   const particles = useMemo(() => {

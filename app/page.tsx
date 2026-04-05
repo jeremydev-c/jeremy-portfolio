@@ -83,7 +83,7 @@ export default function Portfolio() {
                 animate="visible"
                 variants={fadeUp}
               >
-                I build web apps that
+                Web and mobile apps that
                 <span className="text-sand-400"> ship and scale</span>
               </motion.h1>
 

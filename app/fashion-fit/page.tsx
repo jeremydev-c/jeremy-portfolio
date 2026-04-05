@@ -164,7 +164,7 @@ export default function FashionFit() {
               <p className="text-sm sm:text-base text-carbon-400 leading-relaxed mb-8 max-w-lg">
                 Point your camera, digitize your wardrobe, and let 14 fashion intelligence
                 algorithms dress you for any occasion — with real-time weather, learning
-                preferences, and a personal AI style coach. Built at 15 for
+                preferences, and a personal AI style coach. Built at 16 for
                 Young Scientist Kenya 2026.
               </p>
 
@@ -517,13 +517,13 @@ export default function FashionFit() {
                 This app is the first AI-powered wardrobe management solution targeting
                 everyday users in East Africa — combining computer vision, 14 fashion
                 intelligence algorithms, weather awareness, and a learning engine that gets
-                smarter with every interaction. Built entirely by a 15-year-old developer.
+                smarter with every interaction. Built entirely by a 16-year-old developer.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
                 {[
                   { value: 'AI + CV', label: 'Core Technology' },
                   { value: 'Kenya', label: 'Target Market' },
-                  { value: '15 yrs', label: 'Developer Age' },
+                  { value: '16 yrs', label: 'Developer Age' },
                   { value: 'Aug 2026', label: 'Competition Date' },
                 ].map((s) => (
                   <div key={s.label} className="bg-carbon-800/40 border border-carbon-700/30 rounded-lg p-3 text-center">

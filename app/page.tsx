@@ -94,7 +94,7 @@ export default function Portfolio() {
                 animate="visible"
                 variants={fadeUp}
               >
-                15-year-old developer building production-grade applications with
+                16-year-old developer building production-grade applications with
                 Next.js, TypeScript, payment integrations, and AI. Ranked{' '}
                 <span className="text-white font-medium">#50 out of 1,995</span> globally.
               </motion.p>
@@ -172,7 +172,7 @@ export default function Portfolio() {
                     </h3>
                     <p className="text-carbon-400 text-xs sm:text-sm leading-relaxed max-w-2xl">
                       14 fashion intelligence algorithms, computer vision capture, real-time weather styling,
-                      AI style coach, and a learning engine — built at 15 for Young Scientist Kenya 2026.
+                      AI style coach, and a learning engine — built at 16 for Young Scientist Kenya 2026.
                     </p>
                   </div>
                   <ArrowRight className="w-5 h-5 text-carbon-600 group-hover:text-sand-400 transition-colors shrink-0 hidden lg:block" />

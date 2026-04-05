@@ -4,7 +4,7 @@ export default function StructuredData() {
     "@type": "Person",
     "name": "Jeremy Nduati",
     "jobTitle": "Full-Stack Developer & UI/UX Designer",
-    "description": "15-year-old full-stack developer building enterprise-grade applications with Next.js, TypeScript, payment integrations, and AI/ML solutions.",
+    "description": "16-year-old full-stack developer building enterprise-grade applications with Next.js, TypeScript, payment integrations, and AI/ML solutions.",
     "url": "https://modenova.co.ke",
     "sameAs": [
       "https://github.com/jeremydev-c"

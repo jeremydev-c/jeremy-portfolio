@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     default: "Jeremy Nduati - Full-Stack Developer, UI/UX Designer & Portfolio Builder",
     template: "%s | Jeremy Nduati",
   },
-  description: "15-year-old full-stack developer, UI/UX designer, and portfolio builder creating enterprise-grade applications. Specializing in Next.js, TypeScript, payment integrations (Stripe & M-Pesa), AI/ML solutions, and custom portfolio development.",
+  description: "16-year-old full-stack developer, UI/UX designer, and portfolio builder creating enterprise-grade applications. Specializing in Next.js, TypeScript, payment integrations (Stripe & M-Pesa), AI/ML solutions, and custom portfolio development.",
   keywords: [
     "full-stack developer",
     "UI/UX designer",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     url: "https://modenova.co.ke",
     siteName: "Jeremy Nduati Portfolio",
     title: "Jeremy Nduati - Full-Stack Developer, UI/UX Designer & Portfolio Builder",
-    description: "15-year-old full-stack developer, UI/UX designer, and portfolio builder creating enterprise-grade applications with Next.js, TypeScript, and modern design principles.",
+    description: "16-year-old full-stack developer, UI/UX designer, and portfolio builder creating enterprise-grade applications with Next.js, TypeScript, and modern design principles.",
     images: [
       {
         url: "/og-image.jpg",
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Jeremy Nduati - Full-Stack Developer, UI/UX Designer & Portfolio Builder",
-    description: "Building enterprise-grade applications and custom portfolios at 15. Full-stack development, payment integrations, beautiful UI/UX design, and portfolio building services.",
+    description: "Building enterprise-grade applications and custom portfolios at 16. Full-stack development, payment integrations, beautiful UI/UX design, and portfolio building services.",
     creator: "@jeremydev-c",
   },
   robots: {

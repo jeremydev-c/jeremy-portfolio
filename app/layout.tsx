@@ -6,6 +6,8 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import StructuredData from "./components/StructuredData";
 import NavigationPopup from "./components/NavigationPopup";
 import ScrollProgress from "./components/ScrollProgress";
+import ThemeProvider from "./components/ThemeProvider";
+import PageTransition from "./components/PageTransition";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -73,12 +75,21 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-  verification: {
-    // Add your verification codes here when available
-    // google: "your-google-verification-code",
-    // yandex: "your-yandex-verification-code",
-  },
 };
+
+const themeScript = `
+(function(){
+  try {
+    var t = localStorage.getItem('theme');
+    if (t === 'light') document.documentElement.setAttribute('data-theme','light');
+    else if (t === 'system') {
+      if (window.matchMedia('(prefers-color-scheme:light)').matches)
+        document.documentElement.setAttribute('data-theme','light');
+      else document.documentElement.setAttribute('data-theme','dark');
+    } else document.documentElement.setAttribute('data-theme','dark');
+  } catch(e) { document.documentElement.setAttribute('data-theme','dark'); }
+})();
+`;
 
 export default function RootLayout({
   children,
@@ -86,27 +97,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <meta name="theme-color" content="#9333ea" />
+        <meta name="theme-color" content="#000000" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <StructuredData />
       </head>
       <body className={`${inter.className} antialiased`}>
-        <ErrorBoundary>
-          <ScrollProgress />
-          <LoadingScreen />
-          {children}
-          <NavigationPopup />
-          <Analytics />
-          <SpeedInsights />
-        </ErrorBoundary>
+        <ThemeProvider>
+          <ErrorBoundary>
+            <ScrollProgress />
+            <LoadingScreen />
+            <PageTransition>
+              {children}
+            </PageTransition>
+            <NavigationPopup />
+            <Analytics />
+            <SpeedInsights />
+          </ErrorBoundary>
+        </ThemeProvider>
       </body>
     </html>
   );
 }
-

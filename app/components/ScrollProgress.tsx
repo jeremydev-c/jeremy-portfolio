@@ -16,7 +16,7 @@ export default function ScrollProgress() {
       setScrollProgress(scrolled);
     };
 
-    window.addEventListener('scroll', updateScrollProgress);
+    window.addEventListener('scroll', updateScrollProgress, { passive: true });
     return () => window.removeEventListener('scroll', updateScrollProgress);
   }, []);
 
@@ -24,11 +24,10 @@ export default function ScrollProgress() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 z-[60] origin-left"
+      className="fixed top-0 left-0 right-0 h-[2px] z-[60] origin-left"
+      style={{ background: 'var(--accent)', transformOrigin: 'left' }}
       initial={{ scaleX: 0 }}
       animate={{ scaleX: scrollProgress / 100 }}
-      style={{ transformOrigin: 'left' }}
     />
   );
 }
-

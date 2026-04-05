@@ -14,10 +14,7 @@ export default function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,44 +24,34 @@ export default function ContactForm() {
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message');
-      }
+      if (!response.ok) throw new Error(data.error || 'Failed to send message');
 
       setStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
-      
       setTimeout(() => setStatus('idle'), 5000);
-    } catch (error) {
-      console.error('Contact form error:', error);
+    } catch {
       setStatus('error');
       setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
+  const inputClass =
+    'w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded focus:outline-none text-sm transition-all input-themed';
+
   return (
-    <motion.form
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      onSubmit={handleSubmit}
-      className="card card-hover p-8 max-w-2xl mx-auto"
-    >
-      <h3 className="text-2xl font-bold text-gradient mb-6">Send me a message</h3>
-      
-      <div className="space-y-6">
-        <div className="grid md:grid-cols-2 gap-6">
+    <form onSubmit={handleSubmit} className="card sm:p-6 md:p-8 max-w-2xl mx-auto">
+      <h3 className="text-base sm:text-lg font-bold text-white mb-4 sm:mb-6">Send a message</h3>
+
+      <div className="space-y-4 sm:space-y-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
           <div>
-            <label htmlFor="name" className="block text-sm font-semibold text-gray-300 mb-2">
-              Name *
+            <label htmlFor="name" className="block text-[10px] sm:text-xs font-semibold text-carbon-400 mb-1.5 sm:mb-2 uppercase tracking-wider">
+              Name
             </label>
             <input
               type="text"
@@ -73,15 +60,13 @@ export default function ContactForm() {
               required
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white transition-all"
+              className={inputClass}
               placeholder="Your name"
-              aria-required="true"
-              aria-label="Your name"
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-gray-300 mb-2">
-              Email *
+            <label htmlFor="email" className="block text-[10px] sm:text-xs font-semibold text-carbon-400 mb-1.5 sm:mb-2 uppercase tracking-wider">
+              Email
             </label>
             <input
               type="email"
@@ -90,18 +75,16 @@ export default function ContactForm() {
               required
               value={formData.email}
               onChange={handleChange}
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white transition-all"
-              placeholder="your.email@example.com"
-              aria-required="true"
-              aria-label="Your email address"
+              className={inputClass}
+              placeholder="you@example.com"
               autoComplete="email"
             />
           </div>
         </div>
-        
+
         <div>
-          <label htmlFor="subject" className="block text-sm font-semibold text-gray-300 mb-2">
-            Subject *
+          <label htmlFor="subject" className="block text-[10px] sm:text-xs font-semibold text-carbon-400 mb-1.5 sm:mb-2 uppercase tracking-wider">
+            Subject
           </label>
           <input
             type="text"
@@ -110,84 +93,75 @@ export default function ContactForm() {
             required
             value={formData.subject}
             onChange={handleChange}
-            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white transition-all"
+            className={inputClass}
             placeholder="What's this about?"
-            aria-required="true"
-            aria-label="Message subject"
           />
         </div>
-        
+
         <div>
-          <label htmlFor="message" className="block text-sm font-semibold text-gray-300 mb-2">
-            Message *
+          <label htmlFor="message" className="block text-[10px] sm:text-xs font-semibold text-carbon-400 mb-1.5 sm:mb-2 uppercase tracking-wider">
+            Message
           </label>
           <textarea
             id="message"
             name="message"
             required
-            rows={6}
+            rows={5}
             value={formData.message}
             onChange={handleChange}
-            className="w-full px-4 py-3 bg-gray-800/50 border border-gray-700 rounded-lg focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 text-white transition-all resize-none"
+            className={`${inputClass} resize-none`}
             placeholder="Tell me about your project..."
-            aria-required="true"
-            aria-label="Your message"
           />
         </div>
-        
-        <motion.button
+
+        <button
           type="submit"
           disabled={status === 'sending'}
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 focus:ring-offset-gray-900"
-          aria-label={status === 'sending' ? 'Submitting message' : 'Submit contact form'}
-          aria-busy={status === 'sending'}
+          className="w-full btn-primary gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {status === 'sending' ? (
             <>
-              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
               Sending...
             </>
           ) : status === 'success' ? (
             <>
-              <CheckCircle className="w-5 h-5" />
-              Message Sent!
+              <CheckCircle className="w-4 h-4" />
+              Sent!
             </>
           ) : status === 'error' ? (
             <>
-              <AlertCircle className="w-5 h-5" />
-              Error - Try Again
+              <AlertCircle className="w-4 h-4" />
+              Error — Try Again
             </>
           ) : (
             <>
-              <Send className="w-5 h-5" />
+              <Send className="w-4 h-4" />
               Send Message
             </>
           )}
-        </motion.button>
-        
+        </button>
+
         {status === 'success' && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm text-center"
+            className="p-3 bg-green-500/10 border border-green-500/20 rounded text-green-400 text-xs sm:text-sm text-center"
           >
-            Thank you! Your message has been sent. I'll get back to you soon.
+            Message sent. I&apos;ll get back to you within 24 hours.
           </motion.div>
         )}
-        
+
         {status === 'error' && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0 }}
-            className="p-4 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm text-center"
+            className="p-3 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-xs sm:text-sm text-center"
           >
-            Something went wrong. Please try again or email me directly.
+            Something went wrong. Try again or email me directly.
           </motion.div>
         )}
       </div>
-    </motion.form>
+    </form>
   );
 }
-

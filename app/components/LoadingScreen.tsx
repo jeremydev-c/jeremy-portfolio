@@ -1,487 +1,454 @@
 'use client';
 
-import { motion, AnimatePresence, useReducedMotion, useMotionValue, animate } from 'framer-motion';
+import {
+  motion,
+  AnimatePresence,
+  useReducedMotion,
+  useMotionValue,
+  useTransform,
+  animate,
+} from 'framer-motion';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
-// Rotating compelling messages component
-function AnimatedTextRotator({ reducedMotion }: { reducedMotion: boolean }) {
-  const messages = [
-    {
-      main: "Building the Future",
-      sub: "One Line of Code at a Time",
-      tagline: "Transforming Ideas Into Production-Ready Applications"
-    },
-    {
-      main: "Crafting Digital Excellence",
-      sub: "Where Innovation Meets Design",
-      tagline: "Enterprise-Grade Solutions That Scale"
-    },
-    {
-      main: "15 Years Old",
-      sub: "Building What Others Dream Of",
-      tagline: "Age is Just a Number, Excellence is Everything"
-    },
-    {
-      main: "Full-Stack Mastery",
-      sub: "From Concept to Deployment",
-      tagline: "Payment Gateways • AI/ML • Modern Architecture"
-    }
-  ];
+const ROLES = [
+  'Full-Stack Developer',
+  'UI/UX Designer',
+  'AI Engineer',
+  'Payment Architect',
+  'Building the Future',
+];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
+function CountUp({ target, delay }: { target: number; delay: number }) {
+  const [val, setVal] = useState(0);
   useEffect(() => {
-    if (reducedMotion) return;
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % messages.length);
-    }, 1400); // Change message every 1.4 seconds
-
-    return () => clearInterval(interval);
-  }, [messages.length, reducedMotion]);
-
-  const active = reducedMotion ? messages[0] : messages[currentIndex];
-
-  return (
-    <div className="relative">
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={reducedMotion ? 'static' : currentIndex}
-          initial={{ opacity: 0, y: 20, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: -20, scale: 0.9 }}
-          transition={{ duration: 0.5 }}
-          className="text-center"
-        >
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.1 }}
-            className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-white mb-3"
-          >
-            {active.main}
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-gradient mb-2"
-          >
-            {active.sub}
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.3 }}
-            className="text-lg md:text-xl text-gray-300 mt-4"
-          >
-            {active.tagline}
-          </motion.p>
-        </motion.div>
-      </AnimatePresence>
-    </div>
-  );
+    let intervalId: number | null = null;
+    const timeout = window.setTimeout(() => {
+      const steps = 12;
+      const stepMs = 48;
+      let i = 0;
+      intervalId = window.setInterval(() => {
+        i += 1;
+        const t = Math.min(1, i / steps);
+        const eased = 1 - (1 - t) * (1 - t);
+        setVal(Math.round(target * eased));
+        if (i >= steps) {
+          if (intervalId !== null) window.clearInterval(intervalId);
+          intervalId = null;
+          setVal(target);
+        }
+      }, stepMs);
+    }, delay);
+    return () => {
+      window.clearTimeout(timeout);
+      if (intervalId !== null) window.clearInterval(intervalId);
+    };
+  }, [target, delay]);
+  return <>{val}</>;
 }
 
 export default function LoadingScreen() {
   const prefersReducedMotion = useReducedMotion() ?? false;
   const [isLoading, setIsLoading] = useState(true);
-  const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 });
   const [mounted, setMounted] = useState(false);
+  const [phase, setPhase] = useState(0);
+  const [dims, setDims] = useState({ w: 1920, h: 1080 });
   const progressMv = useMotionValue(0);
-  const [progressLabel, setProgressLabel] = useState(0);
-  const progressCleanupRef = useRef<(() => void) | null>(null);
-  const isSmallScreen = mounted && dimensions.width < 640;
-  const isSmallScreenRef = useRef(false);
+  const progressPercent = useTransform(progressMv, [0, 1], [0, 100]);
+  const [pLabel, setPLabel] = useState(0);
+  const cleanupRef = useRef<(() => void) | null>(null);
+  const isSmall = mounted && dims.w < 640;
+
+  const ringR = isSmall ? 52 : 68;
+  const ringCirc = 2 * Math.PI * ringR;
+  const ringOffset = useTransform(progressMv, [0, 1], [ringCirc, 0]);
 
   useEffect(() => {
-    // Only run on client side to prevent hydration mismatch
     if (typeof window === 'undefined') return;
-    
     setMounted(true);
-    setDimensions({ width: window.innerWidth, height: window.innerHeight });
-    isSmallScreenRef.current = window.innerWidth < 640;
-    
-    // Show on every reload
+    setDims({ w: window.innerWidth, h: window.innerHeight });
     setIsLoading(true);
     progressMv.set(0);
-    setProgressLabel(0);
-    
-    // Long enough to actually enjoy the intro + read everything
-    const duration = prefersReducedMotion ? 2500 : 5200;
+    setPLabel(0);
 
-    // Animate progress with motion value (GPU-friendly, fewer React renders)
-    const controls = animate(progressMv, 1, {
-      duration: duration / 1000,
-      ease: [0.16, 1, 0.3, 1], // easeOutExpo-ish
+    const dur = prefersReducedMotion ? 2200 : 5200;
+
+    const ctrl = animate(progressMv, 1, {
+      duration: dur / 1000,
+      ease: [0.16, 0.84, 0.24, 1],
+      onComplete: () => {
+        setPLabel(100);
+        const settle = prefersReducedMotion ? 100 : 260;
+        window.setTimeout(() => setIsLoading(false), settle);
+      },
     });
 
-    // Throttle percent label updates to keep mobile smooth
-    const lastRef = { t: 0 };
-    const unsub = progressMv.on('change', (v) => {
+    const lastT = { t: 0 };
+    const unsub = progressPercent.on('change', (v) => {
       const now = performance.now();
-      const minDelta = isSmallScreenRef.current ? 120 : 70;
-      if (now - lastRef.t < minDelta) return;
-      lastRef.t = now;
-      setProgressLabel(Math.min(100, Math.round(v * 100)));
+      if (now - lastT.t < 80) return;
+      lastT.t = now;
+      setPLabel(Math.min(100, Math.round(v)));
     });
-    progressCleanupRef.current = () => {
+    cleanupRef.current = () => {
       unsub();
-      controls.stop();
+      ctrl.stop();
     };
 
-    const timer = window.setTimeout(() => {
-      setIsLoading(false);
-    }, duration + 250);
+    if (!prefersReducedMotion) {
+      const t1 = setTimeout(() => setPhase(1), 280);
+      const t2 = setTimeout(() => setPhase(2), 1100);
+      const t3 = setTimeout(() => setPhase(3), 2000);
+      const t4 = setTimeout(() => setPhase(4), 2900);
+      return () => {
+        [t1, t2, t3, t4].forEach(clearTimeout);
+        cleanupRef.current?.();
+        cleanupRef.current = null;
+      };
+    }
 
+    setPhase(4);
     return () => {
-      window.clearTimeout(timer);
-      progressCleanupRef.current?.();
-      progressCleanupRef.current = null;
+      cleanupRef.current?.();
+      cleanupRef.current = null;
     };
-  }, [prefersReducedMotion, progressMv]); // run on mount
+  }, [prefersReducedMotion, progressMv, progressPercent]);
 
-  // Generate particle positions - only on client side
-  const particles = useMemo(() => {
+  const roleIdx = useRef(0);
+  const [activeRole, setActiveRole] = useState(0);
+  useEffect(() => {
+    if (phase < 3 || prefersReducedMotion) return;
+    const iv = setInterval(() => {
+      roleIdx.current = (roleIdx.current + 1) % ROLES.length;
+      setActiveRole(roleIdx.current);
+    }, 1400);
+    return () => clearInterval(iv);
+  }, [phase, prefersReducedMotion]);
+
+  const dots = useMemo(() => {
     if (!mounted || prefersReducedMotion) return [];
-    const colors = ['rgba(147, 51, 234, 0.4)', 'rgba(236, 72, 153, 0.4)', 'rgba(6, 182, 212, 0.4)'];
-    const count = dimensions.width < 640 ? 4 : 14;
-    return Array.from({ length: count }, (_, i) => ({
-      id: i,
-      x: Math.random() * dimensions.width,
-      y: Math.random() * dimensions.height,
-      duration: Math.random() * 3 + 2,
-      delay: Math.random() * 2,
-      size: Math.random() * 4 + 2,
-      color: colors[Math.floor(Math.random() * colors.length)],
-    }));
-  }, [dimensions, mounted]);
+    const count = isSmall ? 14 : 28;
+    return Array.from({ length: count }, (_, i) => {
+      const angle = (i / count) * Math.PI * 2;
+      const radius = 160 + Math.random() * 200;
+      return {
+        id: i,
+        x: Math.cos(angle) * radius,
+        y: Math.sin(angle) * radius,
+        size: Math.random() * 3 + 1,
+        delay: Math.random() * 1.5 + 1.5,
+        dur: Math.random() * 3 + 3,
+      };
+    });
+  }, [mounted, isSmall, prefersReducedMotion]);
 
-  // Generate tech icon positions - only on client side
-  const techIcons = useMemo(() => {
-    // Hide floating icons on mobile (too busy) + respect reduced motion
-    if (!mounted || prefersReducedMotion || dimensions.width < 640) return [];
-    return ['💻', '🎨', '⚡', '🚀', '🔒', '📱'].map((icon, i) => ({
-      id: i,
-      icon: icon,
-      x: Math.random() * dimensions.width,
-      duration: Math.random() * 4 + 6,
-      delay: Math.random() * 3,
-    }));
-  }, [dimensions, mounted]);
-
-  // Don't render anything if not loading or not mounted (prevents hydration mismatch)
-  if (!mounted || !isLoading) return null;
+  if (!mounted) return null;
 
   return (
     <AnimatePresence mode="wait">
       {isLoading && (
         <motion.div
           initial={{ opacity: 1 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 0.99 }}
-          transition={{ duration: 0.5 }}
-          className="fixed inset-0 z-[100] bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center overflow-hidden"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.85, ease: [0.33, 1, 0.68, 1] }}
+          className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden [transform:translateZ(0)]"
+          style={{ background: '#000000' }}
           role="status"
           aria-label="Loading"
         >
-          {/* Animated Background */}
-          <div className="absolute inset-0 overflow-hidden">
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                rotate: [0, 90, 0],
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/30 rounded-full blur-3xl"
-            />
-            <motion.div
-              animate={{
-                scale: [1.2, 1, 1.2],
-                rotate: [90, 0, 90],
-                opacity: [0.3, 0.6, 0.3],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5,
-              }}
-              className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-pink-500/30 rounded-full blur-3xl"
-            />
-            <motion.div
-              animate={{
-                scale: [1, 1.3, 1],
-                rotate: [0, -90, 0],
-                opacity: [0.2, 0.5, 0.2],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1,
-              }}
-              className="absolute top-1/2 left-1/2 w-80 h-80 bg-cyan-500/30 rounded-full blur-3xl"
-            />
-          </div>
-
-          {/* Main Content */}
-          <div
-            className="relative z-10 w-full max-w-4xl px-4 sm:px-6 text-center"
+          {/* Grid pattern */}
+          <motion.div
+            className="absolute inset-0 opacity-[0.03]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.03 }}
+            transition={{ duration: 1 }}
             style={{
-              paddingTop: 'env(safe-area-inset-top)',
-              paddingBottom: 'env(safe-area-inset-bottom)',
+              backgroundImage:
+                'linear-gradient(rgba(255,59,59,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,59,59,0.5) 1px, transparent 1px)',
+              backgroundSize: '60px 60px',
             }}
-          >
-            {/* Premium mark */}
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6 }}
-              className="mb-6 sm:mb-8 flex flex-col items-center"
-            >
-              <div className="relative">
-                <motion.div
-                  className="w-20 h-20 rounded-3xl bg-gradient-to-br from-purple-500 via-pink-500 to-cyan-500 p-[1px] shadow-2xl shadow-purple-500/30"
-                  animate={prefersReducedMotion ? {} : { rotate: [0, 360] }}
-                  transition={prefersReducedMotion ? {} : { duration: 6, repeat: Infinity, ease: 'linear' }}
-                >
-                  <div className="w-full h-full rounded-3xl bg-gray-900/70 backdrop-blur flex items-center justify-center border border-white/10">
-                    <span className="text-white font-bold text-2xl">JN</span>
-                  </div>
-                </motion.div>
-                <div className="absolute -inset-6 bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-cyan-500/10 blur-2xl -z-10" />
-              </div>
-              <h1 className="mt-4 sm:mt-5 text-3xl sm:text-5xl md:text-7xl font-bold text-gradient">
-                Jeremy Nduati
-              </h1>
-              <p className="mt-2 text-xs sm:text-base text-gray-300">
-                Full-Stack • UI/UX • Payments • AI/ML
-              </p>
-            </motion.div>
+          />
 
-            {/* Powerful Text */}
-            {isSmallScreen ? (
-              <motion.div
-                initial={{ y: 12, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.25, duration: 0.6 }}
-                className="mb-6"
-              >
-                <p className="text-lg font-semibold text-white">
-                  Preparing your portfolio experience
-                </p>
-                <p className="text-sm text-gray-300 mt-2">
-                  Clean UI/UX • Production-ready • Fast & secure
-                </p>
-              </motion.div>
-            ) : (
-              <motion.div
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.25, duration: 0.8 }}
-                className="mb-10 min-h-[170px]"
-              >
-                <AnimatedTextRotator reducedMotion={prefersReducedMotion} />
-              </motion.div>
-            )}
+          {/* Horizontal line reveal */}
+          <motion.div
+            className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2"
+            style={{ background: 'linear-gradient(90deg, transparent, rgba(255,59,59,0.25), transparent)' }}
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: phase >= 1 ? 1 : 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          />
 
-            {/* Impressive Stats */}
+          {/* Vertical line reveal */}
+          <motion.div
+            className="absolute top-0 left-1/2 w-px h-full -translate-x-1/2"
+            style={{ background: 'linear-gradient(180deg, transparent, rgba(255,59,59,0.2), transparent)' }}
+            initial={{ scaleY: 0 }}
+            animate={{ scaleY: phase >= 1 ? 1 : 0 }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+          />
+
+          {/* Expanding dots */}
+          {dots.map((d) => (
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.9, duration: 0.8 }}
-              className="mb-7 sm:mb-12"
+              key={d.id}
+              className="absolute rounded-full"
+              style={{
+                width: d.size,
+                height: d.size,
+                background: 'rgba(255,59,59,0.35)',
+                left: '50%',
+                top: '50%',
+              }}
+              initial={{ x: 0, y: 0, opacity: 0, scale: 0 }}
+              animate={
+                phase >= 2
+                  ? {
+                      x: [0, d.x * 0.6, d.x],
+                      y: [0, d.y * 0.6, d.y],
+                      opacity: [0, 0.7, 0],
+                      scale: [0, 1.5, 0],
+                    }
+                  : {}
+              }
+              transition={{
+                duration: d.dur,
+                delay: d.delay,
+                repeat: Infinity,
+                ease: 'easeOut',
+              }}
+            />
+          ))}
+
+          {/* Center content */}
+          <div className="relative z-10 flex flex-col items-center px-6">
+            {/* Monogram + progress ring */}
+            <motion.div
+              className="relative mb-8"
+              initial={{ scale: 0.6, opacity: 0 }}
+              animate={phase >= 1 ? { scale: 1, opacity: 1 } : {}}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6 md:gap-8 max-w-2xl mx-auto">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 1.1, type: "spring", bounce: 0.5 }}
-                  className="text-center"
+              <div
+                className="relative"
+                style={{ width: (ringR + 8) * 2, height: (ringR + 8) * 2 }}
+              >
+                {/* Track */}
+                <svg
+                  className="absolute inset-0 w-full h-full -rotate-90"
+                  viewBox={`0 0 ${(ringR + 8) * 2} ${(ringR + 8) * 2}`}
                 >
-                  <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">3+</div>
-                  <div className="text-sm md:text-base text-gray-300">Enterprise Projects</div>
-                </motion.div>
+                  <circle
+                    cx={ringR + 8}
+                    cy={ringR + 8}
+                    r={ringR}
+                    fill="none"
+                    stroke="rgba(255,59,59,0.08)"
+                    strokeWidth="1"
+                  />
+                  <motion.circle
+                    cx={ringR + 8}
+                    cy={ringR + 8}
+                    r={ringR}
+                    fill="none"
+                    stroke="rgba(255,59,59,0.6)"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeDasharray={ringCirc}
+                    style={{ strokeDashoffset: ringOffset }}
+                  />
+                </svg>
+
+                {/* Inner glow */}
                 <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 1.2, type: "spring", bounce: 0.5 }}
-                  className="text-center"
-                >
-                  <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">95%</div>
-                  <div className="text-sm md:text-base text-gray-300">Cost Reduction</div>
-                </motion.div>
-                {!isSmallScreen && (
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 1.3, type: "spring", bounce: 0.5 }}
-                    className="text-center"
+                  className="absolute inset-4 rounded-full will-change-transform"
+                  style={{ background: 'radial-gradient(circle, rgba(255,59,59,0.06), transparent 70%)' }}
+                  animate={prefersReducedMotion ? {} : { scale: [1, 1.08, 1], opacity: [0.55, 0.9, 0.55] }}
+                  transition={{ duration: 3.2, repeat: Infinity, ease: [0.45, 0, 0.55, 1] }}
+                />
+
+                {/* Letters */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <motion.span
+                    className="text-3xl sm:text-4xl font-bold text-white select-none"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={phase >= 1 ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.55, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
                   >
-                    <div className="text-3xl md:text-4xl font-bold text-gradient mb-1">100%</div>
-                    <div className="text-sm md:text-base text-gray-300">Production Ready</div>
-                  </motion.div>
+                    JN
+                  </motion.span>
+                </div>
+
+                {/* Orbiting dot */}
+                {!prefersReducedMotion && (
+                  <motion.div
+                    className="absolute w-2 h-2 rounded-full bg-sand-400 will-change-transform"
+                    style={{
+                      top: 8,
+                      left: ringR + 8 - 4,
+                      transformOrigin: `4px ${ringR}px`,
+                    }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                  />
                 )}
               </div>
             </motion.div>
 
-            {/* Role Tags */}
+            {/* Name reveal with mask */}
+            <div className="overflow-hidden mb-1">
+              <motion.h1
+                className="text-4xl sm:text-5xl md:text-6xl font-bold text-white tracking-tight text-center"
+                initial={{ y: '110%' }}
+                animate={phase >= 2 ? { y: '0%' } : {}}
+                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              >
+                Jeremy
+              </motion.h1>
+            </div>
+            <div className="overflow-hidden mb-6">
+              <motion.h1
+                className="text-4xl sm:text-5xl md:text-6xl font-bold text-sand-400 tracking-tight text-center"
+                initial={{ y: '110%' }}
+                animate={phase >= 2 ? { y: '0%' } : {}}
+                transition={{ duration: 0.6, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
+              >
+                Nduati
+              </motion.h1>
+            </div>
+
+            {/* Decorative bar */}
             <motion.div
+              className="h-px w-16 mb-5"
+              style={{ background: 'linear-gradient(90deg, transparent, #ff3b3b, transparent)' }}
+              initial={{ scaleX: 0, opacity: 0 }}
+              animate={phase >= 2 ? { scaleX: 1, opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            />
+
+            {/* Rotating role */}
+            <motion.div
+              className="h-7 overflow-hidden mb-10"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.6, duration: 0.8 }}
-              className="mb-6 sm:mb-8"
+              animate={phase >= 3 ? { opacity: 1 } : {}}
+              transition={{ duration: 0.4 }}
             >
-              {isSmallScreen ? (
-                <div className="flex flex-wrap justify-center gap-2 text-xs">
-                  <span className="px-3 py-1.5 bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-200">
-                    Full-Stack
-                  </span>
-                  <span className="px-3 py-1.5 bg-pink-500/20 border border-pink-500/30 rounded-full text-pink-200">
-                    UI/UX
-                  </span>
-                  <span className="px-3 py-1.5 bg-cyan-500/20 border border-cyan-500/30 rounded-full text-cyan-200">
-                    Payments
-                  </span>
-                </div>
-              ) : (
-                <div className="flex flex-wrap justify-center gap-3 text-sm md:text-base">
-                  <motion.span
-                    whileHover={{ scale: 1.1 }}
-                    className="px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full text-purple-300"
-                  >
-                    Full-Stack Developer
-                  </motion.span>
-                  <motion.span
-                    whileHover={{ scale: 1.1 }}
-                    className="px-4 py-2 bg-pink-500/20 border border-pink-500/30 rounded-full text-pink-300"
-                  >
-                    UI/UX Designer
-                  </motion.span>
-                  <motion.span
-                    whileHover={{ scale: 1.1 }}
-                    className="px-4 py-2 bg-cyan-500/20 border border-cyan-500/30 rounded-full text-cyan-300"
-                  >
-                    AI Engineer
-                  </motion.span>
-                  <motion.span
-                    whileHover={{ scale: 1.1 }}
-                    className="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-blue-300"
-                  >
-                    Payment Integration Expert
-                  </motion.span>
-                </div>
-              )}
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={activeRole}
+                  initial={{ y: 14, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -10, opacity: 0 }}
+                  transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+                  className="text-sm sm:text-base text-carbon-400 tracking-[0.2em] uppercase text-center"
+                >
+                  {ROLES[activeRole]}
+                </motion.p>
+              </AnimatePresence>
             </motion.div>
 
-            {/* Progress Bar */}
+            {/* Stats row */}
             <motion.div
+              className="flex gap-10 sm:gap-14 mb-12"
+              initial={{ opacity: 0 }}
+              animate={phase >= 4 ? { opacity: 1 } : {}}
+              transition={{ duration: 0.5 }}
+            >
+              {[
+                { val: 4, suffix: '+', label: 'Apps' },
+                { val: 50, prefix: '#', label: 'Rank' },
+                { val: 95, suffix: '%', label: 'Saved' },
+              ].map((s, i) => (
+                <motion.div
+                  key={s.label}
+                  className="text-center"
+                  initial={{ y: 16, opacity: 0 }}
+                  animate={phase >= 4 ? { y: 0, opacity: 1 } : {}}
+                  transition={{ delay: i * 0.1, duration: 0.4 }}
+                >
+                  <div className="text-xl sm:text-2xl font-bold text-white tabular-nums">
+                    {s.prefix}
+                    <CountUp target={s.val} delay={3200 + i * 150} />
+                    {s.suffix}
+                  </div>
+                  <div className="text-[10px] text-carbon-600 uppercase tracking-[0.2em] mt-1">
+                    {s.label}
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Progress */}
+            <motion.div
+              className="w-full max-w-[260px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="w-full max-w-xs sm:max-w-md mx-auto"
+              transition={{ delay: 0.6, duration: 0.5 }}
             >
-              <div className="h-2 bg-gray-700/50 rounded-full overflow-hidden shadow-lg border border-gray-600/30">
+              <div className="relative h-[2px] bg-carbon-800/80 rounded-full overflow-hidden">
                 <motion.div
-                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-cyan-500 rounded-full relative will-change-transform"
+                  className="absolute inset-y-0 left-0 rounded-full"
                   style={{
                     scaleX: progressMv,
                     transformOrigin: 'left',
-                    boxShadow: "0 0 30px rgba(147, 51, 234, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.1)",
+                    background: 'linear-gradient(90deg, #e62e2e, #ff3b3b, #ff6b6b)',
                   }}
-                >
-                  <motion.div
-                    className="absolute inset-0 bg-white/20"
-                    animate={{
-                      x: ["-100%", "100%"],
-                    }}
-                    transition={{
-                      duration: isSmallScreen ? 2.2 : 1.5,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    style={{
-                      background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent)",
-                    }}
-                  />
-                </motion.div>
+                />
               </div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.5 }}
-                className="flex flex-col items-center justify-center gap-2 mt-4"
-              >
-                <p className="text-xs md:text-sm text-gray-300 font-medium">
-                  Loading… {progressLabel}%
-                </p>
-              </motion.div>
+              <div className="flex justify-between mt-3">
+                <span className="text-[10px] text-carbon-700 uppercase tracking-[0.15em]">
+                  Loading portfolio
+                </span>
+                <span className="text-[11px] text-carbon-500 font-mono tabular-nums">
+                  {pLabel}%
+                </span>
+              </div>
             </motion.div>
           </div>
 
-          {/* Floating Particles - Enhanced */}
-          {mounted && particles.map((particle) => (
-            <motion.div
-              key={particle.id}
-              className="absolute rounded-full"
-              style={{
-                width: particle.size,
-                height: particle.size,
-                background: `radial-gradient(circle, ${particle.color}, transparent)`,
-              }}
-              initial={{
-                x: particle.x,
-                y: particle.y,
-                opacity: 0,
-                scale: 0,
-              }}
-              animate={{
-                y: [particle.y, particle.y - 150],
-                opacity: [0, 1, 0.8, 0],
-                scale: [0, 1, 1.2, 0],
-              }}
-              transition={{
-                duration: particle.duration,
-                repeat: Infinity,
-                delay: particle.delay,
-                ease: "easeOut",
-              }}
-            />
-          ))}
+          {/* Corner frames */}
+          <motion.div
+            className="absolute top-6 left-6 sm:top-10 sm:left-10"
+            initial={{ opacity: 0 }}
+            animate={phase >= 1 ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <div className="w-8 h-8 border-l border-t border-sand-500/15" />
+          </motion.div>
+          <motion.div
+            className="absolute top-6 right-6 sm:top-10 sm:right-10"
+            initial={{ opacity: 0 }}
+            animate={phase >= 1 ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <div className="w-8 h-8 border-r border-t border-sand-500/15" />
+          </motion.div>
+          <motion.div
+            className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10"
+            initial={{ opacity: 0 }}
+            animate={phase >= 1 ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <div className="w-8 h-8 border-l border-b border-sand-500/15" />
+          </motion.div>
+          <motion.div
+            className="absolute bottom-6 right-6 sm:bottom-10 sm:right-10"
+            initial={{ opacity: 0 }}
+            animate={phase >= 1 ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5, delay: 0.7 }}
+          >
+            <div className="w-8 h-8 border-r border-b border-sand-500/15" />
+          </motion.div>
 
-          {/* Tech Icons Floating */}
-          {mounted && techIcons.map((techIcon) => (
-            <motion.div
-              key={techIcon.id}
-              className="absolute text-4xl opacity-20"
-              initial={{
-                x: techIcon.x,
-                y: dimensions.height + 50,
-                rotate: 0,
-              }}
-              animate={{
-                y: -100,
-                rotate: 360,
-                opacity: [0, 0.3, 0.3, 0],
-              }}
-              transition={{
-                duration: techIcon.duration,
-                repeat: Infinity,
-                delay: techIcon.delay,
-                ease: "linear",
-              }}
-            >
-              {techIcon.icon}
-            </motion.div>
-          ))}
+          {/* Bottom signature */}
+          <motion.p
+            className="absolute bottom-6 sm:bottom-10 left-1/2 -translate-x-1/2 text-[10px] text-carbon-700 tracking-[0.3em] uppercase"
+            initial={{ opacity: 0 }}
+            animate={phase >= 3 ? { opacity: 1 } : {}}
+            transition={{ duration: 0.5 }}
+          >
+            modenova.co.ke
+          </motion.p>
         </motion.div>
       )}
     </AnimatePresence>
   );
 }
-

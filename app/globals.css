@@ -223,11 +223,44 @@
   .card {
     background: var(--bg-card);
     border: 1px solid var(--border);
-    transition: all 0.2s;
+    transition: all 0.3s ease;
+    position: relative;
     @apply rounded-lg p-5;
   }
-  .card:hover {
-    border-color: var(--border-hover);
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: conic-gradient(
+      from var(--gradient-angle, 0deg),
+      transparent 40%,
+      rgba(255, 59, 59, 0.4) 50%,
+      transparent 60%
+    );
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    -webkit-mask-composite: xor;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .card:hover::before {
+      opacity: 1;
+      animation: gradient-rotate 3s linear infinite;
+    }
+    .card:hover {
+      border-color: transparent;
+      box-shadow: 0 0 20px rgba(255, 59, 59, 0.04);
+    }
+  }
+  .card > * {
+    position: relative;
+    z-index: 1;
   }
 
   .section-title {
@@ -341,6 +374,76 @@
 
   /* Image overlay tag backgrounds */
   .bg-carbon-950\/70 { background-color: rgba(255, 255, 255, 0.8); }
+}
+
+/* ===== Gradient border animation ===== */
+@property --gradient-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes gradient-rotate {
+  to {
+    --gradient-angle: 360deg;
+  }
+}
+
+/* ===== Custom cursor ===== */
+.custom-cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  margin-top: -3px;
+  background: #fff;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99999;
+  mix-blend-mode: difference;
+}
+
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+  margin-top: -18px;
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 99998;
+}
+
+/* Hide default cursor when custom cursor is active */
+@media (pointer: fine) and (min-width: 768px) {
+  * {
+    cursor: none !important;
+  }
+}
+
+@media (pointer: coarse), (max-width: 767px) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none;
+  }
+  * {
+    cursor: auto !important;
+  }
+  .card::before {
+    display: none;
+  }
 }
 
 ::selection {

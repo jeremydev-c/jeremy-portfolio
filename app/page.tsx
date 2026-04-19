@@ -6,6 +6,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Navigation from './components/Navigation';
 import ScrollToTop from './components/ScrollToTop';
+import AnimatedCounter from './components/AnimatedCounter';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
@@ -127,11 +128,19 @@ export default function Portfolio() {
                   { value: '#50', label: 'Global Rank' },
                   { value: '3rd', label: 'County Winner' },
                   { value: '8+', label: 'Certificates' },
-                ].map((stat) => (
-                  <div key={stat.label} className="text-center lg:text-left">
-                    <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white">{stat.value}</div>
+                ].map((stat, i) => (
+                  <motion.div
+                    key={stat.label}
+                    className="text-center lg:text-left"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
+                  >
+                    <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+                      <AnimatedCounter value={stat.value} />
+                    </div>
                     <div className="text-[10px] sm:text-xs text-carbon-400 mt-1 tracking-wide">{stat.label}</div>
-                  </div>
+                  </motion.div>
                 ))}
               </motion.div>
             </motion.div>
@@ -218,14 +227,21 @@ export default function Portfolio() {
               { value: '95%', sub: '', label: 'AI Cost Reduction' },
               { value: '4+', sub: '', label: 'Production Apps Shipped' },
               { value: '3rd', sub: 'place', label: 'County Science Fair' },
-            ].map((stat) => (
-              <div key={stat.label} className="bg-carbon-900 p-4 sm:p-6 md:p-8 text-center">
+            ].map((stat, i) => (
+              <motion.div
+                key={stat.label}
+                className="bg-carbon-900 p-4 sm:p-6 md:p-8 text-center"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4, delay: i * 0.1 }}
+                viewport={{ once: true }}
+              >
                 <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-none">
-                  {stat.value}
+                  <AnimatedCounter value={stat.value} />
                   {stat.sub && <span className="text-xs sm:text-sm font-normal text-carbon-500 ml-1">{stat.sub}</span>}
                 </div>
                 <div className="text-[10px] sm:text-[11px] text-carbon-500 mt-1.5 sm:mt-2 uppercase tracking-wider leading-tight">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </motion.div>
 
@@ -306,8 +322,8 @@ export default function Portfolio() {
                 key={item.href}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
-                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.08 }}
+                viewport={{ once: true, margin: '-30px' }}
               >
                 <Link
                   href={item.href}
@@ -369,8 +385,8 @@ export default function Portfolio() {
                 key={i}
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                viewport={{ once: true, margin: '-30px' }}
                 className="card"
               >
                 <p className="text-carbon-300 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 italic">

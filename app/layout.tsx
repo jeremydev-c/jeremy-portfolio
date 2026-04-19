@@ -8,6 +8,7 @@ import NavigationPopup from "./components/NavigationPopup";
 import ScrollProgress from "./components/ScrollProgress";
 import ThemeProvider from "./components/ThemeProvider";
 import PageTransition from "./components/PageTransition";
+import CustomCursor from "./components/CustomCursor";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
@@ -117,6 +118,7 @@ export default function RootLayout({
               {children}
             </PageTransition>
             <NavigationPopup />
+            <CustomCursor />
             <Analytics />
             <SpeedInsights />
           </ErrorBoundary>

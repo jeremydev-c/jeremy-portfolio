@@ -150,9 +150,6 @@ export default function FashionFit() {
             >
               <div className="flex items-center gap-3 mb-6">
                 <span className="section-label mb-0">Featured Project</span>
-                <span className="px-2 py-0.5 rounded text-[9px] sm:text-[10px] bg-sand-500/10 border border-sand-500/20 text-sand-400 uppercase tracking-wider font-semibold">
-                  YSK 2026
-                </span>
               </div>
 
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight leading-[1.1] mb-4 sm:mb-6">

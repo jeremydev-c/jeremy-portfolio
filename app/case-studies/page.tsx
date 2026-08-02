@@ -8,61 +8,43 @@ import ScrollToTop from '../components/ScrollToTop';
 
 export default function CaseStudies() {
   const caseStudies = [
+
     {
-      name: 'Fiscal Intelligence Dashboard',
-      summary: 'ML analytics platform for African sovereign debt — ranked #50 / 1,995 globally.',
-      role: 'Data Scientist & ML Engineer',
-      timeline: 'Hackathon',
-      stack: 'Python, Plotly, ML',
+      name: 'MT Kenya Sign Language Training Institute',
+      summary: 'A fully automated digital storefront and admissions portal handling document uploads and automated email receipts.',
+      role: 'Full-Stack Developer',
+      timeline: '4 weeks',
+      stack: 'HTML/CSS, JS, Node.js, Vercel',
       challenge:
-        'Create an intuitive platform enabling policymakers to understand fiscal risks and predict outcomes using complex financial datasets. Compete against 1,995 participants.',
+        'Digitize the admissions process for a sign language institute to allow seamless online applications with document uploads, without the overhead of a traditional database.',
       solution: [
-        'Developed advanced ML models for risk scoring and scenario analysis.',
-        'Built interactive dashboard with real-time filtering and dynamic visualizations.',
-        'Implemented policy impact estimation system with potential annual savings.',
+        'Built a serverless Vercel backend using Node.js to process multipart form data and document uploads.',
+        'Integrated Resend API for sending automated, stylized HTML email receipts to both applicants and administration.',
+        'Designed a responsive, premium UI using Vanilla HTML/CSS with modern typography and animations.',
       ],
       metrics: [
-        { label: 'Ranking', value: '#50 / 1,995' },
-        { label: 'Countries', value: '10+' },
-        { label: 'Charts', value: '4' },
+        { label: 'Architecture', value: 'Serverless' },
+        { label: 'File Uploads', value: 'Supported' },
+        { label: 'Emails', value: 'Resend API' },
       ],
     },
     {
-      name: 'EventVerse',
-      summary: 'Digitized the entire event lifecycle — dual payments, QR ticketing, live ops dashboard.',
-      role: 'Lead Full-Stack Engineer',
-      timeline: '12 weeks',
-      stack: 'Next.js, Prisma, Stripe',
-      challenge:
-        'Create a unified experience for hybrid events with real-time ticketing, universal payments, and on-site verification.',
-      solution: [
-        'Dual payment architecture with webhook-based reconciliation.',
-        'Scanner-first PWA that caches QR codes offline.',
-        'Live ops dashboard showing ticket sales and attendee flow.',
-      ],
-      metrics: [
-        { label: 'Payment success', value: '+38%' },
-        { label: 'Check-in time', value: '-65%' },
-        { label: 'Support tickets', value: '-45%' },
-      ],
-    },
-    {
-      name: 'ShopStar',
-      summary: 'Scaled a founder\'s MVP into an enterprise retail platform handling flash sales and fulfillment.',
+      name: 'Tabby Premium Eggs',
+      summary: 'Full-stack e-commerce and farm management portal with robust order fulfillment and interactive 3D elements.',
       role: 'Full-Stack Engineer',
-      timeline: '10 weeks',
-      stack: 'Next.js, Node, MongoDB',
+      timeline: '12 weeks',
+      stack: 'Next.js 14, MongoDB, Paystack',
       challenge:
-        'Replace fragmented tooling (Google Sheets + WhatsApp orders) with a single source of truth.',
+        'Create a unified platform to sell premium eggs countrywide while simultaneously managing farm visit bookings, integrating secure payments, and providing an interactive 3D experience.',
       solution: [
-        'Implemented inventory ledger with low-stock automations.',
-        'Role-based admin portal with cohort analytics and AOV tracking.',
-        'Transactional comms covering the full order lifecycle.',
+        'Built a custom e-commerce pipeline utilizing MongoDB to track order fulfillment stages.',
+        'Developed a booking system with direct Paystack integration for farm visits and PDF generation.',
+        'Integrated React Three Fiber for engaging 3D visuals and Chart.js for admin analytics dashboards.',
       ],
       metrics: [
-        { label: 'Conversion', value: '+27%' },
-        { label: 'Fulfillment', value: '2x faster' },
-        { label: 'Refund rate', value: '-18%' },
+        { label: 'Payments', value: 'Paystack' },
+        { label: 'Validation', value: 'Zod' },
+        { label: '3D Graphics', value: 'R3F' },
       ],
     },
     {

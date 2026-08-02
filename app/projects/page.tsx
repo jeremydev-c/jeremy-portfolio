@@ -8,51 +8,83 @@ import ScrollToTop from '../components/ScrollToTop';
 
 export default function Projects() {
   const projects = [
+
     {
-      name: 'Fiscal Intelligence Dashboard',
-      tagline: '10Alytics Hackathon 2025 — ML Analytics Platform',
-      description:
-        'Data visualization and analytics platform for African sovereign debt analysis. Advanced ML models for risk scoring, scenario analysis, and policy impact estimates. Ranked #50 out of 1,995 participants.',
-      tech: ['Python', 'Plotly', 'Machine Learning', 'Data Analysis', 'HTML5', 'JavaScript', 'Netlify'],
+      name: 'Emmanuel Annoh Portfolio',
+      tagline: 'Data Scientist & Analyst',
+      description: 'A sleek, dark-themed portfolio for a Data Scientist. Showcases predictive modeling projects, interactive dashboards, and machine learning achievements.',
+      tech: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
       features: [
-        'Advanced ML models for risk scoring',
-        'Interactive country/region filtering',
-        'Real-time policy impact estimates',
-        'Critical fiscal warnings system',
+        'Premium dark-mode UI',
+        'Interactive skill highlights',
+        'Performant server-side rendering',
+        'Analytics integration ready'
       ],
-      liveUrl: 'https://moonlit-starlight-601077.netlify.app',
+      liveUrl: 'https://emmanuel-annoh-portfolio.vercel.app/',
       githubUrl: '#',
-      badge: 'Top 50 / 1,995',
+      badge: 'Client Work',
     },
     {
-      name: 'EventVerse',
-      tagline: 'Full-Stack Event Management Platform',
-      description:
-        'Event management with dual payment gateways (Stripe & M-Pesa), QR code ticketing, real-time attendance tracking, and role-based dashboards.',
-      tech: ['Next.js 14', 'TypeScript', 'MongoDB', 'Prisma', 'Stripe', 'M-Pesa', 'QR Codes'],
+      name: 'Bernice Tetteh Portfolio',
+      tagline: 'Marine Data Analyst & Fisheries Manager',
+      description: 'A specialized portfolio designed for a Marine Data Analyst. Includes custom marine-themed branding, particle backgrounds, and tailored data visualization sections.',
+      tech: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
       features: [
-        'Dual payment integration (Stripe + M-Pesa)',
-        'QR code generation & scanning',
-        'Real-time payment status polling',
-        'Role-based dashboards',
+        'Thematic marine design system',
+        'Animated particle backgrounds',
+        'Optimized media loading',
+        'Accessibility compliance'
       ],
-      liveUrl: 'https://eventverse-mu.vercel.app',
-      githubUrl: 'https://github.com/jeremydev-c/eventverse',
+      liveUrl: 'https://bernice-tetteh-portfolio.vercel.app/',
+      githubUrl: '#',
+      badge: 'Client Work',
     },
     {
-      name: 'ShopStar',
-      tagline: 'Enterprise E-Commerce Platform',
-      description:
-        'Full-stack e-commerce with Stripe payments, inventory management, admin dashboard, and comprehensive order processing.',
-      tech: ['Next.js 16', 'TypeScript', 'Node.js', 'Express', 'MongoDB', 'Stripe', 'Resend'],
+      name: 'Modinat Omolara Buhari Portfolio',
+      tagline: 'Data Analyst & BI Specialist',
+      description: 'A modern, highly optimized professional portfolio for a Data Analyst. Features responsive design, scroll animations, and dynamic project showcases.',
+      tech: ['Next.js', 'React', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
       features: [
-        'Secure payment processing (Stripe)',
-        'Real-time inventory management',
-        'Admin dashboard with analytics',
-        'Order tracking & email notifications',
+        'Custom interactive UI elements',
+        'SEO optimization and meta tags',
+        'High-performance Next.js routing',
+        'Responsive mobile-first design'
       ],
-      liveUrl: 'https://shopstar-psi.vercel.app',
-      githubUrl: 'https://github.com/jeremydev-c/shopstar',
+      liveUrl: 'https://modinat-omolara-buhari-portfolio.vercel.app/',
+      githubUrl: '#',
+      badge: 'Client Work',
+    },
+    {
+      name: 'MT Kenya Sign Language Training Institute',
+      tagline: 'Modern KSL Education & Admissions Platform',
+      badge: 'Client Work',
+      description:
+        'A fully automated digital storefront and admissions portal for a sign language training center. Features document uploads, serverless backend processing, and automated HTML email receipts.',
+      tech: ['HTML5', 'CSS3', 'JavaScript', 'Node.js', 'Vercel', 'Resend API'],
+      features: [
+        'Online application with document uploads',
+        'Automated HTML email receipts via Resend',
+        'Serverless form processing',
+        'Responsive modern UI with animations',
+      ],
+      liveUrl: 'https://mt-kenya-sign-language-training-ins.vercel.app/',
+      githubUrl: '#',
+    },
+    {
+      name: 'Tabby Premium Eggs',
+      tagline: 'E-Commerce & Farm Management Portal',
+      badge: 'Client Work',
+      description:
+        'E-commerce platform selling premium Grade AA eggs with countrywide delivery. Features a robust order fulfillment pipeline, Paystack-integrated farm bookings, and interactive 3D models.',
+      tech: ['Next.js 14', 'MongoDB', 'React Three Fiber', 'Paystack', 'Chart.js', 'Zod'],
+      features: [
+        'Order tracking & fulfillment pipeline',
+        'Farm visit bookings via Paystack',
+        'Interactive 3D elements',
+        'Admin dashboard with sales analytics',
+      ],
+      liveUrl: 'https://www.tabbypremiumeggs.online/',
+      githubUrl: '#',
     },
     {
       name: 'Fashion Fit',

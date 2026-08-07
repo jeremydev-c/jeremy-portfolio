@@ -1,8 +1,9 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, FileText, X } from 'lucide-react';
+import { ExternalLink, FileText, X, ImageIcon } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/ScrollToTop';
 import { useState } from 'react';
@@ -66,10 +67,73 @@ function CourseraCertificatesModal({
   );
 }
 
+function ImagePreviewModal({
+  imageSrc,
+  title,
+  isOpen,
+  onClose,
+}: {
+  imageSrc: string;
+  title: string;
+  isOpen: boolean;
+  onClose: () => void;
+}) {
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50"
+          />
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 pointer-events-none"
+          >
+            <div className="bg-carbon-900 rounded-lg border border-carbon-700/60 shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden pointer-events-auto">
+              <div className="sticky top-0 bg-carbon-900/95 backdrop-blur-sm border-b border-carbon-700/60 p-4 sm:p-5 flex justify-between items-center">
+                <h3 className="text-base sm:text-lg font-bold text-white">{title}</h3>
+                <button onClick={onClose} className="p-1.5 hover:bg-carbon-800 rounded transition-colors" aria-label="Close">
+                  <X className="w-5 h-5 text-carbon-400" />
+                </button>
+              </div>
+              <div className="p-4 sm:p-5 flex items-center justify-center overflow-auto max-h-[calc(90vh-4rem)]">
+                <Image
+                  src={imageSrc}
+                  alt={title}
+                  width={1200}
+                  height={850}
+                  className="rounded-lg object-contain w-full h-auto"
+                  quality={90}
+                />
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function Certificates() {
   const [courseraModalOpen, setCourseraModalOpen] = useState(false);
+  const [imagePreview, setImagePreview] = useState<{ src: string; title: string } | null>(null);
 
   const certificates = [
+    {
+      title: 'SAIMUN Workshop — Press Team',
+      issuer: 'Sub-Saharan Africa International Model United Nations',
+      type: 'Workshop',
+      rank: 'Participated',
+      badge: 'Model UN',
+      skills: ['Diplomacy', 'Public Speaking', 'Leadership', 'Press & Media'],
+      image: '/CERTIFICATES/SAIMUN_Workshop_2026_Certificate.jpeg',
+    },
     {
       title: '10Alytics Global Data Hackathon 2025',
       issuer: '10Alytics',
@@ -209,6 +273,13 @@ export default function Certificates() {
                     >
                       <FileText className="w-3.5 h-3.5" /> View All ({cert.multiplePdfs.length})
                     </button>
+                  ) : cert.image ? (
+                    <button
+                      onClick={() => setImagePreview({ src: cert.image, title: cert.title })}
+                      className="btn-primary gap-1.5 text-xs flex-1 justify-center"
+                    >
+                      <ImageIcon className="w-3.5 h-3.5" /> View Certificate
+                    </button>
                   ) : cert.pdf ? (
                     <a
                       href={cert.pdf}
@@ -237,6 +308,13 @@ export default function Certificates() {
         certificates={certificates.find((c) => c.multiplePdfs)?.multiplePdfs || []}
         isOpen={courseraModalOpen}
         onClose={() => setCourseraModalOpen(false)}
+      />
+
+      <ImagePreviewModal
+        imageSrc={imagePreview?.src || ''}
+        title={imagePreview?.title || ''}
+        isOpen={!!imagePreview}
+        onClose={() => setImagePreview(null)}
       />
     </div>
   );

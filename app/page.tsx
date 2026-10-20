@@ -1,486 +1,177 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, ArrowRight, ArrowUpRight } from 'lucide-react';
-import Link from 'next/link';
 import Image from 'next/image';
-import Navigation from './components/Navigation';
-import ScrollToTop from './components/ScrollToTop';
-import AnimatedCounter from './components/AnimatedCounter';
+import Link from 'next/link';
+import HeroTitle from './components/HeroTitle';
+import Reveal from './components/Reveal';
+import LocalTime from './components/LocalTime';
+import Seal from './components/Seal';
+import { site } from './lib/content';
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, delay: i * 0.1, ease: [0.25, 0.46, 0.45, 0.94] as const },
-  }),
-};
+const facts = [
+  { value: '16', label: 'Years old, self-taught' },
+  { value: '#50', label: 'of 1,995 in a global data hackathon' },
+  { value: '3rd', label: 'Kenya Science & Engineering Fair, county level' },
+  { value: '7', label: 'Products designed and built' },
+];
 
-export default function Portfolio() {
+// The rest of the site, mentioned rather than shown.
+const directory = [
+  { href: '/work', label: 'Work', note: 'Seven projects, from farm e-commerce to AI' },
+  { href: '/work/e-elections', label: 'E-Elections', note: 'Secure digital voting for Kenya, my KSEF 2027 entry' },
+  { href: '/about', label: 'About', note: 'My story, how I work and what I can build' },
+  { href: '/certificates', label: 'Recognition', note: 'Results, rankings and certificates' },
+  { href: '/contact', label: 'Contact', note: 'Start a project with me' },
+];
+
+export default function Home() {
   return (
-    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <a href="#main-heading" className="skip-to-main">
-        Skip to main content
-      </a>
-      <Navigation />
+    <>
+      {/* ---------------------------------------------------------------- Hero */}
+      <section className="wrap pb-16 pt-32 sm:pb-24 sm:pt-40 lg:pt-44">
+        <p className="eyebrow mb-8 flex flex-wrap items-center gap-x-3 gap-y-1 sm:mb-12">
+          <span>{site.role}</span>
+          <span aria-hidden className="h-px w-8 bg-ink/30" />
+          <span>{site.location}</span>
+        </p>
 
-      {/* Hero */}
-      <section className="pt-24 sm:pt-32 md:pt-36 pb-12 sm:pb-20 px-4 sm:px-6 relative" aria-label="Hero section">
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 right-1/4 w-[300px] sm:w-[500px] h-[300px] sm:h-[500px] bg-sand-500/[0.03] rounded-full blur-[120px]" />
-        </div>
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-8">
+          <div className="lg:col-span-9">
+            <HeroTitle />
+          </div>
 
-        <div className="container mx-auto max-w-6xl relative z-10">
-          <div className="grid lg:grid-cols-12 gap-8 lg:gap-16 items-center">
-            {/* Photo */}
-            <motion.div
-              className="lg:col-span-4 flex justify-center lg:justify-end order-first lg:order-last"
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <div className="w-[200px] sm:w-[260px] md:w-[300px]">
-                <div className="relative rounded-2xl overflow-hidden border border-carbon-700/40">
-                  <div className="relative aspect-[4/5]">
-                    <Image
-                      src="/me.jpeg"
-                      alt="Jeremy Nduati"
-                      fill
-                      priority
-                      sizes="(max-width: 640px) 200px, (max-width: 768px) 260px, 300px"
-                      className="object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-carbon-950/60 via-transparent to-transparent" />
-                  </div>
-                  <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 flex gap-1.5 sm:gap-2">
-                    <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[10px] bg-carbon-950/70 border border-carbon-700/40 text-carbon-200 backdrop-blur-sm tracking-wider uppercase">
-                      Available
-                    </span>
-                    <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded text-[9px] sm:text-[10px] bg-carbon-950/70 border border-carbon-700/40 text-carbon-200 backdrop-blur-sm tracking-wider uppercase">
-                      24h reply
-                    </span>
-                  </div>
+          <div className="anim-fade-up lg:col-span-3 lg:pb-3" style={{ animationDelay: '0.7s' }}>
+            <dl className="grid grid-cols-2 gap-x-6 font-mono text-[11px] uppercase tracking-[0.14em] lg:grid-cols-1">
+              {[
+                ['Focus', 'Full-stack, payments, security, AI'],
+                ['Currently', 'E-ELECTIONS for KSEF 2027'],
+              ].map(([k, v]) => (
+                <div key={k} className="border-t border-rule py-3.5">
+                  <dt className="text-ink-3">{k}</dt>
+                  <dd className="mt-1.5 text-[13px] normal-case tracking-normal text-ink">{v}</dd>
                 </div>
+              ))}
+              <div className="border-t border-rule py-3.5">
+                <dt className="text-ink-3">Local time</dt>
+                <dd className="mt-1.5 text-ink">
+                  <LocalTime />
+                </dd>
               </div>
-            </motion.div>
-
-            {/* Text */}
-            <motion.div className="lg:col-span-8 text-center lg:text-left">
-              <motion.span
-                className="section-label"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4 }}
-              >
-                Full-Stack Developer & Designer
-              </motion.span>
-
-              <motion.h1
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 text-white tracking-tight leading-[1.1] text-balance"
-                id="main-heading"
-                custom={1}
-                initial="hidden"
-                animate="visible"
-                variants={fadeUp}
-              >
-                Web and mobile apps that
-                <span className="text-sand-400"> ship and scale</span>
-              </motion.h1>
-
-              <motion.p
-                className="text-base sm:text-lg md:text-xl text-carbon-300 mb-6 sm:mb-8 max-w-2xl mx-auto lg:mx-0 leading-relaxed"
-                custom={2}
-                initial="hidden"
-                animate="visible"
-                variants={fadeUp}
-              >
-                16-year-old developer building production-grade applications with
-                Next.js, TypeScript, payment integrations, and AI. Ranked{' '}
-                <span className="text-white font-medium">#50 out of 1,995</span> globally.
-              </motion.p>
-
-              <motion.div
-                className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3 mb-8 sm:mb-10"
-                custom={3}
-                initial="hidden"
-                animate="visible"
-                variants={fadeUp}
-              >
-                <Link href="/contact" className="btn-primary gap-2">
-                  Work with me <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link href="/projects" className="btn-secondary">
-                  View Projects
-                </Link>
-              </motion.div>
-
-              {/* Stats row */}
-              <motion.div
-                className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 max-w-2xl mx-auto lg:mx-0 pt-6 sm:pt-8 border-t border-carbon-800/60"
-                custom={4}
-                initial="hidden"
-                animate="visible"
-                variants={fadeUp}
-              >
-                {[
-                  { value: '4+', label: 'Production Apps' },
-                  { value: '#50', label: 'Global Rank' },
-                  { value: '3rd', label: 'County Winner' },
-                  { value: '8+', label: 'Certificates' },
-                ].map((stat, i) => (
-                  <motion.div
-                    key={stat.label}
-                    className="text-center lg:text-left"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.5 + i * 0.1 }}
-                  >
-                    <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
-                      <AnimatedCounter value={stat.value} />
-                    </div>
-                    <div className="text-[10px] sm:text-xs text-carbon-400 mt-1 tracking-wide">{stat.label}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </motion.div>
+              <div className="border-t border-rule py-3.5">
+                <dt className="text-ink-3">Status</dt>
+                <dd className="mt-1.5 flex items-center gap-2 text-[13px] normal-case tracking-normal text-ink">
+                  <span className="h-1.5 w-1.5 rounded-full bg-moss" />
+                  Taking projects for 2027
+                </dd>
+              </div>
+            </dl>
           </div>
         </div>
-      </section>
 
-      {/* Featured: Fashion Fit */}
-      <section className="py-12 sm:py-20 md:py-24 px-4 sm:px-6 border-t border-carbon-800/60">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <Link href="/fashion-fit" className="group block">
-              <div className="card sm:p-8 md:p-10 border-sand-500/10 hover:border-sand-500/30 transition-all">
-                <div className="flex flex-col lg:flex-row lg:items-center gap-6 lg:gap-10">
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border border-carbon-700/40 shrink-0">
-                    <Image
-                      src="/fashion-fit-icon.jpeg"
-                      alt="Fashion Fit"
-                      width={80}
-                      height={80}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="text-[10px] text-sand-500 uppercase tracking-[0.2em] font-semibold">Featured Project</span>
-                      <span className="px-2 py-0.5 rounded text-[9px] bg-sand-500/10 border border-sand-500/20 text-sand-400 uppercase tracking-wider font-semibold">
-                        YSK 2026
-                      </span>
-                    </div>
-                    <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 group-hover:text-sand-300 transition-colors">
-                      Fashion Fit — AI-Powered Wardrobe Management
-                    </h3>
-                    <p className="text-carbon-400 text-xs sm:text-sm leading-relaxed max-w-2xl">
-                      14 fashion intelligence algorithms, computer vision capture, real-time weather styling,
-                      AI style coach, and a learning engine — built at 16 for Young Scientist Kenya 2026.
-                    </p>
-                  </div>
-                  <ArrowRight className="w-5 h-5 text-carbon-600 group-hover:text-sand-400 transition-colors shrink-0 hidden lg:block" />
-                </div>
-              </div>
+        <div
+          className="anim-fade-up mt-14 grid gap-10 border-t border-rule pt-10 sm:mt-16 lg:grid-cols-12 lg:items-end lg:gap-8"
+          style={{ animationDelay: '0.5s' }}
+        >
+          <p className="max-w-[36rem] text-[19px] leading-[1.6] text-ink-2 sm:text-[21px] lg:col-span-7">
+            I’m Jeremy Gachiki Nduati, a 16-year-old developer and designer from Kirinyaga. I teach
+            myself by building, and I ship complete products — payments, security, applied AI — for
+            real people.
+          </p>
+          <div className="flex flex-wrap gap-3 lg:col-span-5 lg:justify-end">
+            <Link href="/work" className="btn-ink">
+              See my work <span aria-hidden>→</span>
             </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* About */}
-      <section id="about" className="py-16 sm:py-24 md:py-32 px-4 sm:px-6 border-t border-carbon-800/60" aria-labelledby="about-heading">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="mb-12 sm:mb-20"
-          >
-            <span className="section-label">About</span>
-            <h2 id="about-heading" className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight max-w-2xl">
-              I care about outcomes{' '}
-              <span className="text-sand-400">and craft.</span>
-            </h2>
-            <p className="text-carbon-300 text-base sm:text-lg leading-relaxed mt-4 sm:mt-6 max-w-2xl">
-              I design clean experiences, then engineer them with security, scalability,
-              and real users in mind. My edge is simple: idea to design to code without
-              losing quality — faster delivery, fewer mistakes, pixel-perfect execution.
-            </p>
-          </motion.div>
-
-          {/* Key numbers */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-px bg-carbon-700/30 rounded-lg overflow-hidden mb-12 sm:mb-20"
-          >
-            {[
-              { value: '#50', sub: 'of 1,995', label: 'Global Hackathon Rank' },
-              { value: '95%', sub: '', label: 'AI Cost Reduction' },
-              { value: '4+', sub: '', label: 'Production Apps Shipped' },
-              { value: '3rd', sub: 'place', label: 'County Science Fair' },
-            ].map((stat, i) => (
-              <motion.div
-                key={stat.label}
-                className="bg-carbon-900 p-4 sm:p-6 md:p-8 text-center"
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <div className="text-xl sm:text-2xl md:text-3xl font-bold text-white leading-none">
-                  <AnimatedCounter value={stat.value} />
-                  {stat.sub && <span className="text-xs sm:text-sm font-normal text-carbon-500 ml-1">{stat.sub}</span>}
-                </div>
-                <div className="text-[10px] sm:text-[11px] text-carbon-500 mt-1.5 sm:mt-2 uppercase tracking-wider leading-tight">{stat.label}</div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* What I bring */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="mb-12 sm:mb-20"
-          >
-            <h3 className="text-sm font-semibold text-sand-500 uppercase tracking-[0.2em] mb-6 sm:mb-8">What I bring</h3>
-            <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 sm:gap-y-8">
-              {[
-                { title: 'End-to-end delivery', desc: 'Design, frontend, backend, payments, deployment — one person, zero handoff gaps.' },
-                { title: 'Production standards', desc: 'Auth, validation, error handling, and security baked in from day one.' },
-                { title: 'AI-accelerated workflow', desc: 'I use AI tools to move faster without cutting quality or shipping sloppy code.' },
-                { title: 'Real business impact', desc: 'Every project is built for measurable results — conversion, cost, speed, reliability.' },
-              ].map((item) => (
-                <div key={item.title} className="border-l-2 border-carbon-800 pl-4 sm:pl-5 hover:border-sand-500/50 transition-colors">
-                  <h4 className="text-white font-semibold text-sm sm:text-[15px] mb-1 sm:mb-1.5">{item.title}</h4>
-                  <p className="text-carbon-400 text-xs sm:text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* Toolbelt */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-sm font-semibold text-sand-500 uppercase tracking-[0.2em] mb-4 sm:mb-5">Toolbelt</h3>
-            <div className="flex flex-wrap gap-1.5 sm:gap-2">
-              {[
-                'Next.js', 'TypeScript', 'React', 'React Native', 'Node.js', 'Express',
-                'MongoDB', 'Prisma', 'Stripe', 'M-Pesa', 'Paystack', 'OpenAI',
-                'Tailwind', 'Framer Motion', 'Expo', 'Python', 'Figma', 'Git',
-              ].map((tech) => (
-                <span
-                  key={tech}
-                  className="px-2.5 py-1 sm:px-3 sm:py-1.5 rounded text-[11px] sm:text-xs bg-carbon-900 border border-carbon-800 text-carbon-400 hover:text-white hover:border-carbon-600 transition-colors"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Section Links */}
-      <section className="py-12 sm:py-20 md:py-24 px-4 sm:px-6 border-t border-carbon-800/60">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center mb-8 sm:mb-12"
-          >
-            <span className="section-label">Explore</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight">Dive deeper</h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
-            {[
-              { href: '/projects', label: 'Projects', desc: 'Featured production work', num: '01' },
-              { href: '/case-studies', label: 'Case Studies', desc: 'Deep dive into outcomes', num: '02' },
-              { href: '/certificates', label: 'Certificates', desc: 'Verified achievements', num: '03' },
-              { href: '/skills', label: 'Skills', desc: 'Technical expertise', num: '04' },
-              { href: '/testimonials', label: 'Testimonials', desc: 'What clients say', num: '05' },
-              { href: '/contact', label: 'Contact', desc: 'Start a conversation', num: '06' },
-            ].map((item, i) => (
-              <motion.div
-                key={item.href}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                viewport={{ once: true, margin: '-30px' }}
-              >
-                <Link
-                  href={item.href}
-                  className="card group flex items-start justify-between hover:border-sand-500/30"
-                >
-                  <div>
-                    <span className="text-[10px] text-carbon-500 font-mono tracking-wider">{item.num}</span>
-                    <h3 className="text-base sm:text-lg font-semibold text-white mt-1 group-hover:text-sand-300 transition-colors">
-                      {item.label}
-                    </h3>
-                    <p className="text-carbon-400 text-xs sm:text-sm mt-1">{item.desc}</p>
-                  </div>
-                  <ArrowUpRight className="w-4 h-4 text-carbon-600 group-hover:text-sand-400 transition-colors shrink-0 mt-1" />
-                </Link>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Preview */}
-      <section className="py-12 sm:py-20 md:py-24 px-4 sm:px-6 border-t border-carbon-800/60">
-        <div className="container mx-auto max-w-6xl">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-            className="text-center mb-8 sm:mb-12"
-          >
-            <span className="section-label">Testimonials</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white tracking-tight mb-3 sm:mb-4">
-              What people say
-            </h2>
-            <p className="text-carbon-400 max-w-lg mx-auto text-sm sm:text-base">
-              Feedback from clients and collaborators.
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
-            {[
-              {
-                quote: 'Jeremy delivered an exceptional e-commerce platform that exceeded our expectations. His attention to detail and production-ready implementation saved us months.',
-                author: 'Sarah Mitchell',
-                role: 'E-Commerce Director',
-              },
-              {
-                quote: 'The custom AI system he built reduced our operational costs by 95% while maintaining excellent accuracy. A game-changer for our business.',
-                author: 'David Chen',
-                role: 'CTO, Tech Innovations',
-              },
-              {
-                quote: 'Ranked #50 out of 1,995 participants. Demonstrates exceptional data science and ML engineering skills with sophisticated analytics platforms.',
-                author: '10Alytics Hackathon',
-                role: 'Global Data Hackathon 2025',
-              },
-            ].map((t, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.12 }}
-                viewport={{ once: true, margin: '-30px' }}
-                className="card"
-              >
-                <p className="text-carbon-300 text-xs sm:text-sm leading-relaxed mb-4 sm:mb-6 italic">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 sm:w-9 sm:h-9 rounded bg-sand-500/15 border border-sand-500/20 flex items-center justify-center text-sand-400 text-[10px] sm:text-xs font-bold shrink-0">
-                    {t.author.split(' ').map((n) => n[0]).join('')}
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-white text-xs sm:text-sm font-medium truncate">{t.author}</div>
-                    <div className="text-carbon-500 text-[10px] sm:text-xs truncate">{t.role}</div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <Link href="/testimonials" className="btn-secondary gap-2">
-              All Testimonials <ArrowRight className="w-4 h-4" />
+            <Link href="/contact" className="btn-line">
+              Start a project
             </Link>
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-12 sm:py-20 md:py-24 px-4 sm:px-6 border-t border-carbon-800/60">
-        <div className="container mx-auto max-w-3xl text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true }}
-          >
-            <span className="section-label">Let&apos;s work together</span>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-4 sm:mb-6 text-balance">
-              Ready to build something real?
-            </h2>
-            <p className="text-base sm:text-lg text-carbon-300 mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed">
-              From concept to deployment, I ship fast, communicate clearly, and build things that last.
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-              <Link href="/contact" className="btn-primary gap-2">
-                Start a project <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link href="/projects" className="btn-secondary">
-                See my work
-              </Link>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      {/* ---------------------------------------------------------------- Me */}
+      <section className="border-t border-rule bg-paper-2/60">
+        <div className="wrap grid gap-14 py-20 sm:py-28 lg:grid-cols-12 lg:gap-8 lg:py-32">
+          <Reveal className="lg:col-span-5">
+            <figure className="relative max-w-[420px]">
+              <div className="plate aspect-[4/5] rounded-md">
+                <Image src="/me.jpeg" alt="Portrait of Jeremy Nduati" fill sizes="420px" className="object-cover" />
+              </div>
+              <Seal size={128} className="absolute -bottom-10 -right-6 rotate-[-10deg] text-kiln sm:-right-12" />
+              <figcaption className="mt-4 font-mono text-[10.5px] uppercase tracking-[0.14em] text-ink-3">
+                Fig. 1 — The developer, at 16
+              </figcaption>
+            </figure>
+          </Reveal>
 
-      {/* Footer */}
-      <footer className="border-t border-carbon-800/60 text-carbon-500 py-10 sm:py-12 px-4 sm:px-6">
-        <div className="container mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
-            <div>
-              <h3 className="text-white font-semibold mb-3 text-sm">Jeremy Nduati</h3>
-              <p className="text-xs sm:text-sm leading-relaxed">
-                Full-Stack Developer &amp; Designer building production-ready web applications.
+          <div className="lg:col-span-6 lg:col-start-7">
+            <Reveal>
+              <p className="eyebrow">Who I am</p>
+              <p className="mt-6 font-serif text-[clamp(2rem,3.6vw,3.25rem)] leading-[1.08] tracking-[-0.015em]">
+                I don’t take Computer Science at school.
+                <span className="italic text-ink-3"> Everything I know, I learned by building.</span>
               </p>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-3 text-sm">Pages</h3>
-              <ul className="space-y-2 text-xs sm:text-sm">
-                <li><Link href="/#about" className="hover:text-sand-400 transition-colors">About</Link></li>
-                <li><Link href="/projects" className="hover:text-sand-400 transition-colors">Projects</Link></li>
-                <li><Link href="/skills" className="hover:text-sand-400 transition-colors">Skills</Link></li>
-                <li><Link href="/contact" className="hover:text-sand-400 transition-colors">Contact</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-white font-semibold mb-3 text-sm">Connect</h3>
-              <div className="flex gap-4">
-                <a href="https://github.com/jeremydev-c" target="_blank" rel="noopener noreferrer" className="hover:text-sand-400 transition-colors" aria-label="GitHub">
-                  <Github className="w-5 h-5" />
-                </a>
-                <a href="https://linkedin.com/in/jeremydev-c" target="_blank" rel="noopener noreferrer" className="hover:text-sand-400 transition-colors" aria-label="LinkedIn">
-                  <Linkedin className="w-5 h-5" />
-                </a>
-                <a href="mailto:nduatijeremy7@gmail.com" className="hover:text-sand-400 transition-colors" aria-label="Email">
-                  <Mail className="w-5 h-5" />
-                </a>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <div className="prose-body mt-8 max-w-[36rem]">
+                <p>
+                  I study a different technical subject, and code is the thing I do because I can’t
+                  stop. It started with small experiments and grew into sites and apps for real
+                  businesses and professionals, in Kenya and beyond.
+                </p>
+                <p>
+                  I care about the details people only notice when they’re missing: a receipt you can
+                  verify, a payment that never double-charges, a page that loads on slow data. One day
+                  I want to build software my whole country relies on.
+                </p>
               </div>
-            </div>
-          </div>
-          <div className="border-t border-carbon-800/60 pt-6 sm:pt-8 text-center text-xs sm:text-sm">
-            <p>&copy; {new Date().getFullYear()} Jeremy Nduati</p>
+            </Reveal>
+            <Reveal delay={0.15}>
+              <dl className="mt-12 grid grid-cols-2 border-t border-rule">
+                {facts.map((f, i) => (
+                  <div
+                    key={f.label}
+                    className={`border-b border-rule py-6 ${i % 2 === 1 ? 'border-l pl-6' : 'pr-6'}`}
+                  >
+                    <dt className="sr-only">{f.label}</dt>
+                    <dd>
+                      <span className="block font-serif text-[clamp(2.4rem,4vw,3.5rem)] leading-none tracking-[-0.03em]">
+                        {f.value}
+                      </span>
+                      <span className="mt-2 block text-[13px] leading-snug text-ink-2">{f.label}</span>
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
           </div>
         </div>
-      </footer>
-      <ScrollToTop />
-    </div>
+      </section>
+
+      {/* ----------------------------------------------------------- Directory */}
+      <nav aria-label="Explore the site" className="wrap py-20 sm:py-28 lg:py-32">
+        <Reveal>
+          <p className="eyebrow">Explore</p>
+        </Reveal>
+        <ul className="mt-8 border-t border-rule">
+          {directory.map((d, i) => (
+            <Reveal as="li" key={d.href} delay={i * 0.05} className="border-b border-rule">
+              <Link href={d.href} className="group grid grid-cols-12 items-baseline gap-x-4 gap-y-2 py-6 sm:py-7">
+                <span className="col-span-2 font-mono text-[11px] text-ink-3 sm:col-span-1">0{i + 1}</span>
+                <span className="col-span-10 font-serif text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[0.95] tracking-[-0.02em] transition-[color,transform] duration-500 ease-out group-hover:translate-x-2 group-hover:text-kiln sm:col-span-6">
+                  {d.label}
+                </span>
+                <span className="col-span-9 col-start-3 text-[15px] text-ink-2 sm:col-span-4 sm:col-start-auto">
+                  {d.note}
+                </span>
+                <span
+                  aria-hidden
+                  className="col-span-1 hidden justify-self-end font-serif text-[28px] transition-transform duration-500 ease-out group-hover:-rotate-45 group-hover:text-kiln sm:block"
+                >
+                  →
+                </span>
+              </Link>
+            </Reveal>
+          ))}
+        </ul>
+      </nav>
+    </>
   );
 }

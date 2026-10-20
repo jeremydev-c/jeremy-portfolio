@@ -1,97 +1,88 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { Mail, Github, Linkedin } from 'lucide-react';
+import type { Metadata } from 'next';
 import ContactForm from '../components/ContactForm';
-import Navigation from '../components/Navigation';
-import ScrollToTop from '../components/ScrollToTop';
+import CopyEmail from '../components/CopyEmail';
+import LocalTime from '../components/LocalTime';
+import { site } from '../lib/content';
+
+export const metadata: Metadata = {
+  title: 'Contact',
+  description: 'Start a project with Jeremy Nduati: web and mobile apps, payments, and secure systems.',
+  alternates: { canonical: '/contact' },
+};
+
+const services = [
+  ['Web & mobile products', 'From the first sketch to a deployed, monitored app.'],
+  ['Payments', 'M-Pesa, Paystack and Stripe, wired in properly.'],
+  ['Portfolios & brand sites', 'A site with an identity of its own, not a template.'],
+  ['UI/UX design', 'Calm, clear interfaces, designed before they are coded.'],
+];
 
 export default function Contact() {
   return (
-    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <Navigation activePage="contact" />
-
-      <section className="pt-24 sm:pt-32 md:pt-36 pb-12 sm:pb-20 md:pb-24 px-4 sm:px-6">
-        <div className="container mx-auto max-w-4xl">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-8 sm:mb-12"
-          >
-            <span className="section-label">Get in touch</span>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-3 sm:mb-4">
-              Let&apos;s build something together
+    <section className="wrap pb-24 pt-32 sm:pb-32 sm:pt-40 lg:pt-44">
+      <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
+        <div className="lg:col-span-5">
+          <div className="anim-fade-up">
+            <p className="eyebrow">Contact</p>
+            <h1 className="mt-6 font-serif text-display-lg">
+              Let’s build
+              <br />
+              <span className="italic text-kiln">something real.</span>
             </h1>
-            <p className="text-carbon-300 max-w-xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed">
-              I respond within 24 hours. Whether you need a full-stack app, UI/UX design, or AI-powered solutions — let&apos;s talk.
+            <p className="mt-8 max-w-md text-[18px] leading-[1.6] text-ink-2">
+              Tell me what you need and when. I’ll reply with honest questions, a plan and a price,
+              usually within a day.
             </p>
-          </motion.div>
+          </div>
 
-          {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.1 }}
-            className="flex flex-col sm:flex-row justify-center gap-3 mb-8 sm:mb-12"
-          >
-            <a
-              href="mailto:nduatijeremy7@gmail.com"
-              className="btn-primary gap-2"
-            >
-              <Mail className="w-4 h-4" />
-              Email Me
-            </a>
-            <a
-              href="https://github.com/jeremydev-c"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary gap-2"
-            >
-              <Github className="w-4 h-4" />
-              GitHub
-            </a>
-            <a
-              href="https://linkedin.com/in/jeremydev-c"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary gap-2"
-            >
-              <Linkedin className="w-4 h-4" />
-              LinkedIn
-            </a>
-          </motion.div>
-
-          {/* Services */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.15 }}
-            className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 mb-8 sm:mb-12"
-          >
-            {[
-              { title: 'Full-Stack Development', desc: 'Complete web & mobile applications' },
-              { title: 'UI/UX Design', desc: 'Clean, user-centered interfaces' },
-              { title: 'Payment Integration', desc: 'Stripe, M-Pesa, Paystack' },
-            ].map((s) => (
-              <div key={s.title} className="card text-center">
-                <h3 className="text-white font-semibold text-xs sm:text-sm mb-1">{s.title}</h3>
-                <p className="text-carbon-400 text-[10px] sm:text-xs">{s.desc}</p>
+          <div className="anim-fade-up mt-12" style={{ animationDelay: '0.1s' }}>
+            <CopyEmail email={site.email} />
+            <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-rule pt-8 font-mono text-[11px] uppercase tracking-[0.14em]">
+              <div>
+                <dt className="text-ink-3">Local time</dt>
+                <dd className="mt-2 text-ink">
+                  <LocalTime />
+                </dd>
               </div>
-            ))}
-          </motion.div>
+              <div>
+                <dt className="text-ink-3">Elsewhere</dt>
+                <dd className="mt-2 flex gap-4 text-ink">
+                  <a href={site.github} target="_blank" rel="noopener noreferrer" className="link-draw">
+                    GitHub ↗
+                  </a>
+                  <a href={site.linkedin} target="_blank" rel="noopener noreferrer" className="link-draw">
+                    LinkedIn ↗
+                  </a>
+                </dd>
+              </div>
+            </dl>
+          </div>
 
-          {/* Contact Form */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <ContactForm />
-          </motion.div>
+          <div className="anim-fade-up mt-12" style={{ animationDelay: '0.15s' }}>
+            <ul className="border-t border-rule">
+              {services.map(([title, body], i) => (
+                <li key={title} className="flex gap-4 border-b border-rule py-4">
+                  <span className="font-mono text-[11px] text-kiln">0{i + 1}</span>
+                  <span>
+                    <span className="block text-[16px]">{title}</span>
+                    <span className="block text-[14px] text-ink-3">{body}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-      </section>
-      <ScrollToTop />
-    </div>
+
+        <div className="anim-fade-up lg:col-span-6 lg:col-start-7" style={{ animationDelay: '0.1s' }}>
+          <div className="rounded-lg border border-rule bg-paper-2/70 p-6 sm:p-10">
+            <p className="font-serif text-[30px] leading-tight">Project brief</p>
+            <p className="mt-2 text-[14px] text-ink-3">Everything except the last question is required.</p>
+            <div className="mt-6">
+              <ContactForm />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }

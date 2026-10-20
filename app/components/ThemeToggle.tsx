@@ -1,25 +1,50 @@
 'use client';
 
-import { Sun, Moon, Monitor } from 'lucide-react';
-import { useTheme } from './ThemeProvider';
+import { useSyncExternalStore } from 'react';
+
+function currentTheme(): 'light' | 'dark' {
+  const set = document.documentElement.getAttribute('data-theme');
+  if (set === 'light' || set === 'dark') return set;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+}
+
+function subscribe(onChange: () => void) {
+  const media = window.matchMedia('(prefers-color-scheme: dark)');
+  const observer = new MutationObserver(onChange);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  media.addEventListener('change', onChange);
+  return () => {
+    observer.disconnect();
+    media.removeEventListener('change', onChange);
+  };
+}
 
 export default function ThemeToggle({ className = '' }: { className?: string }) {
-  const { theme, toggle } = useTheme();
+  const theme = useSyncExternalStore(subscribe, currentTheme, () => 'light' as const);
+  const next = theme === 'dark' ? 'light' : 'dark';
 
-  const label =
-    theme === 'dark' ? 'Switch to light mode' : theme === 'light' ? 'Switch to system mode' : 'Switch to dark mode';
+  function toggle() {
+    document.documentElement.setAttribute('data-theme', next);
+    try {
+      localStorage.setItem('theme', next);
+    } catch {}
+  }
 
   return (
     <button
+      type="button"
       onClick={toggle}
-      className={`h-8 w-8 inline-flex items-center justify-center rounded-xl transition-colors duration-200 ${className}`}
-      style={{ color: 'var(--text-muted)' }}
-      aria-label={label}
-      title={label}
+      aria-label={`Switch to ${next} theme`}
+      className={`group relative grid h-9 w-9 place-items-center rounded-full border border-ink/15 transition-colors hover:border-ink/40 ${className}`}
     >
-      {theme === 'dark' && <Moon className="w-3.5 h-3.5" />}
-      {theme === 'light' && <Sun className="w-3.5 h-3.5" />}
-      {theme === 'system' && <Monitor className="w-3.5 h-3.5" />}
+      {/* A half-filled disc: reads as "light/dark" without a sun or moon cliché. */}
+      <span className="relative block h-3.5 w-3.5 overflow-hidden rounded-full border border-ink">
+        <span
+          className={`absolute inset-y-0 left-0 w-1/2 bg-ink transition-transform duration-500 ease-out ${
+            theme === 'dark' ? 'translate-x-full' : 'translate-x-0'
+          }`}
+        />
+      </span>
     </button>
   );
 }

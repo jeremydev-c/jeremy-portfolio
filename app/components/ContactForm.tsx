@@ -1,165 +1,109 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, CheckCircle, AlertCircle } from 'lucide-react';
+
+const needs = ['Web app', 'Mobile app', 'Payments', 'Portfolio site', 'Something else'];
+
+type Status = 'idle' | 'sending' | 'success' | 'error';
 
 export default function ContactForm() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  });
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [need, setNeed] = useState('');
+  const [status, setStatus] = useState<Status>('idle');
+  const [error, setError] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const update = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  async function submit(e: React.FormEvent) {
     e.preventDefault();
     setStatus('sending');
-
+    setError('');
     try {
-      const response = await fetch('/api/contact', {
+      const message = need ? `${form.message}\n\nLooking for: ${need}` : form.message;
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...form, message }),
       });
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || 'Failed to send message');
-
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to send message');
       setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setTimeout(() => setStatus('idle'), 5000);
-    } catch {
+      setForm({ name: '', email: '', subject: '', message: '' });
+      setNeed('');
+    } catch (err) {
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 5000);
+      setError(err instanceof Error ? err.message : 'Something went wrong.');
     }
-  };
+  }
 
-  const inputClass =
-    'w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded focus:outline-none text-sm transition-all input-themed';
+  if (status === 'success') {
+    return (
+      <div className="border-t border-rule pt-10" role="status">
+        <p className="font-serif text-display-sm">
+          Thank you. <span className="italic text-ink-3">Your message is on its way.</span>
+        </p>
+        <p className="mt-4 text-[16px] text-ink-2">I usually reply within a day, from Kenya (EAT).</p>
+        <button type="button" onClick={() => setStatus('idle')} className="btn-line mt-8">
+          Send another
+        </button>
+      </div>
+    );
+  }
+
+  const field =
+    'peer w-full border-0 border-b border-rule bg-transparent px-0 pb-3 pt-7 text-[18px] text-ink placeholder-transparent transition-colors focus:border-ink focus:outline-none focus:ring-0';
+  const label =
+    'pointer-events-none absolute left-0 top-7 origin-left font-mono text-[11px] uppercase tracking-[0.14em] text-ink-3 transition-all duration-300 peer-focus:top-0 peer-[:not(:placeholder-shown)]:top-0';
 
   return (
-    <form onSubmit={handleSubmit} className="card sm:p-6 md:p-8 max-w-2xl mx-auto">
-      <h3 className="text-base sm:text-lg font-bold text-white mb-4 sm:mb-6">Send a message</h3>
-
-      <div className="space-y-4 sm:space-y-5">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-          <div>
-            <label htmlFor="name" className="block text-[10px] sm:text-xs font-semibold text-carbon-400 mb-1.5 sm:mb-2 uppercase tracking-wider">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
-              className={inputClass}
-              placeholder="Your name"
-            />
-          </div>
-          <div>
-            <label htmlFor="email" className="block text-[10px] sm:text-xs font-semibold text-carbon-400 mb-1.5 sm:mb-2 uppercase tracking-wider">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              className={inputClass}
-              placeholder="you@example.com"
-              autoComplete="email"
-            />
-          </div>
+    <form onSubmit={submit} className="space-y-6" noValidate={false}>
+      <div className="grid gap-6 sm:grid-cols-2">
+        <div className="relative">
+          <input id="name" name="name" required maxLength={100} value={form.name} onChange={update} placeholder="Name" className={field} autoComplete="name" />
+          <label htmlFor="name" className={label}>Your name</label>
         </div>
-
-        <div>
-          <label htmlFor="subject" className="block text-[10px] sm:text-xs font-semibold text-carbon-400 mb-1.5 sm:mb-2 uppercase tracking-wider">
-            Subject
-          </label>
-          <input
-            type="text"
-            id="subject"
-            name="subject"
-            required
-            value={formData.subject}
-            onChange={handleChange}
-            className={inputClass}
-            placeholder="What's this about?"
-          />
+        <div className="relative">
+          <input id="email" name="email" type="email" required maxLength={200} value={form.email} onChange={update} placeholder="Email" className={field} autoComplete="email" />
+          <label htmlFor="email" className={label}>Email</label>
         </div>
+      </div>
+      <div className="relative">
+        <input id="subject" name="subject" required maxLength={150} value={form.subject} onChange={update} placeholder="Subject" className={field} />
+        <label htmlFor="subject" className={label}>What are we building?</label>
+      </div>
+      <div className="relative">
+        <textarea id="message" name="message" required maxLength={5000} rows={5} value={form.message} onChange={update} placeholder="Message" className={`${field} resize-none`} />
+        <label htmlFor="message" className={label}>Tell me about it</label>
+      </div>
 
-        <div>
-          <label htmlFor="message" className="block text-[10px] sm:text-xs font-semibold text-carbon-400 mb-1.5 sm:mb-2 uppercase tracking-wider">
-            Message
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            required
-            rows={5}
-            value={formData.message}
-            onChange={handleChange}
-            className={`${inputClass} resize-none`}
-            placeholder="Tell me about your project..."
-          />
+      <fieldset>
+        <legend className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-3">What do you need? (optional)</legend>
+        <div className="mt-4 flex flex-wrap gap-2">
+          {needs.map((b) => (
+            <button
+              key={b}
+              type="button"
+              onClick={() => setNeed(need === b ? '' : b)}
+              aria-pressed={need === b}
+              className={`rounded-full border px-4 py-2 text-[14px] transition-colors ${
+                need === b ? 'border-ink bg-ink text-paper' : 'border-rule text-ink-2 hover:border-ink/40'
+              }`}
+            >
+              {b}
+            </button>
+          ))}
         </div>
+      </fieldset>
 
-        <button
-          type="submit"
-          disabled={status === 'sending'}
-          className="w-full btn-primary gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {status === 'sending' ? (
-            <>
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-              Sending...
-            </>
-          ) : status === 'success' ? (
-            <>
-              <CheckCircle className="w-4 h-4" />
-              Sent!
-            </>
-          ) : status === 'error' ? (
-            <>
-              <AlertCircle className="w-4 h-4" />
-              Error — Try Again
-            </>
-          ) : (
-            <>
-              <Send className="w-4 h-4" />
-              Send Message
-            </>
-          )}
+      <div className="flex flex-wrap items-center gap-5 pt-4">
+        <button type="submit" disabled={status === 'sending'} className="btn-ink disabled:opacity-60">
+          {status === 'sending' ? 'Sending…' : 'Send message'} <span aria-hidden>→</span>
         </button>
-
-        {status === 'success' && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-3 bg-green-500/10 border border-green-500/20 rounded text-green-400 text-xs sm:text-sm text-center"
-          >
-            Message sent. I&apos;ll get back to you within 24 hours.
-          </motion.div>
-        )}
-
         {status === 'error' && (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="p-3 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-xs sm:text-sm text-center"
-          >
-            Something went wrong. Try again or email me directly.
-          </motion.div>
+          <p role="alert" className="text-[14px] text-kiln">
+            {error} You can also email me directly.
+          </p>
         )}
       </div>
     </form>

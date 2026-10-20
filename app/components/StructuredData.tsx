@@ -1,78 +1,37 @@
+import { site } from '../lib/content';
+
 export default function StructuredData() {
-  const personSchema = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Jeremy Nduati",
-    "jobTitle": "Full-Stack Developer & UI/UX Designer",
-    "description": "16-year-old full-stack developer building enterprise-grade applications with Next.js, TypeScript, payment integrations, and AI/ML solutions.",
-    "url": "https://modenova.co.ke",
-    "sameAs": [
-      "https://github.com/jeremydev-c"
+  const person = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: site.name,
+    alternateName: site.fullName,
+    jobTitle: 'Full-stack developer & designer',
+    description:
+      'Self-taught 16-year-old full-stack developer and designer from Kenya, building secure products with Next.js, TypeScript, payments and applied AI.',
+    url: site.url,
+    email: `mailto:${site.email}`,
+    address: { '@type': 'PostalAddress', addressRegion: 'Kirinyaga', addressCountry: 'KE' },
+    sameAs: [site.github, site.linkedin],
+    knowsAbout: ['Next.js', 'TypeScript', 'React Native', 'MongoDB', 'M-Pesa', 'Paystack', 'Cryptography', 'Computer vision', 'UI/UX design'],
+    award: [
+      '#50 of 1,995, 10Alytics Global Data Hackathon 2025',
+      '3rd place, Computer Science, Kenya Science & Engineering Fair 2025 (Kirinyaga County)',
     ],
-    "knowsAbout": [
-      "Full-Stack Development",
-      "Next.js",
-      "TypeScript",
-      "React",
-      "UI/UX Design",
-      "Payment Integration",
-      "Stripe",
-      "M-Pesa",
-      "Machine Learning",
-      "Data Science",
-      "DevOps",
-      "MongoDB",
-      "Node.js"
-    ],
-    "award": "Ranked #50 out of 1,995 participants in 10Alytics Global Data Hackathon 2025"
   };
 
-  const websiteSchema = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "Jeremy Nduati Portfolio",
-    "url": "https://modenova.co.ke",
-    "description": "Portfolio showcasing full-stack development projects, UI/UX design work, and technical expertise.",
-    "author": {
-      "@type": "Person",
-      "name": "Jeremy Nduati"
-    }
-  };
-
-  const portfolioSchema = {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    "name": "Jeremy Nduati Portfolio",
-    "creator": {
-      "@type": "Person",
-      "name": "Jeremy Nduati",
-      "jobTitle": "Full-Stack Developer & UI/UX Designer"
-    },
-    "about": {
-      "@type": "Thing",
-      "name": "Web Development Portfolio"
-    }
+  const website = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: site.name,
+    url: site.url,
+    author: { '@type': 'Person', name: site.name },
   };
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(portfolioSchema) }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(person) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }} />
     </>
   );
 }
-
-
-
-
-

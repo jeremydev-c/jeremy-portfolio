@@ -42,7 +42,7 @@ This portfolio is designed to be deployed on Vercel:
 2. Import to Vercel
 3. Deploy automatically
 
-**Live at:** [modenova.co.ke](https://modenova.co.ke)
+**Live on:** Vercel
 
 ## 📝 Sections
 

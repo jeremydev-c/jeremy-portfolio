@@ -71,10 +71,10 @@ export async function POST(request: NextRequest) {
             <p style="margin: 4px 0;"><strong>Email:</strong> <a href="mailto:${safe.email}" style="color: #b0431c;">${safe.email}</a></p>
             <div style="border-top: 1px solid #d5ccb9; margin-top: 20px; padding-top: 16px; white-space: pre-wrap; font-family: Arial, sans-serif; line-height: 1.6;">${safe.message}</div>
           </div>
-          <p style="color: #6f6959; font-size: 12px; margin: 16px 0 0;">Sent from the contact form at modenova.co.ke</p>
+          <p style="color: #6f6959; font-size: 12px; margin: 16px 0 0;">Sent from your portfolio contact form</p>
         </div>
       `,
-      text: `New project enquiry\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}\n\n---\nSent from the contact form at modenova.co.ke`,
+      text: `New project enquiry\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}\n\n---\nSent from your portfolio contact form`,
     });
 
     if (error) {

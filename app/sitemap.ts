@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
+import { site } from './lib/content';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://modenova.co.ke';
+  const baseUrl = site.url;
   const pages: [string, number][] = [
     ['', 1],
     ['/work', 0.9],

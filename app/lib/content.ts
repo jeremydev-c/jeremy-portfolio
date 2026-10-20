@@ -6,7 +6,12 @@ export const site = {
   role: 'Full-stack developer & designer',
   location: 'Kirinyaga, Kenya',
   email: 'nduatijeremy7@gmail.com',
-  url: 'https://modenova.co.ke',
+  // The site's own address: set NEXT_PUBLIC_SITE_URL to override, otherwise Vercel's production URL.
+  url:
+    process.env.NEXT_PUBLIC_SITE_URL ??
+    (process.env.VERCEL_PROJECT_PRODUCTION_URL
+      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+      : 'http://localhost:3000'),
   github: 'https://github.com/jeremydev-c',
   linkedin: 'https://linkedin.com/in/jeremydev-c',
 };

@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next';
+import { site } from './lib/content';
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -9,11 +10,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/', '/_next/'],
       },
     ],
-    sitemap: 'https://modenova.co.ke/sitemap.xml',
+    sitemap: `${site.url}/sitemap.xml`,
   };
 }
-
-
-
-
-

@@ -5,6 +5,7 @@ import StructuredData from './components/StructuredData';
 import SiteHeader from './components/SiteHeader';
 import SiteFooter from './components/SiteFooter';
 import MotionProvider from './components/MotionProvider';
+import { site } from './lib/content';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -41,12 +42,12 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Jeremy Nduati' }],
   creator: 'Jeremy Nduati',
-  metadataBase: new URL('https://modenova.co.ke'),
+  metadataBase: new URL(site.url),
   alternates: { canonical: '/' },
   openGraph: {
     type: 'website',
     locale: 'en_KE',
-    url: 'https://modenova.co.ke',
+    url: '/',
     siteName: 'Jeremy Nduati',
     title: 'Jeremy Nduati — Full-stack developer & designer',
     description,

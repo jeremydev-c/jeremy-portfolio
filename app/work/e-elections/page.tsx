@@ -5,6 +5,7 @@ import Reveal from '../../components/Reveal';
 import Shot from '../../components/Shot';
 import HashChain from '../../components/HashChain';
 import NextProject from '../../components/NextProject';
+import PromoVideo from '../../components/PromoVideo';
 
 export const metadata: Metadata = {
   title: 'E-ELECTIONS — secure digital voting for Kenya',
@@ -111,6 +112,39 @@ export default function EElections() {
           sizes="(min-width: 1400px) 1300px, 100vw"
         />
       </div>
+
+      {/* --------------------------------------------------------------- Watch */}
+      <section className="mt-20 bg-night text-bone sm:mt-28">
+        <div className="wrap grid items-center gap-14 py-20 sm:py-28 lg:grid-cols-12 lg:gap-10">
+          <Reveal className="mx-auto w-full max-w-[340px] lg:col-span-4 lg:max-w-none">
+            <PromoVideo
+              src="/videos/e-elections-promo.mp4"
+              poster="/videos/e-elections-promo.jpg"
+              title="E-ELECTIONS promo, narrated by Jeremy"
+              duration="46 s"
+            />
+          </Reveal>
+          <Reveal className="lg:col-span-8" delay={0.1}>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone/55">Watch</p>
+            <h2 className="mt-4 font-serif text-display-md">
+              The whole idea, <span className="italic text-[#e9a27f]">in 46 seconds.</span>
+            </h2>
+            <p className="mt-6 max-w-xl text-[17px] leading-[1.7] text-bone/70">
+              A short promo in my own voice. For the full walkthrough of every step, from the ID check to
+              the hash chain, watch the two-minute explainer.
+            </p>
+            <PromoVideo
+              className="mt-10"
+              shape="wide"
+              src="/videos/e-elections-explainer.mp4"
+              poster="/videos/e-elections-explainer.jpg"
+              title="E-ELECTIONS two-minute explainer"
+              duration="2 min"
+              sound={false}
+            />
+          </Reveal>
+        </div>
+      </section>
 
       {/* ----------------------------------------------------------------- Why */}
       <section className="wrap py-20 sm:py-28 lg:py-32">

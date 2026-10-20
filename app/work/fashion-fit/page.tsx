@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '../../components/Reveal';
 import NextProject from '../../components/NextProject';
+import PromoVideo from '../../components/PromoVideo';
 
 export const metadata: Metadata = {
   title: 'Fashion Fit — AI wardrobe and outfit planner',
@@ -14,8 +14,8 @@ export const metadata: Metadata = {
 const metrics = [
   { value: '14', label: 'Fashion-intelligence algorithms' },
   { value: '95%', label: 'Lower AI cost than cloud-only' },
-  { value: '88%+', label: 'Vision categorisation accuracy' },
-  { value: '30', label: 'Languages supported' },
+  { value: '91.7%', label: 'AI category accuracy, tested' },
+  { value: '31', label: 'Languages supported' },
   { value: '15+', label: 'API endpoints' },
   { value: '6', label: 'Core screens' },
 ];
@@ -44,7 +44,7 @@ const features = [
   ['Wardrobe analytics', 'What you actually wear, and what sits idle.'],
   ['Learning engine', 'Suggestions personalised to you over time.'],
   ['Freemium + Paystack', 'Free, Pro and Elite plans billed in KES.'],
-  ['30 languages', 'Full internationalisation from day one.'],
+  ['31 languages', 'Full internationalisation from day one.'],
   ['Production security', 'JWT, bcrypt, validation and server-side plan checks.'],
 ];
 
@@ -61,7 +61,7 @@ const journey = [
   ['Architecture', 'Hybrid AI pipeline and freemium model design.'],
   ['Core build', 'Wardrobe, camera capture, categorisation and the 14-algorithm engine.'],
   ['Intelligence', 'Style DNA, learning engine, weather and destination styling, analytics.'],
-  ['Polish', 'Subscriptions, onboarding, bulk capture, 30 locales, theming, accessibility.'],
+  ['Polish', 'Subscriptions, onboarding, bulk capture, 31 locales, theming, accessibility.'],
   ['Competition', 'Prepared as an entry for Young Scientists Kenya 2026.'],
 ];
 
@@ -97,13 +97,17 @@ export default function FashionFit() {
 
       <section className="bg-night text-bone">
         <div className="wrap grid items-center gap-14 py-20 sm:py-28 lg:grid-cols-12">
-          <Reveal className="flex justify-center lg:col-span-5">
-            <div className="relative h-56 w-56 overflow-hidden rounded-[56px] shadow-[0_60px_120px_-40px_rgba(0,0,0,0.9)] sm:h-72 sm:w-72 sm:rounded-[72px]">
-              <Image src="/fashion-fit-icon.jpeg" alt="Fashion Fit app icon" fill priority sizes="288px" className="object-cover" />
-            </div>
+          <Reveal className="mx-auto w-full max-w-[340px] lg:col-span-4 lg:max-w-none">
+            <PromoVideo
+              src="/videos/fashion-fit-promo.mp4"
+              poster="/videos/fashion-fit-promo.jpg"
+              title="Fashion Fit promo, narrated by Jeremy"
+              duration="42 s"
+            />
           </Reveal>
-          <Reveal className="lg:col-span-7" delay={0.1}>
-            <ul className="grid grid-cols-2 gap-px overflow-hidden rounded-md bg-bone/10 sm:grid-cols-3">
+          <Reveal className="lg:col-span-7 lg:col-start-6" delay={0.1}>
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone/55">Watch, then the numbers</p>
+            <ul className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-md bg-bone/10 sm:grid-cols-3">
               {metrics.map((m) => (
                 <li key={m.label} className="bg-night p-6">
                   <p className="font-serif text-[clamp(2.4rem,4vw,3.5rem)] leading-none">{m.value}</p>

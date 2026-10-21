@@ -50,6 +50,7 @@ export const projects: Project[] = [
       'A complete voting system: identity checks by face or fingerprint, a ballot routed to the voter’s own ward, and a tamper-evident SHA-256 ledger that anyone can audit.',
     image: '/work/e-elections-home.jpg',
     caseStudy: '/work/e-elections',
+    github: 'https://github.com/jeremydev-c/e-elections',
     badge: 'KSEF 2027',
     role: 'Sole designer & engineer',
     timeline: 'In testing',

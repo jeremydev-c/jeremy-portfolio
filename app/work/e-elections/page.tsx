@@ -100,6 +100,14 @@ export default function EElections() {
               </div>
             ))}
           </dl>
+          <a
+            href="https://github.com/jeremydev-c/e-elections"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-ink mt-10"
+          >
+            Code on GitHub <span aria-hidden>↗</span>
+          </a>
         </div>
       </header>
 

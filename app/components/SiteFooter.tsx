@@ -92,7 +92,7 @@ export default function SiteFooter() {
       <div className="wrap">
         <div className="flex flex-col gap-2 border-t-2 border-ink py-5 font-mono text-[10.5px] font-bold uppercase tracking-[0.08em] text-ink-3 sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} {site.fullName}</p>
-          <p>Set in Inter Tight &amp; Space Mono · Built with Next.js</p>
+          <p>Set in Anton, Space Grotesk &amp; Space Mono · Built with Next.js</p>
         </div>
       </div>
     </footer>

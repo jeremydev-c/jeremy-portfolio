@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter_Tight, Space_Mono } from 'next/font/google';
+import { Anton, Space_Grotesk, Space_Mono } from 'next/font/google';
 import './globals.css';
 import StructuredData from './components/StructuredData';
 import SiteHeader from './components/SiteHeader';
@@ -9,8 +9,9 @@ import { site } from './lib/content';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-// One grotesk family does both jobs: heavy and tight for poster headlines, regular for reading.
-const grotesk = Inter_Tight({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+// Anton for poster headlines, Space Grotesk for reading, Space Mono for labels.
+const display = Anton({ subsets: ['latin'], weight: '400', variable: '--font-display', display: 'swap' });
+const grotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const mono = Space_Mono({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-mono', display: 'swap' });
 
 const description =
@@ -66,7 +67,7 @@ const themeScript = `try{var t=localStorage.getItem('theme');if(t==='light'||t==
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${grotesk.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${display.variable} ${grotesk.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <StructuredData />

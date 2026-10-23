@@ -118,8 +118,8 @@ export const projects: Project[] = [
     tagline: 'Online admissions for a KSL school',
     summary:
       'A serverless admissions portal: applicants upload documents online and both sides receive styled HTML email receipts automatically.',
+    image: '/work/ksl.jpg',
     live: 'https://mt-kenya-sign-language-training-ins.vercel.app/',
-    liveNote: 'Live site currently paused',
     role: 'Full-stack developer',
     timeline: '4 weeks',
     stack: ['HTML', 'CSS', 'JavaScript', 'Node.js', 'Vercel', 'Resend'],
@@ -171,13 +171,16 @@ export const projects: Project[] = [
     year: 'Client',
     tagline: 'Portfolio for a BI analyst',
     summary:
-      'A fast, SEO-ready portfolio for a business-intelligence specialist, with scroll animation and dynamic project showcases.',
+      'An “analyst’s report” portfolio for a data analyst in Vilnius: condensed headlines, navy and burnt orange, and charts of her own work, on her own domain.',
     image: '/work/modinat.jpg',
-    live: 'https://modinat-omolara-buhari-portfolio.vercel.app/',
+    live: 'https://www.omolarabuhari.com/',
     role: 'Designer & developer',
     stack: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
     challenge: 'Stand out in a crowded field of analyst portfolios.',
-    approach: ['Custom interactive elements instead of a template.', 'Full SEO metadata and mobile-first layout.'],
+    approach: [
+      'A bespoke identity: navy, burnt orange and claret, with condensed Archivo and Plex Mono.',
+      'Every project claim checked against her own certificates and reports before publishing.',
+    ],
   },
 ];
 

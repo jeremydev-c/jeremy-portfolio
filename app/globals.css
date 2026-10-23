@@ -169,10 +169,12 @@
 }
 
 @layer utilities {
-  /* Heavy and tight like a poster; the extra word space keeps tight letters readable. */
+  /* Anton has one heavy weight and is already condensed, so it needs no fake bold
+     and no negative tracking (the tight letter-spacing utilities were cut for a grotesk). */
   .font-display {
-    font-weight: 800;
-    word-spacing: 0.08em;
+    font-weight: 400;
+    font-synthesis: none;
+    letter-spacing: 0.005em !important;
   }
 
   .tabular {

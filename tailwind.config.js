@@ -15,7 +15,7 @@ module.exports = {
         bone: token("bone"),
       },
       fontFamily: {
-        display: ["var(--font-sans)", "Arial", "sans-serif"],
+        display: ["var(--font-display)", "Impact", "Arial Narrow", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },

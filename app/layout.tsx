@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Instrument_Serif, Geist, Geist_Mono } from 'next/font/google';
+import { Inter_Tight, Space_Mono } from 'next/font/google';
 import './globals.css';
 import StructuredData from './components/StructuredData';
 import SiteHeader from './components/SiteHeader';
@@ -9,16 +9,9 @@ import { site } from './lib/content';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const serif = Instrument_Serif({
-  subsets: ['latin'],
-  weight: '400',
-  style: ['normal', 'italic'],
-  variable: '--font-serif',
-  display: 'swap',
-});
-
-const sans = Geist({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
-const mono = Geist_Mono({ subsets: ['latin'], variable: '--font-mono', display: 'swap' });
+// One grotesk family does both jobs: heavy and tight for poster headlines, regular for reading.
+const grotesk = Inter_Tight({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
+const mono = Space_Mono({ subsets: ['latin'], weight: ['400', '700'], variable: '--font-mono', display: 'swap' });
 
 const description =
   'Jeremy Nduati is a 16-year-old full-stack developer and designer from Kenya, building secure, production-grade products: payments, applied AI and E-ELECTIONS, a tamper-evident digital voting system.';
@@ -63,8 +56,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#f3efe6' },
-    { media: '(prefers-color-scheme: dark)', color: '#12110e' },
+    { media: '(prefers-color-scheme: light)', color: '#f4f4f0' },
+    { media: '(prefers-color-scheme: dark)', color: '#0b0b0b' },
   ],
 };
 
@@ -73,7 +66,7 @@ const themeScript = `try{var t=localStorage.getItem('theme');if(t==='light'||t==
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${serif.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${grotesk.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <StructuredData />
@@ -81,7 +74,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body>
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:bg-ink focus:px-4 focus:py-2 focus:text-paper"
         >
           Skip to content
         </a>

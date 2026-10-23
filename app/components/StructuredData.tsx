@@ -11,7 +11,7 @@ export default function StructuredData() {
       'Self-taught 16-year-old full-stack developer and designer from Kenya, building secure products with Next.js, TypeScript, payments and applied AI.',
     url: site.url,
     email: `mailto:${site.email}`,
-    address: { '@type': 'PostalAddress', addressRegion: 'Kirinyaga', addressCountry: 'KE' },
+    address: { '@type': 'PostalAddress', addressLocality: 'Nanyuki', addressRegion: 'Laikipia', addressCountry: 'KE' },
     sameAs: [site.github, site.linkedin],
     knowsAbout: ['Next.js', 'TypeScript', 'React Native', 'MongoDB', 'M-Pesa', 'Paystack', 'Cryptography', 'Computer vision', 'UI/UX design'],
     award: [

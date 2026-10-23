@@ -24,10 +24,10 @@ export default function Contact() {
         <div className="lg:col-span-5">
           <div className="anim-fade-up">
             <p className="eyebrow">Contact</p>
-            <h1 className="mt-6 font-serif text-display-lg">
+            <h1 className="mt-6 font-display text-display-lg">
               Let’s build
               <br />
-              <span className="italic text-kiln">something real.</span>
+              <span className="italic text-cobalt">something real.</span>
             </h1>
             <p className="mt-8 max-w-md text-[18px] leading-[1.6] text-ink-2">
               Tell me what you need and when. I’ll reply with honest questions, a plan and a price,
@@ -62,7 +62,7 @@ export default function Contact() {
             <ul className="border-t border-rule">
               {services.map(([title, body], i) => (
                 <li key={title} className="flex gap-4 border-b border-rule py-4">
-                  <span className="font-mono text-[11px] text-kiln">0{i + 1}</span>
+                  <span className="font-mono text-[11px] text-cobalt">0{i + 1}</span>
                   <span>
                     <span className="block text-[16px]">{title}</span>
                     <span className="block text-[14px] text-ink-3">{body}</span>
@@ -74,8 +74,8 @@ export default function Contact() {
         </div>
 
         <div className="anim-fade-up lg:col-span-6 lg:col-start-7" style={{ animationDelay: '0.1s' }}>
-          <div className="rounded-lg border border-rule bg-paper-2/70 p-6 sm:p-10">
-            <p className="font-serif text-[30px] leading-tight">Project brief</p>
+          <div className="border-2 border-ink bg-paper-2 p-6 sm:p-10">
+            <p className="font-display text-[30px] leading-tight">Project brief</p>
             <p className="mt-2 text-[14px] text-ink-3">Everything except the last question is required.</p>
             <div className="mt-6">
               <ContactForm />

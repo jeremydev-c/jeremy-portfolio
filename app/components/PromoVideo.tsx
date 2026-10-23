@@ -30,7 +30,7 @@ export default function PromoVideo({ src, poster, title, shape = 'vertical', dur
 
   return (
     <figure className={className}>
-      <div className={`relative overflow-hidden rounded-[18px] bg-black ${ratio} shadow-[0_50px_100px_-40px_rgba(0,0,0,0.8)] ring-1 ring-white/10`}>
+      <div className={`relative overflow-hidden border-2 border-ink bg-black ${ratio}`}>
         <video
           ref={ref}
           src={started ? src : undefined}
@@ -51,7 +51,7 @@ export default function PromoVideo({ src, poster, title, shape = 'vertical', dur
             <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-white/80">
               {[duration, sound ? 'Sound on' : 'No sound'].filter(Boolean).join(' · ')}
             </span>
-            <span className="grid h-14 w-14 place-items-center rounded-full bg-white text-black transition-transform duration-300 group-hover:scale-110">
+            <span className="grid h-14 w-14 place-items-center bg-cobalt text-white transition-transform duration-300 group-hover:scale-110">
               <svg width="18" height="20" viewBox="0 0 18 20" aria-hidden>
                 <path d="M2 1.5v17L16.5 10z" fill="currentColor" />
               </svg>

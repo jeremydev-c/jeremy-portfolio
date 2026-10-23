@@ -36,7 +36,7 @@ function Visual({ p, priority }: { p: Project; priority?: boolean }) {
   // No screenshot available: a typographic plate instead.
   return (
     <div className="browser relative grid aspect-[16/10] place-items-center overflow-hidden bg-night text-bone">
-      <p className="px-8 text-center font-serif text-[clamp(2rem,4vw,3.5rem)] leading-[1.02]">
+      <p className="px-8 text-center font-display text-[clamp(2rem,4vw,3.5rem)] leading-[1.02]">
         {p.short}
         <span className="mt-4 block font-mono text-[11px] uppercase tracking-[0.16em] text-bone/50">{p.tagline}</span>
       </p>
@@ -80,9 +80,9 @@ export default function Work() {
               <div className="flex items-center gap-3">
                 <span className="font-mono text-[11px] text-ink-3">{String(i + 1).padStart(2, '0')}</span>
                 <span className="eyebrow">{p.kind}</span>
-                {p.badge && <span className="chip border-kiln/40 text-kiln">{p.badge}</span>}
+                {p.badge && <span className="chip border-cobalt/40 text-cobalt">{p.badge}</span>}
               </div>
-              <h2 className="mt-5 font-serif text-display-md">{p.name}</h2>
+              <h2 className="mt-5 font-display text-display-md">{p.name}</h2>
               <p className="mt-5 text-[17px] leading-[1.65] text-ink-2">{p.summary}</p>
 
               <dl className="mt-8 grid grid-cols-2 gap-6 border-t border-rule pt-6 text-[14px]">
@@ -105,7 +105,7 @@ export default function Work() {
               <ul className="mt-6 space-y-3">
                 {p.approach.map((a) => (
                   <li key={a} className="flex gap-3 text-[15px] leading-relaxed text-ink-2">
-                    <span aria-hidden className="mt-[0.7em] h-px w-3 shrink-0 bg-kiln" />
+                    <span aria-hidden className="mt-[0.7em] h-px w-3 shrink-0 bg-cobalt" />
                     {a}
                   </li>
                 ))}

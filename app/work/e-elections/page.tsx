@@ -10,7 +10,7 @@ import PromoVideo from '../../components/PromoVideo';
 export const metadata: Metadata = {
   title: 'E-ELECTIONS — secure digital voting for Kenya',
   description:
-    'Case study: a digital voting system with face and fingerprint verification, ward-level ballots, and a tamper-evident SHA-256 ledger. Built solo by Jeremy Nduati for KSEF 2027.',
+    'Case study: a digital voting system with server-side ArcFace face recognition, fingerprint sign-in, ward-level ballots and a tamper-evident ledger with one SHA-256 chain per county. Built solo by Jeremy Nduati for KSEF 2027.',
   alternates: { canonical: '/work/e-elections' },
   openGraph: { images: [{ url: '/work/e-elections-home.jpg', width: 1600, height: 1000 }] },
 };
@@ -26,9 +26,9 @@ const steps = [
   {
     n: '02',
     title: 'Face or fingerprint',
-    body: 'Five quality-checked face frames are fused and matched against the encrypted template, or the phone’s fingerprint sensor is used via WebAuthn.',
+    body: 'The voter looks at the camera, then turns left, turns right and blinks in a random order. The server checks every frame and matches the face with ArcFace, or the phone’s fingerprint sensor is used via WebAuthn.',
     img: '/work/e-elections-face.jpg',
-    alt: 'Face scan panel with live quality guidance',
+    alt: 'Face scan panel with a random-move liveness check',
   },
   {
     n: '03',
@@ -47,30 +47,35 @@ const steps = [
 ];
 
 const security = [
-  ['Hash-chained ledger', 'Each ballot stores the SHA-256 hash of the one before it.'],
+  ['County hash chains', 'Each county’s ballots form their own SHA-256 chain; a Merkle root combines all 47.'],
   ['Server seals', 'An HMAC key that never touches the database signs every ballot and the chain head.'],
   ['Turnout check', 'Ballots must equal voters marked as voted, so deleting one is exposed.'],
   ['Atomic voting', 'One database operation locks the voter and records the ballot together.'],
   ['Encrypted biometrics', 'Face templates are AES-256-GCM encrypted and bound to the voter’s ID.'],
   ['One-to-many face check', 'A lookalike is rejected if they match someone else better.'],
-  ['Request protection', 'Cross-site requests, oversized bodies and brute force are blocked.'],
+  ['Liveness check', 'Three random head moves, checked frame by frame on the server, so a photo cannot vote.'],
   ['Ballot secrecy', 'No identity is stored with a ballot, and successful votes are never logged.'],
 ];
 
 const tests = [
   ['Ledger tamper detection', 6],
+  ['County chains & Merkle root', 5],
   ['Biometric encryption', 4],
   ['Face-matching decisions', 5],
+  ['Template learning', 3],
   ['Cross-site & request checks', 6],
+  ['Face index search', 5],
+  ['Liveness challenge tokens', 5],
 ] as const;
 
-// Face distance: lower means more alike. Accepted below 0.45.
+// Cosine similarity: higher means more alike. Accepted at 0.40 or above.
+const THRESHOLD = 0.4;
 const faces = [
-  { label: 'Genuine voter vs their own template', value: 0.248, verdict: 'Accepted', ok: true },
-  { label: 'Lookalike vs the voter they claimed to be', value: 0.375, verdict: 'Rejected by 1:N check', ok: false },
-  { label: 'Different person vs voter’s template', value: 1.399, verdict: 'Rejected', ok: false },
+  { label: 'Same person, new photo on a different day', value: 0.863, verdict: 'Accepted', ok: true },
+  { label: 'Me, my lowest score across five real places', value: 0.44, verdict: 'Accepted', ok: true },
+  { label: 'Most alike pair of different people (LFW, 3,000 pairs)', value: 0.242, verdict: 'Rejected', ok: false },
+  { label: 'Different person vs voter’s template', value: -0.013, verdict: 'Rejected', ok: false },
 ];
-const SCALE = 1.5;
 
 export default function EElections() {
   return (
@@ -81,8 +86,8 @@ export default function EElections() {
           <p className="eyebrow">
             <Link href="/work" className="link-draw">Work</Link> / Case study · Kenya Science &amp; Engineering Fair 2027
           </p>
-          <h1 className="mt-6 font-serif text-display-xl">E-ELECTIONS</h1>
-          <p className="mt-4 font-serif text-[clamp(1.6rem,3.2vw,2.8rem)] italic leading-tight text-kiln">
+          <h1 className="mt-6 font-display text-display-xl">E-ELECTIONS</h1>
+          <p className="mt-4 font-display text-[clamp(1.6rem,3.2vw,2.8rem)] italic leading-tight text-cobalt">
             Every Kenyan vote, counted in the open.
           </p>
         </div>
@@ -92,7 +97,7 @@ export default function EElections() {
               ['Role', 'Sole designer & engineer'],
               ['Year', '2026'],
               ['Status', 'Fair entry, in testing'],
-              ['Stack', 'Next.js 16 · TypeScript · MongoDB Atlas'],
+              ['Stack', 'Next.js 16 · MongoDB · ArcFace (ONNX)'],
             ].map(([k, v]) => (
               <div key={k}>
                 <dt className="eyebrow">{k}</dt>
@@ -122,7 +127,7 @@ export default function EElections() {
       </div>
 
       {/* --------------------------------------------------------------- Watch */}
-      <section className="mt-20 bg-night text-bone sm:mt-28">
+      <section className="mt-16 border-y-2 border-ink bg-night text-bone sm:mt-24">
         <div className="wrap grid items-center gap-14 py-20 sm:py-28 lg:grid-cols-12 lg:gap-10">
           <Reveal className="mx-auto w-full max-w-[340px] lg:col-span-4 lg:max-w-none">
             <PromoVideo
@@ -134,8 +139,8 @@ export default function EElections() {
           </Reveal>
           <Reveal className="lg:col-span-8" delay={0.1}>
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone/55">Watch</p>
-            <h2 className="mt-4 font-serif text-display-md">
-              The whole idea, <span className="italic text-[#e9a27f]">in 46 seconds.</span>
+            <h2 className="mt-4 font-display text-display-md">
+              The whole idea, <span className="italic text-cobalt-2">in 46 seconds.</span>
             </h2>
             <p className="mt-6 max-w-xl text-[17px] leading-[1.7] text-bone/70">
               A short promo in my own voice. For the full walkthrough of every step, from the ID check to
@@ -159,7 +164,7 @@ export default function EElections() {
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
             <p className="eyebrow">Why I built it</p>
-            <p className="mt-8 font-serif text-[clamp(4rem,10vw,8.5rem)] leading-[0.85] tracking-[-0.04em] text-kiln">
+            <p className="mt-8 font-display text-[clamp(4rem,10vw,8.5rem)] leading-[0.85] tracking-[-0.04em] text-cobalt">
               74.8<span className="text-[0.45em]">bn</span>
             </p>
             <p className="mt-4 max-w-xs text-[14px] leading-snug text-ink-3">
@@ -193,7 +198,7 @@ export default function EElections() {
         <div className="wrap py-20 sm:py-28 lg:py-32">
           <Reveal>
             <p className="eyebrow">How a vote works</p>
-            <h2 className="mt-4 max-w-3xl font-serif text-display-md">Four steps, about two minutes, from any device.</h2>
+            <h2 className="mt-4 max-w-3xl font-display text-display-md">Four steps, about two minutes, from any device.</h2>
           </Reveal>
           <ol className="mt-14 grid gap-x-8 gap-y-14 md:grid-cols-2">
             {steps.map((s, i) => (
@@ -204,7 +209,7 @@ export default function EElections() {
                   </div>
                 </div>
                 <div className="mt-6 flex gap-5">
-                  <span className="font-serif text-[44px] leading-none text-kiln">{s.n}</span>
+                  <span className="font-display text-[44px] leading-none text-cobalt">{s.n}</span>
                   <div>
                     <h3 className="text-[19px] font-medium">{s.title}</h3>
                     <p className="mt-1.5 text-[15px] leading-relaxed text-ink-2">{s.body}</p>
@@ -222,9 +227,9 @@ export default function EElections() {
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
             <Reveal className="lg:col-span-5">
               <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone/55">The ledger</p>
-              <h2 className="mt-4 font-serif text-display-md">
+              <h2 className="mt-4 font-display text-display-md">
                 Like a chain of padlocks.
-                <span className="block italic text-[#e9a27f]">Break one, and it shows.</span>
+                <span className="block italic text-cobalt-2">Break one, and it shows.</span>
               </h2>
             </Reveal>
             <Reveal className="lg:col-span-6 lg:col-start-7" delay={0.1}>
@@ -253,12 +258,12 @@ export default function EElections() {
       <section className="wrap py-20 sm:py-28 lg:py-32">
         <Reveal>
           <p className="eyebrow">Security</p>
-          <h2 className="mt-4 max-w-3xl font-serif text-display-md">Eight layers between a voter and a forged result.</h2>
+          <h2 className="mt-4 max-w-3xl font-display text-display-md">Eight layers between a voter and a forged result.</h2>
         </Reveal>
-        <ul className="mt-14 grid gap-px overflow-hidden rounded-md border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-14 grid gap-px overflow-hidden border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
           {security.map(([t, b], i) => (
             <Reveal as="li" key={t} delay={(i % 4) * 0.05} className="bg-paper p-6 sm:p-7">
-              <p className="font-mono text-[11px] text-kiln">{String(i + 1).padStart(2, '0')}</p>
+              <p className="font-mono text-[11px] text-cobalt">{String(i + 1).padStart(2, '0')}</p>
               <h3 className="mt-5 text-[17px] font-medium">{t}</h3>
               <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{b}</p>
             </Reveal>
@@ -271,8 +276,8 @@ export default function EElections() {
         <div className="wrap grid gap-16 py-20 sm:py-28 lg:grid-cols-12 lg:gap-8 lg:py-32">
           <Reveal className="lg:col-span-5">
             <p className="eyebrow">Tested</p>
-            <p className="mt-8 font-serif text-[clamp(4rem,10vw,8.5rem)] leading-[0.85] tracking-[-0.04em]">
-              21<span className="text-ink-3">/21</span>
+            <p className="mt-8 font-display text-[clamp(4rem,10vw,8.5rem)] leading-[0.85] tracking-[-0.04em]">
+              39<span className="text-ink-3">/39</span>
             </p>
             <p className="mt-4 max-w-xs text-[14px] leading-snug text-ink-3">
               Automated security tests passed, including every attempt to change, re-hash, rewrite or
@@ -291,44 +296,43 @@ export default function EElections() {
           </Reveal>
 
           <Reveal className="lg:col-span-6 lg:col-start-7" delay={0.1}>
-            <h3 className="font-serif text-display-sm">Face matching, measured</h3>
+            <h3 className="font-display text-display-sm">Face matching, measured</h3>
             <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-ink-2">
-              Distance between two faces: lower means more alike. A voter is accepted below 0.45, and
-              only if nobody else on the register matches them better.
+              Similarity between two faces: higher means more alike. A voter is accepted at 0.40 or
+              above, and only if nobody else on the register comes close.
             </p>
             <div className="relative mt-10 space-y-7">
               <div
                 aria-hidden
                 className="absolute bottom-0 top-0 z-10 border-l border-dashed border-ink/50"
-                style={{ left: `${(0.45 / SCALE) * 100}%` }}
+                style={{ left: `${THRESHOLD * 100}%` }}
               >
                 <span className="absolute -top-6 -translate-x-1/2 whitespace-nowrap font-mono text-[10.5px] text-ink-2">
-                  0.45 threshold
+                  0.40 threshold
                 </span>
               </div>
               {faces.map((f) => (
                 <div key={f.label}>
-                  <div className="h-9 w-full overflow-hidden rounded-sm bg-ink/[0.06]">
+                  <div className="h-9 w-full overflow-hidden bg-ink/[0.06]">
                     <div
                       className={`flex h-full items-center justify-end pr-2 font-mono text-[12px] ${
-                        f.ok ? 'bg-moss text-paper' : 'bg-kiln/85 text-paper'
+                        f.ok ? 'bg-moss text-paper' : 'bg-cobalt/85 text-paper'
                       }`}
-                      style={{ width: `${Math.min(f.value / SCALE, 1) * 100}%` }}
+                      style={{ width: `${Math.max(f.value, 0.02) * 100}%` }}
                     >
                       {f.value.toFixed(3)}
                     </div>
                   </div>
                   <p className="mt-2 flex flex-wrap justify-between gap-x-4 text-[13.5px]">
                     <span className="text-ink-2">{f.label}</span>
-                    <span className={f.ok ? 'text-moss' : 'text-kiln'}>{f.verdict}</span>
+                    <span className={f.ok ? 'text-moss' : 'text-cobalt'}>{f.verdict}</span>
                   </p>
                 </div>
               ))}
             </div>
             <p className="mt-8 text-[13px] leading-relaxed text-ink-3">
-              The lookalike scored under the threshold, so a simple check would have let them in. The
-              one-to-many check caught them because they matched their own registration (0.257) far
-              better.
+              On the LFW benchmark of 6,000 photo pairs the engine scored 99.85%, and none of the 3,000
+              pairs of different people came near the threshold.
             </p>
           </Reveal>
         </div>
@@ -338,7 +342,7 @@ export default function EElections() {
       <section className="wrap py-20 sm:py-28 lg:py-32">
         <Reveal>
           <p className="eyebrow">Results &amp; audit</p>
-          <h2 className="mt-4 max-w-3xl font-serif text-display-md">
+          <h2 className="mt-4 max-w-3xl font-display text-display-md">
             Counted from the ledger, not from a number someone typed.
           </h2>
         </Reveal>
@@ -351,7 +355,7 @@ export default function EElections() {
           </Reveal>
           <Reveal className="space-y-8 lg:col-span-5" delay={0.1}>
             <div>
-              <Shot src="/work/e-elections-tamper.jpg" alt="Hacker tamper test detecting three simulated attacks" ratio="aspect-[800/537]" />
+              <Shot src="/work/e-elections-tamper.jpg" alt="Hacker tamper test detecting three simulated attacks" ratio="aspect-[1600/1326]" />
               <p className="mt-4 text-[14px] text-ink-3">
                 The built-in tamper test attacks a copy of the ledger three ways. All three are caught.
               </p>
@@ -371,17 +375,17 @@ export default function EElections() {
         <div className="wrap grid gap-12 py-20 sm:py-28 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
             <p className="eyebrow">What’s next</p>
-            <h2 className="mt-4 font-serif text-display-md">The road to the fair, and past it.</h2>
+            <h2 className="mt-4 font-display text-display-md">The road to the fair, and past it.</h2>
           </Reveal>
           <Reveal className="lg:col-span-6 lg:col-start-7" delay={0.1}>
             <ol className="border-t border-rule">
               {[
                 ['USSD voting on *2027#', 'So voters with a basic “kabambe” phone are not left out.'],
-                ['Sharper face recognition', 'More training data and liveness checks, aiming for 99% accuracy.'],
+                ['County chains on separate servers', 'So a national election can record hundreds of ballots a second.'],
                 ['Field testing', 'A mock election with real users, measuring speed and first-try verification.'],
               ].map(([t, b], i) => (
                 <li key={t} className="flex gap-5 border-b border-rule py-5">
-                  <span className="font-mono text-[11px] text-kiln">0{i + 1}</span>
+                  <span className="font-mono text-[11px] text-cobalt">0{i + 1}</span>
                   <span>
                     <span className="block text-[17px]">{t}</span>
                     <span className="mt-1 block text-[15px] text-ink-2">{b}</span>

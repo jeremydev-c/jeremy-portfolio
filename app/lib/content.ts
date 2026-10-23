@@ -4,7 +4,7 @@ export const site = {
   name: 'Jeremy Nduati',
   fullName: 'Jeremy Gachiki Nduati',
   role: 'Full-stack developer & designer',
-  location: 'Kirinyaga, Kenya',
+  location: 'Nanyuki, Kenya',
   email: 'nduatijeremy7@gmail.com',
   // The site's own address: set NEXT_PUBLIC_SITE_URL to override, otherwise Vercel's production URL.
   url:
@@ -47,19 +47,19 @@ export const projects: Project[] = [
     year: '2026',
     tagline: 'Secure digital voting for Kenya',
     summary:
-      'A complete voting system: identity checks by face or fingerprint, a ballot routed to the voter’s own ward, and a tamper-evident SHA-256 ledger that anyone can audit.',
+      'A complete voting system: a server-checked face scan or fingerprint, a ballot routed to the voter’s own ward, and a tamper-evident ledger with one SHA-256 chain per county. In English and Kiswahili.',
     image: '/work/e-elections-home.jpg',
     caseStudy: '/work/e-elections',
     github: 'https://github.com/jeremydev-c/e-elections',
     badge: 'KSEF 2027',
     role: 'Sole designer & engineer',
     timeline: 'In testing',
-    stack: ['Next.js 16', 'TypeScript', 'MongoDB Atlas', 'face-api', 'WebAuthn'],
+    stack: ['Next.js 16', 'TypeScript', 'MongoDB Atlas', 'ONNX Runtime', 'ArcFace', 'WebAuthn'],
     challenge:
       'Kenya’s 2027 General Election is budgeted at KSh 74.8 billion, and much of that pays for paper, transport and manual counting. Could a digital system cut that cost without giving up trust?',
     approach: [
-      'Two-stage login: a National ID check that blocks anyone who has already voted, then face or fingerprint verification.',
-      'Every ballot is chained to the one before it with SHA-256 and sealed with a server-side HMAC key, so a single changed vote breaks the chain.',
+      'Server-side face recognition: SCRFD finds the face, ArcFace turns it into 512 numbers, and three random head moves prove a live person. 99.85% accurate on the LFW benchmark.',
+      'One SHA-256 hash chain per county, every ballot sealed with a server-side HMAC key, and a Merkle root that fingerprints the whole election.',
       'Double voting is stopped by one atomic database operation: ten taps on ten devices still produce exactly one ballot.',
     ],
   },

@@ -32,8 +32,8 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
               <p className="mt-1 text-[14px] text-ink-3">{r.issuer}</p>
             </div>
             <span
-              className={`col-span-10 col-start-3 font-serif text-[26px] leading-none sm:col-span-2 sm:col-start-auto ${
-                r.highlight ? 'text-kiln' : 'text-ink-2'
+              className={`col-span-10 col-start-3 font-display text-[26px] leading-none sm:col-span-2 sm:col-start-auto ${
+                r.highlight ? 'text-cobalt' : 'text-ink-2'
               }`}
             >
               {r.result}
@@ -85,7 +85,7 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
               role="dialog"
               aria-modal="true"
               aria-label={open.title}
-              className="max-h-[88vh] w-full max-w-3xl overflow-auto rounded-lg bg-paper"
+              className="max-h-[88vh] w-full max-w-3xl overflow-auto border-2 border-ink bg-paper"
               initial={{ y: 24, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 12, opacity: 0 }}
@@ -93,7 +93,7 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="sticky top-0 flex items-center justify-between border-b border-rule bg-paper px-5 py-4">
-                <p className="font-serif text-[22px]">{open.title}</p>
+                <p className="font-display text-[22px]">{open.title}</p>
                 <button
                   type="button"
                   onClick={() => setOpen(null)}
@@ -110,7 +110,7 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
                     alt={open.title}
                     width={1200}
                     height={850}
-                    className="h-auto w-full rounded"
+                    className="h-auto w-full"
                   />
                 </div>
               ) : (
@@ -121,7 +121,7 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
                         href={pdf}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-between py-4 text-[16px] hover:text-kiln"
+                        className="flex items-center justify-between py-4 text-[16px] hover:text-cobalt"
                       >
                         Certificate {String(i + 1).padStart(2, '0')}
                         <span className="font-mono text-[11px] text-ink-3">PDF ↗</span>

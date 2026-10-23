@@ -3,61 +3,61 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------
-   Palette: warm paper, ink, and a kiln-red accent taken from
-   Kenyan red soil. Values are RGB channels so Tailwind can apply
-   opacity (bg-ink/10 and so on).
+   Poster palette: off-white stock, near-black ink and one cobalt
+   accent. Values are RGB channels so Tailwind can apply opacity
+   (bg-ink/10 and so on).
    ------------------------------------------------------------------ */
 :root {
-  --paper: 243 239 230;
-  --paper-2: 235 229 216;
-  --paper-3: 224 216 199;
-  --ink: 26 24 19;
-  --ink-2: 74 70 60;
-  --ink-3: 111 105 89;
-  --rule: 213 204 185;
-  --kiln: 176 67 28;
-  --kiln-soft: 233 211 196;
-  --moss: 63 107 69;
-  --night: 23 22 18;
-  --night-2: 36 34 28;
-  --bone: 236 229 214;
-  --grain-opacity: 0.045;
+  --paper: 244 244 240;
+  --paper-2: 234 234 228;
+  --paper-3: 220 220 212;
+  --ink: 11 11 11;
+  --ink-2: 58 58 56;
+  --ink-3: 104 104 100;
+  --rule: 11 11 11;
+  --cobalt: 26 60 255;
+  --cobalt-2: 142 162 255;
+  --cobalt-soft: 222 228 255;
+  --moss: 0 150 90;
+  --night: 11 11 11;
+  --night-2: 30 30 30;
+  --bone: 244 244 240;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: 18 17 14;
-    --paper-2: 26 25 21;
-    --paper-3: 36 34 29;
-    --ink: 236 229 214;
-    --ink-2: 189 180 162;
-    --ink-3: 143 135 117;
-    --rule: 50 47 40;
-    --kiln: 226 112 63;
-    --kiln-soft: 58 36 24;
-    --moss: 134 176 138;
-    --night: 31 29 24;
-    --night-2: 42 39 33;
-    --grain-opacity: 0.06;
+    --paper: 11 11 11;
+    --paper-2: 22 22 22;
+    --paper-3: 34 34 34;
+    --ink: 244 244 240;
+    --ink-2: 196 196 190;
+    --ink-3: 146 146 140;
+    --rule: 244 244 240;
+    --cobalt: 92 124 255;
+    --cobalt-2: 142 162 255;
+    --cobalt-soft: 22 30 74;
+    --moss: 60 200 130;
+    --night: 22 22 26;
+    --night-2: 36 36 40;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: 18 17 14;
-  --paper-2: 26 25 21;
-  --paper-3: 36 34 29;
-  --ink: 236 229 214;
-  --ink-2: 189 180 162;
-  --ink-3: 143 135 117;
-  --rule: 50 47 40;
-  --kiln: 226 112 63;
-  --kiln-soft: 58 36 24;
-  --moss: 134 176 138;
-  --night: 31 29 24;
-  --night-2: 42 39 33;
-  --grain-opacity: 0.06;
+  --paper: 11 11 11;
+  --paper-2: 22 22 22;
+  --paper-3: 34 34 34;
+  --ink: 244 244 240;
+  --ink-2: 196 196 190;
+  --ink-3: 146 146 140;
+  --rule: 244 244 240;
+  --cobalt: 92 124 255;
+  --cobalt-2: 142 162 255;
+  --cobalt-soft: 22 30 74;
+  --moss: 60 200 130;
+  --night: 22 22 26;
+  --night-2: 36 36 40;
   color-scheme: dark;
 }
 
@@ -70,29 +70,17 @@
 
   body {
     @apply bg-paper font-sans text-ink antialiased;
-    font-feature-settings: "ss01", "cv11";
     overflow-x: hidden;
   }
 
-  /* Paper grain: a fixed layer of fractal noise, very faint. */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 60;
-    pointer-events: none;
-    opacity: var(--grain-opacity);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
   ::selection {
-    background: rgb(var(--kiln) / 0.22);
+    background: rgb(var(--cobalt));
+    color: rgb(var(--bone));
   }
 
   :focus-visible {
-    outline: 2px solid rgb(var(--kiln));
+    outline: 3px solid rgb(var(--cobalt));
     outline-offset: 3px;
-    border-radius: 2px;
   }
 
   h1,
@@ -108,78 +96,85 @@
 
 @layer components {
   .wrap {
-    @apply mx-auto w-full max-w-page px-5 sm:px-8 lg:px-12;
+    @apply mx-auto w-full max-w-page px-4 sm:px-8 lg:px-12;
   }
 
   .eyebrow {
-    @apply font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3;
+    @apply font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3;
   }
 
-  .serif-italic {
-    @apply font-serif italic;
-  }
-
-  /* Underline that draws in from the left on hover. */
+  /* Hover underline: a thick cobalt bar that wipes in from the left. */
   .link-draw {
-    background-image: linear-gradient(currentColor, currentColor);
-    background-size: 0% 1px;
+    background-image: linear-gradient(rgb(var(--cobalt)), rgb(var(--cobalt)));
+    background-size: 0% 2px;
     background-position: 0 100%;
     background-repeat: no-repeat;
-    transition: background-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .link-draw:hover,
   .link-draw:focus-visible {
-    background-size: 100% 1px;
+    background-size: 100% 2px;
   }
 
   .link-under {
-    @apply underline decoration-ink/25 decoration-1 underline-offset-[0.22em] transition-colors hover:decoration-kiln;
+    @apply underline decoration-2 underline-offset-[0.2em] transition-colors hover:decoration-cobalt;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-sm font-medium transition-all duration-300 ease-out;
+    @apply inline-flex items-center justify-center gap-2 border-2 px-5 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.08em] transition-colors duration-200;
   }
   .btn-ink {
-    @apply btn bg-ink text-paper hover:bg-kiln;
+    @apply btn border-ink bg-ink text-paper hover:border-cobalt hover:bg-cobalt hover:text-bone;
   }
   .btn-line {
-    @apply btn border border-ink/20 text-ink hover:border-ink hover:bg-ink hover:text-paper;
+    @apply btn border-ink text-ink hover:bg-ink hover:text-paper;
   }
 
   .chip {
-    @apply inline-flex items-center rounded-full border border-rule px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-[0.12em] text-ink-2;
+    @apply inline-flex items-center border border-ink px-2 py-0.5 font-mono text-[10.5px] font-bold uppercase tracking-[0.08em] text-ink;
   }
 
   .plate {
-    @apply relative overflow-hidden bg-paper-3;
-    box-shadow:
-      0 1px 0 rgb(var(--ink) / 0.04),
-      0 30px 60px -30px rgb(var(--ink) / 0.35);
+    @apply relative overflow-hidden border-2 border-ink bg-paper-3;
   }
 
-  /* Minimal browser chrome around screenshots. */
+  /* Screenshots sit in a hard black frame, no rounded corners or shadows. */
   .browser {
-    @apply overflow-hidden rounded-[10px] border border-ink/10 bg-paper-2;
-    box-shadow:
-      0 1px 0 rgb(var(--ink) / 0.05),
-      0 40px 80px -40px rgb(var(--ink) / 0.45);
+    @apply overflow-hidden border-2 border-ink bg-paper-2;
   }
   .browser-bar {
-    @apply flex items-center gap-1.5 border-b border-ink/10 px-3.5 py-2.5;
+    @apply flex items-center gap-1.5 border-b-2 border-ink px-3 py-2;
   }
   .browser-bar > i {
-    @apply block h-2 w-2 rounded-full bg-ink/15;
+    @apply block h-2.5 w-2.5 border border-ink;
+  }
+  .browser-bar > i:first-child {
+    @apply bg-cobalt;
   }
 
   .prose-body {
-    @apply text-[17px] leading-[1.7] text-ink-2;
+    @apply text-[17px] leading-[1.65] text-ink-2;
   }
   .prose-body p + p {
     @apply mt-5;
   }
+
+  /* The poster grid: hard 1px rules between cells. */
+  .grid-rules {
+    @apply grid gap-px border border-ink bg-ink;
+  }
+  .grid-rules > * {
+    @apply bg-paper;
+  }
 }
 
 @layer utilities {
+  /* Heavy and tight like a poster; the extra word space keeps tight letters readable. */
+  .font-display {
+    font-weight: 800;
+    word-spacing: 0.08em;
+  }
+
   .tabular {
     font-variant-numeric: tabular-nums;
   }
@@ -187,13 +182,13 @@
   /* Above-the-fold entrances run in CSS so they play on first paint,
      without waiting for JavaScript on a slow connection. */
   .anim-rise {
-    animation: rise 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .anim-fade-up {
-    animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  .anim-pill {
-    animation: pill 1s cubic-bezier(0.22, 1, 0.36, 1) 0.75s both;
+  .anim-block {
+    animation: block 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
   }
 }
 
@@ -209,7 +204,7 @@
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -217,14 +212,12 @@
   }
 }
 
-@keyframes pill {
+@keyframes block {
   from {
-    width: 0;
-    opacity: 0;
+    transform: scaleX(0);
   }
   to {
-    width: 1.45em;
-    opacity: 1;
+    transform: none;
   }
 }
 

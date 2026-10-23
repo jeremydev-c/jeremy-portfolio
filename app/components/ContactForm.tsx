@@ -40,7 +40,7 @@ export default function ContactForm() {
   if (status === 'success') {
     return (
       <div className="border-t border-rule pt-10" role="status">
-        <p className="font-serif text-display-sm">
+        <p className="font-display text-display-sm">
           Thank you. <span className="italic text-ink-3">Your message is on its way.</span>
         </p>
         <p className="mt-4 text-[16px] text-ink-2">I usually reply within a day, from Kenya (EAT).</p>
@@ -86,7 +86,7 @@ export default function ContactForm() {
               type="button"
               onClick={() => setNeed(need === b ? '' : b)}
               aria-pressed={need === b}
-              className={`rounded-full border px-4 py-2 text-[14px] transition-colors ${
+              className={`border-2 px-4 py-2 font-mono text-[12px] font-bold uppercase tracking-[0.06em] transition-colors ${
                 need === b ? 'border-ink bg-ink text-paper' : 'border-rule text-ink-2 hover:border-ink/40'
               }`}
             >
@@ -101,7 +101,7 @@ export default function ContactForm() {
           {status === 'sending' ? 'Sending…' : 'Send message'} <span aria-hidden>→</span>
         </button>
         {status === 'error' && (
-          <p role="alert" className="text-[14px] text-kiln">
+          <p role="alert" className="text-[14px] text-cobalt">
             {error} You can also email me directly.
           </p>
         )}

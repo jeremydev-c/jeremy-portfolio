@@ -2,39 +2,39 @@ import Image from 'next/image';
 
 function Line({ children, i }: { children: React.ReactNode; i: number }) {
   return (
-    <span className="block overflow-hidden pb-[0.06em]">
-      <span className="anim-rise block" style={{ animationDelay: `${0.1 + i * 0.12}s` }}>
+    <span className="block overflow-hidden">
+      <span className="anim-rise block" style={{ animationDelay: `${0.08 + i * 0.1}s` }}>
         {children}
       </span>
     </span>
   );
 }
 
-// The home headline. Lines rise out of a mask and the portrait opens inline.
+// The home headline: three poster lines, with a cobalt block that slides open
+// and holds the portrait as a blue duotone.
 export default function HeroTitle() {
   return (
-    <h1 className="font-serif text-[16vw] leading-[0.92] sm:text-[13vw] lg:text-[clamp(3rem,11vw,11.5rem)] tracking-[-0.035em]">
-      <Line i={0}>I build software</Line>
-      <Line i={1}>
-        <span className="inline-flex items-center">
+    <h1 className="font-display text-[17.5vw] uppercase leading-[0.84] tracking-[-0.06em] sm:text-[14vw] lg:text-[clamp(3rem,12.2vw,13.5rem)]">
+      <Line i={0}>Jeremy</Line>
+      <Line i={1}>builds things</Line>
+      <Line i={2}>
+        <span className="flex flex-wrap items-center">
+          that
           <span
             aria-hidden
-            className="anim-pill relative mr-[0.18em] inline-block h-[0.74em] w-[1.45em] overflow-hidden rounded-full align-middle"
+            className="anim-block relative mx-[0.12em] inline-block h-[0.72em] w-[1.6em] origin-left overflow-hidden bg-cobalt align-middle"
           >
             <Image
               src="/me.jpeg"
               alt=""
               fill
               priority
-              sizes="(min-width: 1024px) 220px, 120px"
-              className="object-cover object-[50%_30%]"
+              sizes="(min-width: 1024px) 340px, 160px"
+              className="object-cover object-[50%_28%] opacity-90 mix-blend-multiply grayscale contrast-125"
             />
           </span>
-          people can
+          work.
         </span>
-      </Line>
-      <Line i={2}>
-        <span className="italic text-kiln">trust.</span>
       </Line>
     </h1>
   );

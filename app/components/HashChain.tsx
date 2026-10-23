@@ -140,7 +140,7 @@ export default function HashChain() {
           type="button"
           onClick={tampered ? restore : tamper}
           disabled={blocks.length < VISIBLE}
-          className="rounded-full border border-bone/25 px-3.5 py-1.5 text-bone transition-colors hover:border-bone hover:bg-bone hover:text-night disabled:opacity-40"
+          className="border-2 border-bone px-3.5 py-1.5 font-mono text-[12px] font-bold uppercase tracking-[0.06em] text-bone transition-colors hover:border-bone hover:bg-bone hover:text-night disabled:opacity-40"
         >
           {tampered ? 'Reset the ledger' : 'Try changing a vote'}
         </button>
@@ -159,7 +159,7 @@ export default function HashChain() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -24 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className={`relative rounded-md border p-4 font-mono text-[11px] leading-relaxed transition-colors duration-500 ${
+                className={`relative border p-4 font-mono text-[11px] leading-relaxed transition-colors duration-500 ${
                   bad ? 'border-[#ff8a5c]/60 bg-[#ff8a5c]/[0.07]' : 'border-bone/12 bg-night-2'
                 }`}
               >

@@ -35,7 +35,7 @@ export default function ThemeToggle({ className = '' }: { className?: string }) 
       type="button"
       onClick={toggle}
       aria-label={`Switch to ${next} theme`}
-      className={`group relative grid h-9 w-9 place-items-center rounded-full border border-ink/15 transition-colors hover:border-ink/40 ${className}`}
+      className={`group relative grid h-9 w-9 place-items-center border-2 border-ink transition-colors hover:bg-cobalt hover:text-bone ${className}`}
     >
       {/* A half-filled disc: reads as "light/dark" without a sun or moon cliché. */}
       <span className="relative block h-3.5 w-3.5 overflow-hidden rounded-full border border-ink">

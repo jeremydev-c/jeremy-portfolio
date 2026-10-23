@@ -73,8 +73,8 @@ export default function FashionFit() {
           <p className="eyebrow">
             <Link href="/work" className="link-draw">Work</Link> / Case study · Young Scientists Kenya 2026
           </p>
-          <h1 className="mt-6 font-serif text-display-xl">Fashion Fit</h1>
-          <p className="mt-4 font-serif text-[clamp(1.6rem,3.2vw,2.8rem)] italic leading-tight text-kiln">
+          <h1 className="mt-6 font-display text-display-xl">Fashion Fit</h1>
+          <p className="mt-4 font-display text-[clamp(1.6rem,3.2vw,2.8rem)] italic leading-tight text-cobalt">
             Your whole wardrobe, styled by AI.
           </p>
         </div>
@@ -107,10 +107,10 @@ export default function FashionFit() {
           </Reveal>
           <Reveal className="lg:col-span-7 lg:col-start-6" delay={0.1}>
             <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone/55">Watch, then the numbers</p>
-            <ul className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-md bg-bone/10 sm:grid-cols-3">
+            <ul className="mt-6 grid grid-cols-2 gap-px overflow-hidden bg-bone/10 sm:grid-cols-3">
               {metrics.map((m) => (
                 <li key={m.label} className="bg-night p-6">
-                  <p className="font-serif text-[clamp(2.4rem,4vw,3.5rem)] leading-none">{m.value}</p>
+                  <p className="font-display text-[clamp(2.4rem,4vw,3.5rem)] leading-none">{m.value}</p>
                   <p className="mt-3 text-[13px] leading-snug text-bone/55">{m.label}</p>
                 </li>
               ))}
@@ -123,7 +123,7 @@ export default function FashionFit() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
             <p className="eyebrow">The problem</p>
-            <h2 className="mt-4 font-serif text-display-md">
+            <h2 className="mt-4 font-display text-display-md">
               92 million tonnes of textile waste.
               <span className="block italic text-ink-3">Most people wear 20–30% of what they own.</span>
             </h2>
@@ -145,15 +145,15 @@ export default function FashionFit() {
         <div className="wrap py-20 sm:py-28 lg:py-32">
           <Reveal>
             <p className="eyebrow">Architecture</p>
-            <h2 className="mt-4 max-w-4xl font-serif text-display-md">
-              A hybrid AI pipeline, <span className="italic text-kiln">95% cheaper</span> than sending every photo to the cloud.
+            <h2 className="mt-4 max-w-4xl font-display text-display-md">
+              A hybrid AI pipeline, <span className="italic text-cobalt">95% cheaper</span> than sending every photo to the cloud.
             </h2>
           </Reveal>
-          <ol className="mt-14 grid gap-px overflow-hidden rounded-md border border-rule bg-rule md:grid-cols-3">
+          <ol className="mt-14 grid gap-px overflow-hidden border border-rule bg-rule md:grid-cols-3">
             {layers.map(([t, b], i) => (
               <Reveal as="li" key={t} delay={i * 0.08} className="bg-paper p-7 sm:p-9">
-                <p className="font-mono text-[11px] text-kiln">Layer 0{i + 1}</p>
-                <h3 className="mt-6 font-serif text-[34px] leading-none">{t}</h3>
+                <p className="font-mono text-[11px] text-cobalt">Layer 0{i + 1}</p>
+                <h3 className="mt-6 font-display text-[34px] leading-none">{t}</h3>
                 <p className="mt-4 text-[15px] leading-relaxed text-ink-2">{b}</p>
               </Reveal>
             ))}
@@ -164,7 +164,7 @@ export default function FashionFit() {
       <section className="wrap py-20 sm:py-28 lg:py-32">
         <Reveal>
           <p className="eyebrow">Features</p>
-          <h2 className="mt-4 font-serif text-display-md">Twelve things it does well</h2>
+          <h2 className="mt-4 font-display text-display-md">Twelve things it does well</h2>
         </Reveal>
         <ul className="mt-14 grid border-t border-rule sm:grid-cols-2 lg:grid-cols-3">
           {features.map(([t, b], i) => (
@@ -205,7 +205,7 @@ export default function FashionFit() {
             <ol className="relative mt-8 border-l border-rule pl-8">
               {journey.map(([t, b]) => (
                 <li key={t} className="relative pb-8 last:pb-0">
-                  <span className="absolute -left-[37px] top-1.5 h-2.5 w-2.5 rounded-full border border-kiln bg-paper" />
+                  <span className="absolute -left-[37px] top-1.5 h-2.5 w-2.5 rounded-full border border-cobalt bg-paper" />
                   <p className="text-[17px]">{t}</p>
                   <p className="mt-1 text-[15px] leading-relaxed text-ink-2">{b}</p>
                 </li>

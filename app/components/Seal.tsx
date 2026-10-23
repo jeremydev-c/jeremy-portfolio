@@ -1,14 +1,14 @@
 // Jeremy's personal mark: a round "JN" seal, like the stamp that seals a
 // ballot receipt in E-ELECTIONS. Drawn in SVG so it stays crisp at any size.
 export default function Seal({ size = 132, className = '' }: { size?: number; className?: string }) {
-  const ring = 'JEREMY GACHIKI NDUATI · KIRINYAGA · KENYA · ';
+  const ring = 'JEREMY GACHIKI NDUATI · NANYUKI · KENYA · ';
   return (
     <svg
       viewBox="0 0 200 200"
       width={size}
       height={size}
       role="img"
-      aria-label="JN seal: Jeremy Gachiki Nduati, Kirinyaga, Kenya"
+      aria-label="JN seal: Jeremy Gachiki Nduati, Nanyuki, Kenya"
       className={className}
     >
       <defs>
@@ -30,7 +30,7 @@ export default function Seal({ size = 132, className = '' }: { size?: number; cl
         y="114"
         textAnchor="middle"
         fill="currentColor"
-        style={{ fontFamily: 'var(--font-serif)', fontSize: '50px', letterSpacing: '-0.02em' }}
+        style={{ fontFamily: 'var(--font-display)', fontSize: '50px', letterSpacing: '-0.02em' }}
       >
         J<tspan fontStyle="italic">N</tspan>
       </text>

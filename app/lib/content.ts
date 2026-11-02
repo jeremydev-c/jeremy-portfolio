@@ -26,6 +26,10 @@ export type Project = {
   summary: string;
   image?: string;
   icon?: string;
+  /** A vertical frame from the app, shown in a phone on the exhibit stage. */
+  phone?: string;
+  /** The tint of the wall the exhibit stands on. */
+  stage: 'green' | 'sand' | 'leaf' | 'stone';
   caseStudy?: string;
   live?: string;
   liveNote?: string;
@@ -49,6 +53,7 @@ export const projects: Project[] = [
     summary:
       'A complete voting system: a server-checked face scan or fingerprint, a ballot routed to the voter’s own ward, and a tamper-evident ledger with one SHA-256 chain per county. In English and Kiswahili.',
     image: '/work/e-elections-home.jpg',
+    stage: 'green',
     caseStudy: '/work/e-elections',
     github: 'https://github.com/jeremydev-c/e-elections',
     badge: 'KSEF 2027',
@@ -73,6 +78,8 @@ export const projects: Project[] = [
     summary:
       'A React Native app that catalogues your wardrobe from the camera and suggests complete outfits using 14 custom scoring algorithms, live weather and a learning engine.',
     icon: '/fashion-fit-icon.jpeg',
+    phone: '/videos/fashion-fit-promo.jpg',
+    stage: 'sand',
     caseStudy: '/work/fashion-fit',
     github: 'https://github.com/jeremydev-c/fashion-app',
     badge: 'YSK 2026',
@@ -97,6 +104,7 @@ export const projects: Project[] = [
     summary:
       'Countrywide ordering for Grade AA eggs, with a fulfilment pipeline, Paystack-paid farm visit bookings, interactive 3D elements and a sales dashboard.',
     image: '/work/tabby.jpg',
+    stage: 'leaf',
     live: 'https://www.tabbypremiumeggs.online/',
     role: 'Full-stack engineer',
     timeline: '12 weeks',
@@ -119,6 +127,7 @@ export const projects: Project[] = [
     summary:
       'A serverless admissions portal: applicants upload documents online and both sides receive styled HTML email receipts automatically.',
     image: '/work/ksl.jpg',
+    stage: 'stone',
     live: 'https://mt-kenya-sign-language-training-ins.vercel.app/',
     role: 'Full-stack developer',
     timeline: '4 weeks',
@@ -141,6 +150,7 @@ export const projects: Project[] = [
     summary:
       'A dark, focused portfolio that presents predictive-modelling projects, dashboards and machine-learning results for a working data scientist.',
     image: '/work/emmanuel.jpg',
+    stage: 'stone',
     live: 'https://emmanuel-annoh-portfolio.vercel.app/',
     role: 'Designer & developer',
     stack: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
@@ -157,6 +167,7 @@ export const projects: Project[] = [
     summary:
       'A marine-themed identity for a fisheries manager and data analyst, with particle backgrounds and sections tailored to her data work.',
     image: '/work/bernice.jpg',
+    stage: 'stone',
     live: 'https://bernice-tetteh-portfolio.vercel.app/',
     role: 'Designer & developer',
     stack: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
@@ -173,6 +184,7 @@ export const projects: Project[] = [
     summary:
       'An “analyst’s report” portfolio for a data analyst in Vilnius: condensed headlines, navy and burnt orange, and charts of her own work, on her own domain.',
     image: '/work/modinat.jpg',
+    stage: 'stone',
     live: 'https://www.omolarabuhari.com/',
     role: 'Designer & developer',
     stack: ['Next.js', 'Tailwind CSS', 'Framer Motion', 'Vercel'],
@@ -199,7 +211,14 @@ export type Recognition = {
 export const recognition: Recognition[] = [
   {
     year: '2026',
-    title: 'SAIMUN Workshop — Press Team',
+    title: 'High School Bootcamp, Level 2: user research and software development',
+    issuer: 'Moringa School',
+    result: 'Completed',
+    pdf: '/CERTIFICATES/Moringa_School_HS_Bootcamp_Level2_2026.pdf',
+  },
+  {
+    year: '2026',
+    title: 'SAIMUN Workshop, Press Team',
     issuer: 'Sub-Saharan Africa International Model United Nations',
     result: 'Participant',
     image: '/CERTIFICATES/SAIMUN_Workshop_2026_Certificate.jpeg',
@@ -215,7 +234,7 @@ export const recognition: Recognition[] = [
   },
   {
     year: '2025',
-    title: 'Kenya Science & Engineering Fair — Computer Science',
+    title: 'Kenya Science & Engineering Fair, Computer Science',
     issuer: 'Ministry of Education, Kirinyaga County',
     result: '3rd place',
     highlight: true,

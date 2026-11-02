@@ -26,21 +26,21 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
       <ul className="border-t border-rule">
         {items.map((r) => (
           <li key={r.title} className="grid grid-cols-12 items-baseline gap-x-4 gap-y-3 border-b border-rule py-7">
-            <span className="col-span-2 font-mono text-[11px] text-ink-3 sm:col-span-1">{r.year ?? '—'}</span>
+            <span className="col-span-2 font-mono text-[11px] text-ink-3 sm:col-span-1">{r.year ?? 'Online'}</span>
             <div className="col-span-10 sm:col-span-6">
-              <h2 className="text-[18px] leading-snug sm:text-[20px]">{r.title}</h2>
+              <h2 className="text-[18px] font-medium leading-snug tracking-[-0.01em] sm:text-[19px]">{r.title}</h2>
               <p className="mt-1 text-[14px] text-ink-3">{r.issuer}</p>
             </div>
             <span
-              className={`col-span-10 col-start-3 font-display text-[26px] leading-none sm:col-span-2 sm:col-start-auto ${
-                r.highlight ? 'text-cobalt' : 'text-ink-2'
+              className={`col-span-10 col-start-3 font-display text-[24px] leading-none tracking-[-0.03em] sm:col-span-2 sm:col-start-auto ${
+                r.highlight ? 'text-accent' : 'text-ink-2'
               }`}
             >
               {r.result}
             </span>
             <div className="col-span-10 col-start-3 flex flex-wrap gap-2 sm:col-span-3 sm:col-start-auto sm:justify-end">
               {r.link && (
-                <a href={r.link} target="_blank" rel="noopener noreferrer" className="chip transition-colors hover:border-ink hover:text-ink">
+                <a href={r.link} target="_blank" rel="noopener noreferrer" className="chip transition-colors hover:border-ink/50 hover:text-ink">
                   Project ↗
                 </a>
               )}
@@ -48,13 +48,13 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
                 <button
                   type="button"
                   onClick={() => setOpen({ kind: 'image', title: r.title, src: r.image! })}
-                  className="chip transition-colors hover:border-ink hover:text-ink"
+                  className="chip transition-colors hover:border-ink/50 hover:text-ink"
                 >
                   View certificate
                 </button>
               )}
               {r.pdf && (
-                <a href={r.pdf} target="_blank" rel="noopener noreferrer" className="chip transition-colors hover:border-ink hover:text-ink">
+                <a href={r.pdf} target="_blank" rel="noopener noreferrer" className="chip transition-colors hover:border-ink/50 hover:text-ink">
                   View certificate ↗
                 </a>
               )}
@@ -62,7 +62,7 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
                 <button
                   type="button"
                   onClick={() => setOpen({ kind: 'list', title: `${r.issuer} certificates`, pdfs: r.pdfs! })}
-                  className="chip transition-colors hover:border-ink hover:text-ink"
+                  className="chip transition-colors hover:border-ink/50 hover:text-ink"
                 >
                   View all {r.pdfs.length}
                 </button>
@@ -85,7 +85,7 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
               role="dialog"
               aria-modal="true"
               aria-label={open.title}
-              className="max-h-[88vh] w-full max-w-3xl overflow-auto border-2 border-ink bg-paper"
+              className="max-h-[88vh] w-full max-w-3xl overflow-auto rounded-[16px] border border-rule bg-paper shadow-2xl"
               initial={{ y: 24, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 12, opacity: 0 }}
@@ -93,7 +93,7 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="sticky top-0 flex items-center justify-between border-b border-rule bg-paper px-5 py-4">
-                <p className="font-display text-[22px]">{open.title}</p>
+                <p className="font-display text-[20px] tracking-[-0.02em]">{open.title}</p>
                 <button
                   type="button"
                   onClick={() => setOpen(null)}
@@ -121,7 +121,7 @@ export default function RecognitionList({ items }: { items: Recognition[] }) {
                         href={pdf}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center justify-between py-4 text-[16px] hover:text-cobalt"
+                        className="flex items-center justify-between py-4 text-[16px] hover:text-ink-2"
                       >
                         Certificate {String(i + 1).padStart(2, '0')}
                         <span className="font-mono text-[11px] text-ink-3">PDF ↗</span>

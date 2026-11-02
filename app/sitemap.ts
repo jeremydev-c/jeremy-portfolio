@@ -11,6 +11,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ['/about', 0.8],
     ['/certificates', 0.7],
     ['/contact', 0.7],
+    ['/privacy', 0.3],
+    ['/terms', 0.3],
   ];
 
   return pages.map(([path, priority]) => ({

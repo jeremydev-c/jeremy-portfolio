@@ -4,7 +4,7 @@ import { site } from '../lib/content';
 
 const columns = [
   {
-    title: 'Pages',
+    title: 'Rooms',
     links: [
       { href: '/work', label: 'Work' },
       { href: '/work/e-elections', label: 'E-Elections' },
@@ -22,53 +22,58 @@ const columns = [
       { href: `mailto:${site.email}`, label: 'Email' },
     ],
   },
+  {
+    title: 'The small print',
+    links: [
+      { href: '/privacy', label: 'Privacy' },
+      { href: '/terms', label: 'Terms' },
+    ],
+  },
 ];
 
 export default function SiteFooter() {
   return (
-    <footer className="border-t-2 border-ink">
-      <Link href="/contact" className="group block bg-cobalt text-bone">
-        <div className="wrap flex flex-wrap items-end justify-between gap-6 py-14 sm:py-20">
-          <p className="font-display text-[clamp(3rem,10vw,9.5rem)] uppercase leading-[0.84] tracking-[-0.06em]">
-            Let’s build
-            <br />
-            something.
+    <footer className="border-t border-rule">
+      <div className="wrap grid gap-10 py-20 sm:py-28 lg:grid-cols-12 lg:items-end">
+        <div className="lg:col-span-8">
+          <p className="eyebrow">Visitor information</p>
+          <p className="mt-5 font-display text-display-lg">
+            Have something to build?
+            <span className="block text-ink-3">Let’s talk about it.</span>
           </p>
-          <span
-            aria-hidden
-            className="font-display text-[clamp(3rem,8vw,7rem)] leading-none transition-transform duration-300 ease-out group-hover:-rotate-45"
-          >
-            →
-          </span>
         </div>
-      </Link>
+        <div className="flex flex-wrap gap-3 lg:col-span-4 lg:justify-end">
+          <Link href="/contact" className="btn-ink">
+            Start a project <span aria-hidden>→</span>
+          </Link>
+          <a href={`mailto:${site.email}`} className="btn-line">
+            Email me
+          </a>
+        </div>
+      </div>
 
-      <div className="wrap grid gap-10 border-t-2 border-ink py-12 sm:grid-cols-2 lg:grid-cols-12">
-        <dl className="grid grid-cols-2 gap-6 font-mono text-[11px] font-bold uppercase tracking-[0.08em] lg:col-span-6">
+      <div className="wrap grid gap-10 border-t border-rule py-12 sm:grid-cols-2 lg:grid-cols-12">
+        <dl className="grid grid-cols-2 gap-6 text-[14px] lg:col-span-6">
           <div>
-            <dt className="text-ink-3">Based in</dt>
-            <dd className="mt-1.5">{site.location}</dd>
+            <dt className="eyebrow">Based in</dt>
+            <dd className="mt-2">{site.location}</dd>
           </div>
           <div>
-            <dt className="text-ink-3">Local time</dt>
-            <dd className="mt-1.5">
+            <dt className="eyebrow">Local time</dt>
+            <dd className="mt-2 tabular">
               <LocalTime />
             </dd>
           </div>
           <div className="col-span-2">
-            <dt className="text-ink-3">Email</dt>
-            <dd className="mt-1.5 normal-case tracking-normal">
-              <a href={`mailto:${site.email}`} className="link-draw text-[15px]">
-                {site.email}
-              </a>
-            </dd>
+            <dt className="eyebrow">Replies</dt>
+            <dd className="mt-2 text-ink-2">Usually within a day, East Africa Time.</dd>
           </div>
         </dl>
 
         {columns.map((col) => (
-          <div key={col.title} className="lg:col-span-3">
+          <div key={col.title} className="lg:col-span-2">
             <h2 className="eyebrow">{col.title}</h2>
-            <ul className="mt-4 space-y-2">
+            <ul className="mt-4 space-y-2.5">
               {col.links.map((l) => {
                 const external = l.href.startsWith('http');
                 return (
@@ -76,7 +81,7 @@ export default function SiteFooter() {
                     <Link
                       href={l.href}
                       {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                      className="link-draw font-display text-[20px] uppercase tracking-[-0.03em]"
+                      className="text-[14.5px] text-ink-2 transition-colors hover:text-ink"
                     >
                       {l.label}
                       {external && <span aria-hidden> ↗</span>}
@@ -90,9 +95,9 @@ export default function SiteFooter() {
       </div>
 
       <div className="wrap">
-        <div className="flex flex-col gap-2 border-t-2 border-ink py-5 font-mono text-[10.5px] font-bold uppercase tracking-[0.08em] text-ink-3 sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} {site.fullName}</p>
-          <p>Set in Anton, Space Grotesk &amp; Space Mono · Built with Next.js</p>
+        <div className="flex flex-col gap-2 border-t border-rule py-6 text-[12.5px] text-ink-3 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} {site.fullName}. Designed and built by me.</p>
+          <p>Set in Funnel Display, Funnel Sans and Geist Mono. Built with Next.js.</p>
         </div>
       </div>
     </footer>

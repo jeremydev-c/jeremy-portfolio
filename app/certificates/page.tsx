@@ -14,12 +14,11 @@ export default function Certificates() {
   return (
     <>
       <PageHead
-        eyebrow="Recognition"
+        eyebrow="Room 03 · Recognition"
         title={
           <>
             Results, rankings
-            <br />
-            <span className="italic text-ink-3">and receipts.</span>
+            <span className="block text-ink-3">and receipts.</span>
           </>
         }
         intro="Every claim on this site has a certificate behind it. Open any of them below."

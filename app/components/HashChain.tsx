@@ -131,7 +131,7 @@ export default function HashChain() {
 
   return (
     <div className="relative">
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 font-mono text-[10.5px] uppercase tracking-[0.16em]">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px]">
         <span className="flex items-center gap-2 text-bone/60">
           <span className={`h-1.5 w-1.5 rounded-full ${intact ? 'bg-[#8fc79a]' : 'bg-[#ff8a5c]'}`} />
           {intact ? 'Ledger intact · live' : 'Tampering detected'}
@@ -140,7 +140,7 @@ export default function HashChain() {
           type="button"
           onClick={tampered ? restore : tamper}
           disabled={blocks.length < VISIBLE}
-          className="border-2 border-bone px-3.5 py-1.5 font-mono text-[12px] font-bold uppercase tracking-[0.06em] text-bone transition-colors hover:border-bone hover:bg-bone hover:text-night disabled:opacity-40"
+          className="h-9 rounded-[8px] border border-bone/25 px-4 text-[13.5px] text-bone transition-colors hover:border-bone hover:bg-bone hover:text-night disabled:opacity-40"
         >
           {tampered ? 'Reset the ledger' : 'Try changing a vote'}
         </button>
@@ -159,7 +159,7 @@ export default function HashChain() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -24 }}
                 transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                className={`relative border p-4 font-mono text-[11px] leading-relaxed transition-colors duration-500 ${
+                className={`relative rounded-[10px] border p-4 font-mono text-[11px] leading-relaxed transition-colors duration-500 ${
                   bad ? 'border-[#ff8a5c]/60 bg-[#ff8a5c]/[0.07]' : 'border-bone/12 bg-night-2'
                 }`}
               >

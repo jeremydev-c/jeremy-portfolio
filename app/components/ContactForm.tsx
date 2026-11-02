@@ -41,7 +41,7 @@ export default function ContactForm() {
     return (
       <div className="border-t border-rule pt-10" role="status">
         <p className="font-display text-display-sm">
-          Thank you. <span className="italic text-ink-3">Your message is on its way.</span>
+          Thank you. <span className="text-ink-3">Your message is on its way.</span>
         </p>
         <p className="mt-4 text-[16px] text-ink-2">I usually reply within a day, from Kenya (EAT).</p>
         <button type="button" onClick={() => setStatus('idle')} className="btn-line mt-8">
@@ -54,7 +54,7 @@ export default function ContactForm() {
   const field =
     'peer w-full border-0 border-b border-rule bg-transparent px-0 pb-3 pt-7 text-[18px] text-ink placeholder-transparent transition-colors focus:border-ink focus:outline-none focus:ring-0';
   const label =
-    'pointer-events-none absolute left-0 top-7 origin-left font-mono text-[11px] uppercase tracking-[0.14em] text-ink-3 transition-all duration-300 peer-focus:top-0 peer-[:not(:placeholder-shown)]:top-0';
+    'pointer-events-none absolute left-0 top-7 origin-left text-[15px] text-ink-3 transition-all duration-300 peer-focus:top-0 peer-focus:text-[12px] peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:text-[12px]';
 
   return (
     <form onSubmit={submit} className="space-y-6" noValidate={false}>
@@ -78,7 +78,7 @@ export default function ContactForm() {
       </div>
 
       <fieldset>
-        <legend className="font-mono text-[11px] uppercase tracking-[0.14em] text-ink-3">What do you need? (optional)</legend>
+        <legend className="eyebrow">What do you need? (optional)</legend>
         <div className="mt-4 flex flex-wrap gap-2">
           {needs.map((b) => (
             <button
@@ -86,8 +86,8 @@ export default function ContactForm() {
               type="button"
               onClick={() => setNeed(need === b ? '' : b)}
               aria-pressed={need === b}
-              className={`border-2 px-4 py-2 font-mono text-[12px] font-bold uppercase tracking-[0.06em] transition-colors ${
-                need === b ? 'border-ink bg-ink text-paper' : 'border-rule text-ink-2 hover:border-ink/40'
+              className={`rounded-[8px] border px-3.5 py-2 text-[14px] transition-colors ${
+                need === b ? 'border-ink bg-ink text-paper' : 'border-ink/15 text-ink-2 hover:border-ink/40'
               }`}
             >
               {b}
@@ -101,7 +101,7 @@ export default function ContactForm() {
           {status === 'sending' ? 'Sending…' : 'Send message'} <span aria-hidden>→</span>
         </button>
         {status === 'error' && (
-          <p role="alert" className="text-[14px] text-cobalt">
+          <p role="alert" className="text-[14px] text-accent">
             {error} You can also email me directly.
           </p>
         )}

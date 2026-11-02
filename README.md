@@ -17,18 +17,21 @@ Science at school. I learned it by building, and this site is where that work li
 | **Fashion Fit** | Case study of my AI wardrobe app (YSK 2026) |
 | **Recognition** | Results and certificates, each one opens as the original document |
 | **Contact** | A form that lands straight in my inbox |
+| **Privacy & Terms** | What the site collects (very little) and the rules for using it, in plain words |
 
 ## How it looks, and why
 
-I wanted it to feel like a poster, not a template. It uses:
+I wanted it to feel like walking through a quiet gallery, with my projects as the exhibits:
 
-- **Anton** for headlines: tall, condensed, loud.
-- **Space Grotesk** for reading, and **Space Mono** for labels.
-- Off-white paper, black rules and **one** colour, cobalt blue. No gradients, no rounded cards, no glow.
+- Every project stands on its own **stage**, a wall tinted from that project's colours, with a
+  **wall label** beside it (number, title, year, what it's made with), like in a museum.
+- **Funnel Display** for headlines, **Funnel Sans** for reading and **Geist Mono** for labels.
+- Gallery-white walls (charcoal at night) and **one** accent, a label red, used only for exhibit
+  numbers and the page you're on. No gradients, no glow, no cursor tricks.
 - Light and dark mode, and it respects "reduce motion".
 
-The headline on the home page rises line by line in pure CSS, so it shows up even on a slow
-connection before any JavaScript loads.
+The first screen fades in with plain CSS, so it shows up even on a slow connection before any
+JavaScript loads.
 
 ## Built with
 

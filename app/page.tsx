@@ -1,208 +1,200 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import HeroTitle from './components/HeroTitle';
 import Reveal from './components/Reveal';
-import LocalTime from './components/LocalTime';
-import Marquee from './components/Marquee';
-import { projects, site, toolbelt } from './lib/content';
+import Stage from './components/Stage';
+import { projects, recognition, site } from './lib/content';
 
-const facts = [
-  { value: '16', label: 'Years old, self-taught' },
-  { value: '#50', label: 'Of 1,995 in a global data hackathon' },
-  { value: '3rd', label: 'Kenya Science & Engineering Fair, county level' },
-  { value: '7', label: 'Products designed and built' },
-];
-
-// Three projects on the poster; the rest live on /work.
+// Three projects get a full stage on the home page; the rest are listed below them.
 const featured = ['e-elections', 'fashion-fit', 'tabby'].map((slug) => projects.find((p) => p.slug === slug)!);
+const others = projects.filter((p) => !featured.includes(p));
 
-const directory = [
-  { href: '/work', label: 'All work', note: 'Seven projects, from farm e-commerce to AI' },
-  { href: '/about', label: 'About', note: 'My story, how I work and what I can build' },
-  { href: '/certificates', label: 'Recognition', note: 'Results, rankings and certificates' },
-  { href: '/contact', label: 'Contact', note: 'Start a project with me' },
+// Each line is backed by a certificate on /certificates.
+const records = [
+  { value: '#50', of: 'of 1,995', label: '10Alytics Global Data Hackathon', year: '2025' },
+  { value: '3rd', of: 'place', label: 'Kenya Science & Engineering Fair, Computer Science, county level', year: '2025' },
+  { value: 'Level 2', of: 'completed', label: 'Moringa School High School Bootcamp', year: '2026' },
 ];
+
+function exhibitHref(p: (typeof projects)[number]) {
+  return { href: p.caseStudy ?? p.live ?? '/work', external: !p.caseStudy && !!p.live };
+}
 
 export default function Home() {
   return (
     <>
       {/* ---------------------------------------------------------------- Hero */}
-      <section className="wrap pb-10 pt-24 sm:pb-14 sm:pt-32">
-        <div className="anim-fade-up mb-6 grid grid-cols-2 border-y border-ink font-mono text-[11px] font-bold uppercase tracking-[0.08em] sm:mb-10 sm:grid-cols-4">
-          <p className="border-r border-ink py-2.5 pr-3">{site.role}</p>
-          <p className="py-2.5 pl-3 sm:border-r sm:border-ink sm:pr-3">{site.location}</p>
-          <p className="border-r border-t border-ink py-2.5 pr-3 sm:border-t-0 sm:pl-3">
-            <LocalTime />
-          </p>
-          <p className="flex items-center gap-2 border-t border-ink py-2.5 pl-3 sm:border-t-0">
-            <span className="h-2 w-2 bg-moss" /> Open for 2027
-          </p>
-        </div>
-
-        <HeroTitle />
-
-        <div className="anim-fade-up mt-10 grid border-t-2 border-ink pt-6 sm:mt-14 lg:grid-cols-12 lg:gap-8" style={{ animationDelay: '0.45s' }}>
-          <p className="max-w-[40rem] text-[19px] leading-[1.5] sm:text-[22px] lg:col-span-7">
-            I’m {site.fullName}, a 16-year-old developer and designer from Nanyuki. I teach myself by
-            building, and I ship complete products — payments, security, applied AI — for real people.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3 lg:col-span-5 lg:mt-0 lg:justify-end lg:self-end">
-            <Link href="/work" className="btn-ink">
-              See my work <span aria-hidden>→</span>
-            </Link>
-            <Link href="/contact" className="btn-line">
-              Start a project
-            </Link>
+      <section className="wrap pb-20 pt-28 sm:pb-28 sm:pt-36 lg:pt-40">
+        <div className="grid gap-12 lg:grid-cols-12 lg:items-end lg:gap-10">
+          <div className="lg:col-span-8">
+            <p className="anim-fade-up eyebrow">Full-stack developer and designer</p>
+            <h1 className="anim-fade-up mt-6 font-display text-display-xl" style={{ animationDelay: '0.08s' }}>
+              Jeremy Nduati
+              <span className="block text-ink-3">builds software you can check.</span>
+            </h1>
+            <p
+              className="anim-fade-up mt-8 max-w-[36rem] text-[18px] leading-[1.6] text-ink-2 sm:text-[20px]"
+              style={{ animationDelay: '0.16s' }}
+            >
+              I’m 16 and self-taught, and I’ve been building since I was 14. From Nanyuki, Kenya, I
+              design and build complete products: a voting system with a tamper-evident ledger, an AI
+              wardrobe app, and paid e-commerce for a farm that sells countrywide.
+            </p>
+            <div className="anim-fade-up mt-10 flex flex-wrap gap-3" style={{ animationDelay: '0.24s' }}>
+              <Link href="/work" className="btn-ink">
+                See the work <span aria-hidden>→</span>
+              </Link>
+              <Link href="/contact" className="btn-line">
+                Start a project
+              </Link>
+            </div>
           </div>
+
+          <figure className="anim-fade lg:col-span-4" style={{ animationDelay: '0.2s' }}>
+            <div className="plate mx-auto aspect-[4/5] max-w-[340px] lg:max-w-none">
+              <Image src="/me.jpeg" alt="Portrait of Jeremy Nduati" fill priority sizes="(min-width: 1024px) 28vw, 340px" className="object-cover" />
+            </div>
+            <figcaption className="label-card mx-auto mt-4 max-w-[340px] lg:max-w-none">
+              <p className="font-mono text-[11px] text-accent">No. 00</p>
+              <p className="mt-2 text-[15px] font-medium">The developer, at 16</p>
+              <p className="mt-0.5 text-[13.5px] text-ink-3">{site.fullName} · {site.location}</p>
+            </figcaption>
+          </figure>
         </div>
       </section>
 
-      <Marquee items={toolbelt.slice(0, 12)} />
+      {/* ------------------------------------------------------------ Exhibits */}
+      <section aria-labelledby="exhibits" className="border-t border-rule">
+        <div className="wrap pt-16 sm:pt-24">
+          <Reveal className="flex items-end justify-between gap-6">
+            <h2 id="exhibits" className="font-display text-display-md">On show</h2>
+            <Link href="/work" className="link-draw shrink-0 text-[14.5px] text-ink-2 hover:text-ink">
+              All {projects.length} projects →
+            </Link>
+          </Reveal>
+        </div>
 
-      {/* ------------------------------------------------------------ Featured */}
-      <section className="wrap py-16 sm:py-24">
-        <Reveal className="flex items-end justify-between gap-6 border-b-2 border-ink pb-4">
-          <h2 className="font-display text-display-md uppercase">Selected work</h2>
-          <Link href="/work" className="link-draw shrink-0 font-mono text-[12px] font-bold uppercase tracking-[0.08em]">
-            All 7 →
-          </Link>
-        </Reveal>
-
-        <ul className="grid-rules mt-8 md:grid-cols-3">
+        <ol className="wrap space-y-16 py-12 sm:space-y-24 sm:py-16">
           {featured.map((p, i) => {
-            const href = p.caseStudy ?? p.live ?? '/work';
-            const external = !p.caseStudy && !!p.live;
+            const { href, external } = exhibitHref(p);
             return (
-              <Reveal as="li" key={p.slug} delay={i * 0.06}>
+              <Reveal as="li" key={p.slug}>
                 <Link
                   href={href}
                   {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  className="group flex h-full flex-col p-5 transition-colors duration-200 hover:bg-cobalt hover:text-bone sm:p-6"
+                  className="group grid gap-5 lg:grid-cols-12 lg:items-end lg:gap-8"
                 >
-                  <div className="flex items-start justify-between">
-                    <span className="font-display text-[clamp(3.5rem,7vw,6rem)] leading-[0.8] tracking-[-0.06em]">
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
-                    {p.badge && <span className="chip group-hover:border-bone group-hover:text-bone">{p.badge}</span>}
+                  <Stage p={p} priority={i === 0} className="lg:col-span-9" sizes="(min-width: 1024px) 64vw, 100vw" />
+                  <div className="label-card lg:col-span-3">
+                    <p className="font-mono text-[11px] text-accent">No. {String(i + 1).padStart(2, '0')}</p>
+                    <h3 className="mt-2 font-display text-[24px] leading-tight tracking-[-0.025em]">{p.name}</h3>
+                    <p className="text-[14px] text-ink-3">{p.year === 'Client' ? 'Client commission' : p.year}</p>
+                    <p className="mt-4 text-[14.5px] leading-relaxed text-ink-2">{p.summary}</p>
+                    <p className="mt-4 border-t border-rule pt-3 font-mono text-[11px] leading-relaxed text-ink-3">
+                      {p.stack.slice(0, 4).join(', ')}
+                    </p>
+                    <p className="mt-4 text-[14px] font-medium">
+                      <span className="link-draw">{p.caseStudy ? 'View the case study' : 'Visit the live site'}</span>{' '}
+                      <span aria-hidden className="inline-block transition-transform duration-300 group-hover:translate-x-1">
+                        {external ? '↗' : '→'}
+                      </span>
+                    </p>
                   </div>
-                  <h3 className="mt-8 font-display text-[clamp(1.7rem,2.6vw,2.4rem)] uppercase leading-[0.95] tracking-[-0.04em]">
-                    {p.short}
-                  </h3>
-                  <p className="mt-2 font-mono text-[11px] font-bold uppercase tracking-[0.08em] text-ink-3 group-hover:text-bone/75">
-                    {p.kind}
-                  </p>
-                  <div className="relative mt-6 aspect-[16/11] overflow-hidden border-2 border-ink bg-cobalt-soft group-hover:border-bone">
-                    {p.image ? (
-                      <Image
-                        src={p.image}
-                        alt={`${p.name} screenshot`}
-                        fill
-                        sizes="(min-width: 768px) 30vw, 100vw"
-                        className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                      />
-                    ) : (
-                      p.icon && (
-                        <Image src={p.icon} alt={`${p.name} app icon`} width={120} height={120} className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 border-2 border-ink" />
-                      )
-                    )}
-                  </div>
-                  <p className="mt-5 text-[15px] leading-relaxed text-ink-2 group-hover:text-bone/85">{p.tagline}</p>
                 </Link>
               </Reveal>
             );
           })}
-        </ul>
-      </section>
+        </ol>
 
-      {/* --------------------------------------------------------------- Facts */}
-      <section className="border-y-2 border-ink bg-ink text-paper">
-        <dl className="wrap grid grid-cols-2 lg:grid-cols-4">
-          {facts.map((f, i) => (
-            <Reveal
-              key={f.label}
-              delay={i * 0.05}
-              className={`py-10 sm:py-14 ${i % 2 === 1 ? 'border-l border-paper/25 pl-5 sm:pl-8' : 'pr-5'} ${i >= 2 ? 'border-t border-paper/25 lg:border-t-0' : ''} ${i === 2 ? 'lg:border-l lg:pl-8' : ''}`}
-            >
-              <dt className="sr-only">{f.label}</dt>
-              <dd>
-                <span className="block font-display text-[clamp(3.5rem,8vw,7rem)] leading-[0.85] tracking-[-0.06em]">
-                  {f.value}
-                </span>
-                <span className="mt-3 block max-w-[14rem] font-mono text-[11px] font-bold uppercase tracking-[0.08em] text-paper/70">
-                  {f.label}
-                </span>
-              </dd>
-            </Reveal>
-          ))}
-        </dl>
-      </section>
-
-      {/* ------------------------------------------------------------------ Me */}
-      <section className="wrap grid gap-10 py-16 sm:py-24 lg:grid-cols-12 lg:gap-8">
-        <Reveal className="lg:col-span-5">
-          <figure className="max-w-[440px]">
-            <div className="plate aspect-[4/5]">
-              <Image src="/me.jpeg" alt="Portrait of Jeremy Nduati" fill sizes="440px" className="object-cover" />
-            </div>
-            <figcaption className="mt-3 flex justify-between border-b border-ink pb-2 font-mono text-[11px] font-bold uppercase tracking-[0.08em]">
-              <span>Fig. 01</span>
-              <span>The developer, at 16</span>
-            </figcaption>
-          </figure>
-        </Reveal>
-
-        <div className="lg:col-span-7">
+        {/* Also on show: the client commissions, as a plain index. */}
+        <div className="wrap pb-20 sm:pb-28">
           <Reveal>
-            <p className="eyebrow">Who I am</p>
-            <p className="mt-5 font-display text-[clamp(2.2rem,4.4vw,4rem)] uppercase leading-[0.92] tracking-[-0.05em]">
-              I don’t take Computer Science at school.{' '}
-              <span className="bg-cobalt px-[0.1em] text-bone [box-decoration-break:clone]">I learned it by building.</span>
-            </p>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="prose-body mt-8 max-w-[38rem]">
-              <p>
-                I study a different technical subject, and code is the thing I do because I can’t stop.
-                It started with small experiments and grew into sites and apps for real businesses and
-                professionals, in Kenya and beyond.
-              </p>
-              <p>
-                I care about the details people only notice when they’re missing: a receipt you can
-                verify, a payment that never double-charges, a page that loads on slow data. One day I
-                want to build software my whole country relies on.
-              </p>
-            </div>
+            <p className="eyebrow">Also on show</p>
+            <ul className="mt-5 border-t border-rule">
+              {others.map((p, i) => {
+                const { href, external } = exhibitHref(p);
+                return (
+                  <li key={p.slug} className="border-b border-rule">
+                    <Link
+                      href={href}
+                      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                      className="group grid grid-cols-12 items-baseline gap-x-4 gap-y-1 py-5 transition-colors"
+                    >
+                      <span className="col-span-2 font-mono text-[11px] text-accent sm:col-span-1">
+                        No. {String(featured.length + i + 1).padStart(2, '0')}
+                      </span>
+                      <span className="col-span-10 font-display text-[22px] leading-tight tracking-[-0.025em] sm:col-span-5 sm:text-[26px]">
+                        {p.name}
+                      </span>
+                      <span className="col-span-10 col-start-3 text-[14.5px] text-ink-3 sm:col-span-5 sm:col-start-auto">
+                        {p.tagline}
+                      </span>
+                      <span aria-hidden className="hidden text-right text-ink-3 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-ink sm:col-span-1 sm:block">
+                        {external ? '↗' : '→'}
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
           </Reveal>
         </div>
       </section>
 
-      {/* ----------------------------------------------------------- Directory */}
-      <nav aria-label="Explore the site" className="wrap pb-16 sm:pb-24">
-        <ul className="border-t-2 border-ink">
-          {directory.map((d, i) => (
-            <Reveal as="li" key={d.href} delay={i * 0.04} className="border-b-2 border-ink">
-              <Link
-                href={d.href}
-                className="group grid grid-cols-12 items-center gap-x-4 gap-y-1 px-2 py-5 transition-colors duration-200 hover:bg-cobalt hover:text-bone sm:py-6"
-              >
-                <span className="col-span-2 font-mono text-[12px] font-bold sm:col-span-1">0{i + 1}</span>
-                <span className="col-span-9 font-display text-[clamp(2.2rem,6vw,5rem)] uppercase leading-[0.9] tracking-[-0.05em] sm:col-span-6">
-                  {d.label}
-                </span>
-                <span className="col-span-10 col-start-3 text-[15px] text-ink-2 group-hover:text-bone/85 sm:col-span-4 sm:col-start-auto">
-                  {d.note}
-                </span>
-                <span
-                  aria-hidden
-                  className="col-span-1 hidden justify-self-end font-display text-[clamp(2rem,4vw,3.5rem)] transition-transform duration-300 ease-out group-hover:-rotate-45 sm:block"
-                >
-                  →
-                </span>
-              </Link>
-            </Reveal>
-          ))}
-        </ul>
-      </nav>
+      {/* ------------------------------------------------------------- Records */}
+      <section className="border-t border-rule bg-paper-2/70">
+        <div className="wrap py-20 sm:py-28">
+          <Reveal className="flex flex-wrap items-end justify-between gap-6">
+            <div>
+              <p className="eyebrow">On the record</p>
+              <h2 className="mt-4 font-display text-display-md">
+                Results with a certificate behind them.
+              </h2>
+            </div>
+            <Link href="/certificates" className="link-draw text-[14.5px] text-ink-2 hover:text-ink">
+              All {recognition.length} entries →
+            </Link>
+          </Reveal>
+          <ul className="grid-rules mt-12 md:grid-cols-3">
+            {records.map((r, i) => (
+              <Reveal as="li" key={r.label} delay={i * 0.06} className="!bg-paper-2 p-7 sm:p-9">
+                <p className="font-display text-[clamp(2.8rem,5vw,4.2rem)] leading-none tracking-[-0.045em]">
+                  {r.value} <span className="text-[0.4em] tracking-[-0.02em] text-ink-3">{r.of}</span>
+                </p>
+                <p className="mt-6 text-[15px] leading-snug">{r.label}</p>
+                <p className="mt-1 font-mono text-[11px] text-ink-3">{r.year}</p>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------------ Me */}
+      <section className="wrap grid gap-10 py-20 sm:py-28 lg:grid-cols-12 lg:gap-8">
+        <Reveal className="lg:col-span-5">
+          <p className="eyebrow">About the maker</p>
+          <p className="mt-5 font-display text-display-md">
+            I don’t take Computer Science at school.
+            <span className="block text-ink-3">I learned it by building.</span>
+          </p>
+        </Reveal>
+        <Reveal className="lg:col-span-6 lg:col-start-7" delay={0.1}>
+          <div className="prose-body">
+            <p>
+              I study a different technical subject, and code is the thing I do because I can’t stop.
+              It started with small experiments when I was 14 and grew into sites and apps for real
+              businesses and professionals, in Kenya and beyond.
+            </p>
+            <p>
+              I care about the details people only notice when they’re missing: a receipt you can
+              verify, a payment that never double-charges, a page that loads on slow data. One day I
+              want to build software my whole country relies on.
+            </p>
+          </div>
+          <Link href="/about" className="btn-line mt-8">
+            More about me
+          </Link>
+        </Reveal>
+      </section>
     </>
   );
 }

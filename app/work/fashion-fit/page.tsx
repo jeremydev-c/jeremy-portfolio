@@ -5,7 +5,7 @@ import NextProject from '../../components/NextProject';
 import PromoVideo from '../../components/PromoVideo';
 
 export const metadata: Metadata = {
-  title: 'Fashion Fit — AI wardrobe and outfit planner',
+  title: 'Fashion Fit, AI wardrobe and outfit planner',
   description:
     'Case study: a React Native app that digitises your wardrobe with computer vision and suggests outfits using 14 custom algorithms, live weather and a learning engine.',
   alternates: { canonical: '/work/fashion-fit' },
@@ -74,7 +74,7 @@ export default function FashionFit() {
             <Link href="/work" className="link-draw">Work</Link> / Case study · Young Scientists Kenya 2026
           </p>
           <h1 className="mt-6 font-display text-display-xl">Fashion Fit</h1>
-          <p className="mt-4 font-display text-[clamp(1.6rem,3.2vw,2.8rem)] italic leading-tight text-cobalt">
+          <p className="mt-4 font-display text-[clamp(1.6rem,3.2vw,2.8rem)] leading-tight text-ink-3">
             Your whole wardrobe, styled by AI.
           </p>
         </div>
@@ -106,8 +106,8 @@ export default function FashionFit() {
             />
           </Reveal>
           <Reveal className="lg:col-span-7 lg:col-start-6" delay={0.1}>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone/55">Watch, then the numbers</p>
-            <ul className="mt-6 grid grid-cols-2 gap-px overflow-hidden bg-bone/10 sm:grid-cols-3">
+            <p className="eyebrow !text-bone/55">Watch, then the numbers</p>
+            <ul className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-[14px] bg-bone/10 sm:grid-cols-3">
               {metrics.map((m) => (
                 <li key={m.label} className="bg-night p-6">
                   <p className="font-display text-[clamp(2.4rem,4vw,3.5rem)] leading-none">{m.value}</p>
@@ -125,7 +125,7 @@ export default function FashionFit() {
             <p className="eyebrow">The problem</p>
             <h2 className="mt-4 font-display text-display-md">
               92 million tonnes of textile waste.
-              <span className="block italic text-ink-3">Most people wear 20–30% of what they own.</span>
+              <span className="block text-ink-3">Most people wear 20–30% of what they own.</span>
             </h2>
           </Reveal>
           <Reveal className="lg:col-span-6 lg:col-start-7" delay={0.1}>
@@ -146,13 +146,13 @@ export default function FashionFit() {
           <Reveal>
             <p className="eyebrow">Architecture</p>
             <h2 className="mt-4 max-w-4xl font-display text-display-md">
-              A hybrid AI pipeline, <span className="italic text-cobalt">95% cheaper</span> than sending every photo to the cloud.
+              A hybrid AI pipeline, <span className="text-ink-3">95% cheaper</span> than sending every photo to the cloud.
             </h2>
           </Reveal>
-          <ol className="mt-14 grid gap-px overflow-hidden border border-rule bg-rule md:grid-cols-3">
+          <ol className="mt-14 grid gap-px overflow-hidden rounded-[14px] border border-rule bg-rule md:grid-cols-3">
             {layers.map(([t, b], i) => (
               <Reveal as="li" key={t} delay={i * 0.08} className="bg-paper p-7 sm:p-9">
-                <p className="font-mono text-[11px] text-cobalt">Layer 0{i + 1}</p>
+                <p className="font-mono text-[11px] text-accent">Layer 0{i + 1}</p>
                 <h3 className="mt-6 font-display text-[34px] leading-none">{t}</h3>
                 <p className="mt-4 text-[15px] leading-relaxed text-ink-2">{b}</p>
               </Reveal>
@@ -205,7 +205,7 @@ export default function FashionFit() {
             <ol className="relative mt-8 border-l border-rule pl-8">
               {journey.map(([t, b]) => (
                 <li key={t} className="relative pb-8 last:pb-0">
-                  <span className="absolute -left-[37px] top-1.5 h-2.5 w-2.5 rounded-full border border-cobalt bg-paper" />
+                  <span className="absolute -left-[37px] top-1.5 h-2.5 w-2.5 rounded-full border border-ink-3 bg-paper" />
                   <p className="text-[17px]">{t}</p>
                   <p className="mt-1 text-[15px] leading-relaxed text-ink-2">{b}</p>
                 </li>

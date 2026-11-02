@@ -20,14 +20,14 @@ export default function CopyEmail({ email }: { email: string }) {
     <div className="flex flex-wrap items-center gap-4">
       <a
         href={`mailto:${email}`}
-        className="link-under break-all font-display text-[clamp(1.5rem,3vw,2.4rem)] leading-tight"
+        className="link-under break-all font-display text-[clamp(1.4rem,2.6vw,2.1rem)] leading-tight tracking-[-0.03em]"
       >
         {email}
       </a>
       <button
         type="button"
         onClick={copy}
-        className="border-2 border-ink px-3.5 py-1.5 font-mono text-[10.5px] font-bold uppercase tracking-[0.08em] transition-colors hover:bg-ink hover:text-paper"
+        className="h-8 rounded-[7px] border border-ink/15 px-3 text-[13px] transition-colors hover:border-ink/50"
         aria-live="polite"
       >
         {copied ? 'Copied ✓' : 'Copy'}

@@ -6,8 +6,7 @@ export default function NotFound() {
       <p className="eyebrow">Error 404</p>
       <h1 className="mt-6 font-display text-display-xl">
         This page
-        <br />
-        <span className="italic text-cobalt">broke the chain.</span>
+        <span className="block text-ink-3">broke the chain.</span>
       </h1>
       <p className="mt-8 max-w-md text-[18px] leading-relaxed text-ink-2">
         The link may be old, or the page may have moved during the redesign.

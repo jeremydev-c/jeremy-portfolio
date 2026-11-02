@@ -3,61 +3,77 @@
 @tailwind utilities;
 
 /* ------------------------------------------------------------------
-   Poster palette: off-white stock, near-black ink and one cobalt
-   accent. Values are RGB channels so Tailwind can apply opacity
-   (bg-ink/10 and so on).
+   The Exhibition: gallery-white walls, near-black type, one label red
+   used only for exhibit numbers and active states. Each exhibit stands
+   on its own tinted stage. Values are RGB channels so Tailwind can
+   apply opacity (bg-ink/10 and so on).
    ------------------------------------------------------------------ */
 :root {
-  --paper: 244 244 240;
-  --paper-2: 234 234 228;
-  --paper-3: 220 220 212;
-  --ink: 11 11 11;
-  --ink-2: 58 58 56;
-  --ink-3: 104 104 100;
-  --rule: 11 11 11;
-  --cobalt: 26 60 255;
-  --cobalt-2: 142 162 255;
-  --cobalt-soft: 222 228 255;
-  --moss: 0 150 90;
-  --night: 11 11 11;
-  --night-2: 30 30 30;
-  --bone: 244 244 240;
+  --paper: 244 244 241;
+  --paper-2: 236 236 232;
+  --paper-3: 226 226 221;
+  --ink: 20 20 19;
+  --ink-2: 74 74 70;
+  --ink-3: 118 118 112;
+  --rule: 218 218 212;
+  --accent: 196 52 32;
+  --accent-2: 238 128 106;
+  --accent-soft: 248 228 222;
+  --moss: 40 122 76;
+  --night: 20 20 19;
+  --night-2: 34 34 32;
+  --bone: 244 244 241;
+  --stage-green: 228 236 230;
+  --stage-sand: 238 232 222;
+  --stage-leaf: 234 237 223;
+  --stage-stone: 232 232 228;
+  --label: 252 252 250;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --paper: 11 11 11;
-    --paper-2: 22 22 22;
-    --paper-3: 34 34 34;
-    --ink: 244 244 240;
-    --ink-2: 196 196 190;
-    --ink-3: 146 146 140;
-    --rule: 244 244 240;
-    --cobalt: 92 124 255;
-    --cobalt-2: 142 162 255;
-    --cobalt-soft: 22 30 74;
-    --moss: 60 200 130;
-    --night: 22 22 26;
-    --night-2: 36 36 40;
+    --paper: 18 18 17;
+    --paper-2: 26 26 25;
+    --paper-3: 36 36 34;
+    --ink: 240 240 236;
+    --ink-2: 190 190 184;
+    --ink-3: 140 140 134;
+    --rule: 50 50 47;
+    --accent: 240 106 82;
+    --accent-2: 246 150 130;
+    --accent-soft: 62 28 22;
+    --moss: 98 196 138;
+    --night: 10 10 10;
+    --night-2: 28 28 27;
+    --stage-green: 27 33 29;
+    --stage-sand: 34 31 27;
+    --stage-leaf: 31 33 25;
+    --stage-stone: 30 30 29;
+    --label: 30 30 29;
     color-scheme: dark;
   }
 }
 
 :root[data-theme="dark"] {
-  --paper: 11 11 11;
-  --paper-2: 22 22 22;
-  --paper-3: 34 34 34;
-  --ink: 244 244 240;
-  --ink-2: 196 196 190;
-  --ink-3: 146 146 140;
-  --rule: 244 244 240;
-  --cobalt: 92 124 255;
-  --cobalt-2: 142 162 255;
-  --cobalt-soft: 22 30 74;
-  --moss: 60 200 130;
-  --night: 22 22 26;
-  --night-2: 36 36 40;
+  --paper: 18 18 17;
+  --paper-2: 26 26 25;
+  --paper-3: 36 36 34;
+  --ink: 240 240 236;
+  --ink-2: 190 190 184;
+  --ink-3: 140 140 134;
+  --rule: 50 50 47;
+  --accent: 240 106 82;
+  --accent-2: 246 150 130;
+  --accent-soft: 62 28 22;
+  --moss: 98 196 138;
+  --night: 10 10 10;
+  --night-2: 28 28 27;
+  --stage-green: 27 33 29;
+  --stage-sand: 34 31 27;
+  --stage-leaf: 31 33 25;
+  --stage-stone: 30 30 29;
+  --label: 30 30 29;
   color-scheme: dark;
 }
 
@@ -71,16 +87,18 @@
   body {
     @apply bg-paper font-sans text-ink antialiased;
     overflow-x: hidden;
+    font-feature-settings: "ss01";
   }
 
   ::selection {
-    background: rgb(var(--cobalt));
-    color: rgb(var(--bone));
+    background: rgb(var(--ink));
+    color: rgb(var(--paper));
   }
 
   :focus-visible {
-    outline: 3px solid rgb(var(--cobalt));
+    outline: 2px solid rgb(var(--accent));
     outline-offset: 3px;
+    border-radius: 4px;
   }
 
   h1,
@@ -99,57 +117,88 @@
     @apply mx-auto w-full max-w-page px-4 sm:px-8 lg:px-12;
   }
 
-  .eyebrow {
-    @apply font-mono text-[11px] font-bold uppercase tracking-[0.12em] text-ink-3;
+  /* Display type sits in the components layer so size and tracking utilities can override it. */
+  .font-display {
+    font-weight: 600;
+    letter-spacing: -0.03em;
   }
 
-  /* Hover underline: a thick cobalt bar that wipes in from the left. */
+  .eyebrow {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.08em] text-ink-3;
+  }
+
+  /* Hover underline: a hairline that draws in from the left. */
   .link-draw {
-    background-image: linear-gradient(rgb(var(--cobalt)), rgb(var(--cobalt)));
-    background-size: 0% 2px;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
     background-position: 0 100%;
     background-repeat: no-repeat;
-    transition: background-size 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    transition: background-size 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   }
   .link-draw:hover,
   .link-draw:focus-visible {
-    background-size: 100% 2px;
+    background-size: 100% 1px;
   }
 
   .link-under {
-    @apply underline decoration-2 underline-offset-[0.2em] transition-colors hover:decoration-cobalt;
+    @apply underline decoration-ink/25 decoration-1 underline-offset-[0.22em] transition-colors hover:decoration-ink;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center gap-2 border-2 px-5 py-3 font-mono text-[12px] font-bold uppercase tracking-[0.08em] transition-colors duration-200;
+    @apply inline-flex h-11 items-center justify-center gap-2 rounded-[8px] px-5 text-[14.5px] font-medium tracking-[-0.005em] transition-colors duration-200;
   }
   .btn-ink {
-    @apply btn border-ink bg-ink text-paper hover:border-cobalt hover:bg-cobalt hover:text-bone;
+    @apply btn bg-ink text-paper hover:bg-ink/80;
   }
   .btn-line {
-    @apply btn border-ink text-ink hover:bg-ink hover:text-paper;
+    @apply btn border border-ink/20 text-ink hover:border-ink/60;
   }
 
   .chip {
-    @apply inline-flex items-center border border-ink px-2 py-0.5 font-mono text-[10.5px] font-bold uppercase tracking-[0.08em] text-ink;
+    @apply inline-flex items-center rounded-[5px] border border-ink/15 px-2 py-[3px] font-mono text-[11px] text-ink-2;
   }
 
   .plate {
-    @apply relative overflow-hidden border-2 border-ink bg-paper-3;
+    @apply relative overflow-hidden rounded-[14px] bg-paper-3;
   }
 
-  /* Screenshots sit in a hard black frame, no rounded corners or shadows. */
+  /* A screenshot hangs like a print: thin frame, soft shadow, no browser chrome colour. */
   .browser {
-    @apply overflow-hidden border-2 border-ink bg-paper-2;
+    @apply overflow-hidden rounded-[12px] border border-ink/10 bg-paper-2;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 24px 48px -28px rgb(0 0 0 / 0.28);
   }
   .browser-bar {
-    @apply flex items-center gap-1.5 border-b-2 border-ink px-3 py-2;
+    @apply flex items-center gap-1.5 border-b border-ink/10 bg-paper px-3.5 py-2.5;
   }
   .browser-bar > i {
-    @apply block h-2.5 w-2.5 border border-ink;
+    @apply block h-2.5 w-2.5 rounded-full bg-ink/15;
   }
-  .browser-bar > i:first-child {
-    @apply bg-cobalt;
+
+  /* The exhibit stage: a tinted wall with a soft pool of light at the top. */
+  .stage {
+    @apply relative overflow-hidden rounded-[20px];
+  }
+  .stage::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(60% 55% at 50% 0%, rgb(255 255 255 / 0.55), transparent 70%);
+  }
+  :root[data-theme="dark"] .stage::before {
+    background: radial-gradient(60% 55% at 50% 0%, rgb(255 255 255 / 0.05), transparent 70%);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .stage::before {
+      background: radial-gradient(60% 55% at 50% 0%, rgb(255 255 255 / 0.05), transparent 70%);
+    }
+  }
+
+  /* A museum wall label. */
+  .label-card {
+    @apply rounded-[6px] border border-ink/10 p-5;
+    background: rgb(var(--label));
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
   }
 
   .prose-body {
@@ -159,9 +208,9 @@
     @apply mt-5;
   }
 
-  /* The poster grid: hard 1px rules between cells. */
+  /* Hairline grid: 1px rules between cells. */
   .grid-rules {
-    @apply grid gap-px border border-ink bg-ink;
+    @apply grid gap-px overflow-hidden rounded-[14px] border border-rule bg-rule;
   }
   .grid-rules > * {
     @apply bg-paper;
@@ -169,44 +218,24 @@
 }
 
 @layer utilities {
-  /* Anton has one heavy weight and is already condensed, so it needs no fake bold
-     and no negative tracking (the tight letter-spacing utilities were cut for a grotesk). */
-  .font-display {
-    font-weight: 400;
-    font-synthesis: none;
-    letter-spacing: 0.005em !important;
-  }
-
   .tabular {
     font-variant-numeric: tabular-nums;
   }
 
   /* Above-the-fold entrances run in CSS so they play on first paint,
      without waiting for JavaScript on a slow connection. */
-  .anim-rise {
-    animation: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
   .anim-fade-up {
-    animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
-  .anim-block {
-    animation: block 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.55s both;
-  }
-}
-
-@keyframes rise {
-  from {
-    transform: translateY(105%);
-  }
-  to {
-    transform: none;
+  .anim-fade {
+    animation: fade 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 }
 
 @keyframes fade-up {
   from {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(14px);
   }
   to {
     opacity: 1;
@@ -214,12 +243,12 @@
   }
 }
 
-@keyframes block {
+@keyframes fade {
   from {
-    transform: scaleX(0);
+    opacity: 0;
   }
   to {
-    transform: none;
+    opacity: 1;
   }
 }
 

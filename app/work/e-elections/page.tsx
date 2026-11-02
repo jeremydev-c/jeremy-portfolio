@@ -8,7 +8,7 @@ import NextProject from '../../components/NextProject';
 import PromoVideo from '../../components/PromoVideo';
 
 export const metadata: Metadata = {
-  title: 'E-ELECTIONS — secure digital voting for Kenya',
+  title: 'E-ELECTIONS, secure digital voting for Kenya',
   description:
     'Case study: a digital voting system with server-side ArcFace face recognition, fingerprint sign-in, ward-level ballots and a tamper-evident ledger with one SHA-256 chain per county. Built solo by Jeremy Nduati for KSEF 2027.',
   alternates: { canonical: '/work/e-elections' },
@@ -87,7 +87,7 @@ export default function EElections() {
             <Link href="/work" className="link-draw">Work</Link> / Case study · Kenya Science &amp; Engineering Fair 2027
           </p>
           <h1 className="mt-6 font-display text-display-xl">E-ELECTIONS</h1>
-          <p className="mt-4 font-display text-[clamp(1.6rem,3.2vw,2.8rem)] italic leading-tight text-cobalt">
+          <p className="mt-4 font-display text-[clamp(1.6rem,3.2vw,2.8rem)] leading-tight text-ink-3">
             Every Kenyan vote, counted in the open.
           </p>
         </div>
@@ -117,17 +117,20 @@ export default function EElections() {
       </header>
 
       <div className="anim-fade-up wrap">
-        <Shot
-          src="/work/e-elections-home.jpg"
-          alt="E-ELECTIONS home page with a sealed ballot receipt illustration"
-          url="e-elections / home"
-          priority
-          sizes="(min-width: 1400px) 1300px, 100vw"
-        />
+        <div className="stage bg-stage-green px-[6%] pt-[6%]">
+          <Shot
+            src="/work/e-elections-home.jpg"
+            alt="E-ELECTIONS home page with a sealed ballot receipt illustration"
+            url="e-elections / home"
+            priority
+            sizes="(min-width: 1400px) 1300px, 100vw"
+            className="!rounded-b-none !border-b-0"
+          />
+        </div>
       </div>
 
       {/* --------------------------------------------------------------- Watch */}
-      <section className="mt-16 border-y-2 border-ink bg-night text-bone sm:mt-24">
+      <section className="mt-16 bg-night text-bone sm:mt-24">
         <div className="wrap grid items-center gap-14 py-20 sm:py-28 lg:grid-cols-12 lg:gap-10">
           <Reveal className="mx-auto w-full max-w-[340px] lg:col-span-4 lg:max-w-none">
             <PromoVideo
@@ -138,9 +141,9 @@ export default function EElections() {
             />
           </Reveal>
           <Reveal className="lg:col-span-8" delay={0.1}>
-            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone/55">Watch</p>
+            <p className="eyebrow !text-bone/55">Watch</p>
             <h2 className="mt-4 font-display text-display-md">
-              The whole idea, <span className="italic text-cobalt-2">in 46 seconds.</span>
+              The whole idea, <span className="text-bone/45">in 46 seconds.</span>
             </h2>
             <p className="mt-6 max-w-xl text-[17px] leading-[1.7] text-bone/70">
               A short promo in my own voice. For the full walkthrough of every step, from the ID check to
@@ -164,7 +167,7 @@ export default function EElections() {
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-8">
           <Reveal className="lg:col-span-5">
             <p className="eyebrow">Why I built it</p>
-            <p className="mt-8 font-display text-[clamp(4rem,10vw,8.5rem)] leading-[0.85] tracking-[-0.04em] text-cobalt">
+            <p className="mt-8 font-display text-[clamp(4rem,10vw,8.5rem)] leading-[0.85] tracking-[-0.04em] text-accent">
               74.8<span className="text-[0.45em]">bn</span>
             </p>
             <p className="mt-4 max-w-xs text-[14px] leading-snug text-ink-3">
@@ -209,7 +212,7 @@ export default function EElections() {
                   </div>
                 </div>
                 <div className="mt-6 flex gap-5">
-                  <span className="font-display text-[44px] leading-none text-cobalt">{s.n}</span>
+                  <span className="font-display text-[44px] leading-none text-accent">{s.n}</span>
                   <div>
                     <h3 className="text-[19px] font-medium">{s.title}</h3>
                     <p className="mt-1.5 text-[15px] leading-relaxed text-ink-2">{s.body}</p>
@@ -226,10 +229,10 @@ export default function EElections() {
         <div className="wrap py-20 sm:py-28 lg:py-32">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
             <Reveal className="lg:col-span-5">
-              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-bone/55">The ledger</p>
+              <p className="eyebrow !text-bone/55">The ledger</p>
               <h2 className="mt-4 font-display text-display-md">
                 Like a chain of padlocks.
-                <span className="block italic text-cobalt-2">Break one, and it shows.</span>
+                <span className="block text-bone/45">Break one, and it shows.</span>
               </h2>
             </Reveal>
             <Reveal className="lg:col-span-6 lg:col-start-7" delay={0.1}>
@@ -260,10 +263,10 @@ export default function EElections() {
           <p className="eyebrow">Security</p>
           <h2 className="mt-4 max-w-3xl font-display text-display-md">Eight layers between a voter and a forged result.</h2>
         </Reveal>
-        <ul className="mt-14 grid gap-px overflow-hidden border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-14 grid gap-px overflow-hidden rounded-[14px] border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-4">
           {security.map(([t, b], i) => (
             <Reveal as="li" key={t} delay={(i % 4) * 0.05} className="bg-paper p-6 sm:p-7">
-              <p className="font-mono text-[11px] text-cobalt">{String(i + 1).padStart(2, '0')}</p>
+              <p className="font-mono text-[11px] text-accent">{String(i + 1).padStart(2, '0')}</p>
               <h3 className="mt-5 text-[17px] font-medium">{t}</h3>
               <p className="mt-2 text-[14px] leading-relaxed text-ink-2">{b}</p>
             </Reveal>
@@ -316,7 +319,7 @@ export default function EElections() {
                   <div className="h-9 w-full overflow-hidden bg-ink/[0.06]">
                     <div
                       className={`flex h-full items-center justify-end pr-2 font-mono text-[12px] ${
-                        f.ok ? 'bg-moss text-paper' : 'bg-cobalt/85 text-paper'
+                        f.ok ? 'bg-moss text-paper' : 'bg-accent/85 text-paper'
                       }`}
                       style={{ width: `${Math.max(f.value, 0.02) * 100}%` }}
                     >
@@ -325,7 +328,7 @@ export default function EElections() {
                   </div>
                   <p className="mt-2 flex flex-wrap justify-between gap-x-4 text-[13.5px]">
                     <span className="text-ink-2">{f.label}</span>
-                    <span className={f.ok ? 'text-moss' : 'text-cobalt'}>{f.verdict}</span>
+                    <span className={f.ok ? 'text-moss' : 'text-accent'}>{f.verdict}</span>
                   </p>
                 </div>
               ))}
@@ -385,7 +388,7 @@ export default function EElections() {
                 ['Field testing', 'A mock election with real users, measuring speed and first-try verification.'],
               ].map(([t, b], i) => (
                 <li key={t} className="flex gap-5 border-b border-rule py-5">
-                  <span className="font-mono text-[11px] text-cobalt">0{i + 1}</span>
+                  <span className="font-mono text-[11px] text-accent">0{i + 1}</span>
                   <span>
                     <span className="block text-[17px]">{t}</span>
                     <span className="mt-1 block text-[15px] text-ink-2">{b}</span>

@@ -23,11 +23,10 @@ export default function Contact() {
       <div className="grid gap-16 lg:grid-cols-12 lg:gap-10">
         <div className="lg:col-span-5">
           <div className="anim-fade-up">
-            <p className="eyebrow">Contact</p>
+            <p className="eyebrow">Room 04 · Contact</p>
             <h1 className="mt-6 font-display text-display-lg">
               Let’s build
-              <br />
-              <span className="italic text-cobalt">something real.</span>
+              <span className="block text-ink-3">something real.</span>
             </h1>
             <p className="mt-8 max-w-md text-[18px] leading-[1.6] text-ink-2">
               Tell me what you need and when. I’ll reply with honest questions, a plan and a price,
@@ -37,15 +36,15 @@ export default function Contact() {
 
           <div className="anim-fade-up mt-12" style={{ animationDelay: '0.1s' }}>
             <CopyEmail email={site.email} />
-            <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-rule pt-8 font-mono text-[11px] uppercase tracking-[0.14em]">
+            <dl className="mt-10 grid grid-cols-2 gap-6 border-t border-rule pt-8 text-[14px]">
               <div>
-                <dt className="text-ink-3">Local time</dt>
+                <dt className="eyebrow">Local time</dt>
                 <dd className="mt-2 text-ink">
                   <LocalTime />
                 </dd>
               </div>
               <div>
-                <dt className="text-ink-3">Elsewhere</dt>
+                <dt className="eyebrow">Elsewhere</dt>
                 <dd className="mt-2 flex gap-4 text-ink">
                   <a href={site.github} target="_blank" rel="noopener noreferrer" className="link-draw">
                     GitHub ↗
@@ -62,7 +61,7 @@ export default function Contact() {
             <ul className="border-t border-rule">
               {services.map(([title, body], i) => (
                 <li key={title} className="flex gap-4 border-b border-rule py-4">
-                  <span className="font-mono text-[11px] text-cobalt">0{i + 1}</span>
+                  <span className="font-mono text-[11px] text-accent">0{i + 1}</span>
                   <span>
                     <span className="block text-[16px]">{title}</span>
                     <span className="block text-[14px] text-ink-3">{body}</span>
@@ -74,8 +73,8 @@ export default function Contact() {
         </div>
 
         <div className="anim-fade-up lg:col-span-6 lg:col-start-7" style={{ animationDelay: '0.1s' }}>
-          <div className="border-2 border-ink bg-paper-2 p-6 sm:p-10">
-            <p className="font-display text-[30px] leading-tight">Project brief</p>
+          <div className="rounded-[20px] border border-rule bg-paper-2 p-6 sm:p-10">
+            <p className="font-display text-[28px] leading-tight tracking-[-0.03em]">Project brief</p>
             <p className="mt-2 text-[14px] text-ink-3">Everything except the last question is required.</p>
             <div className="mt-6">
               <ContactForm />

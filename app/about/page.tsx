@@ -79,6 +79,13 @@ export default function About() {
                 digital voting system I’m entering in the Kenya Science &amp; Engineering Fair 2027.
               </p>
               <p>
+                Most recently, iLabAfrica at Strathmore University set an HR challenge, and in two days I
+                built{' '}
+                <Link href="/work/kilele-hr" className="link-under text-ink">Kilele HR</Link>: a complete HR
+                system with encrypted personal data, one approval engine and an audit trail nobody can quietly
+                edit. It&rsquo;s live, and you can sign in as any role.
+              </p>
+              <p>
                 I care about the details people only notice when they are missing: a receipt you can
                 verify, a payment that never double-charges, a page that loads on a slow connection.
               </p>

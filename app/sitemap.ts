@@ -7,6 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ['', 1],
     ['/work', 0.9],
     ['/work/e-elections', 0.9],
+    ['/work/kilele-hr', 0.9],
     ['/work/fashion-fit', 0.8],
     ['/about', 0.8],
     ['/certificates', 0.7],

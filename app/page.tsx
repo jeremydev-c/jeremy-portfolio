@@ -5,7 +5,7 @@ import Stage from './components/Stage';
 import { projects, recognition, site } from './lib/content';
 
 // Three projects get a full stage on the home page; the rest are listed below them.
-const featured = ['e-elections', 'fashion-fit', 'tabby'].map((slug) => projects.find((p) => p.slug === slug)!);
+const featured = ['e-elections', 'kilele-hr', 'fashion-fit'].map((slug) => projects.find((p) => p.slug === slug)!);
 const others = projects.filter((p) => !featured.includes(p));
 
 // Each line is backed by a certificate on /certificates.

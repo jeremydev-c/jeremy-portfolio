@@ -8,7 +8,7 @@ import { projects } from '../lib/content';
 export const metadata: Metadata = {
   title: 'Work',
   description:
-    'Selected projects by Jeremy Nduati: E-ELECTIONS, Fashion Fit, and client builds with payments, admissions and e-commerce.',
+    'Selected projects by Jeremy Nduati: E-ELECTIONS, Kilele HR, Fashion Fit, and client builds with payments, admissions and e-commerce.',
   alternates: { canonical: '/work' },
 };
 
@@ -23,7 +23,7 @@ export default function Work() {
             <span className="block text-ink-3">and shipped.</span>
           </>
         }
-        intro="Two products of my own, and five builds for clients. Each one below covers the problem, what I did, and what it runs on."
+        intro="Three products of my own, and five builds for clients. Each one below covers the problem, what I did, and what it runs on."
       />
 
       <div className="wrap pb-24 sm:pb-32">

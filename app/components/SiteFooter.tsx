@@ -8,6 +8,7 @@ const columns = [
     links: [
       { href: '/work', label: 'Work' },
       { href: '/work/e-elections', label: 'E-Elections' },
+      { href: '/work/kilele-hr', label: 'Kilele HR' },
       { href: '/work/fashion-fit', label: 'Fashion Fit' },
       { href: '/about', label: 'About' },
       { href: '/certificates', label: 'Recognition' },

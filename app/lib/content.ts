@@ -69,6 +69,32 @@ export const projects: Project[] = [
     ],
   },
   {
+    slug: 'kilele-hr',
+    name: 'Kilele HR',
+    short: 'Kilele HR',
+    kind: 'HR platform · Security',
+    year: '2026',
+    tagline: 'The whole life of a job, in one calm system',
+    summary:
+      'A complete HR system, live online: scoped access control, encrypted personal data, one approval engine for leave, hiring, promotions and exits, a careers site, email at every step, and a tamper-evident audit trail.',
+    image: '/work/kilele-dashboard.jpg',
+    stage: 'stone',
+    caseStudy: '/work/kilele-hr',
+    live: 'https://kilele-hr.vercel.app',
+    github: 'https://github.com/jeremydev-c/Kilele-HR',
+    badge: 'iLabAfrica challenge',
+    role: 'Sole designer & engineer',
+    timeline: '2 days',
+    stack: ['Next.js 16', 'TypeScript', 'MongoDB Atlas', 'Tailwind CSS', 'Resend', 'Vercel'],
+    challenge:
+      'iLabAfrica (Strathmore University) asked for an HR system covering access control, employee data, recruitment, leave, promotions and exits. Personal data had to stay private, and every decision traceable.',
+    approach: [
+      'One permission engine for everything: each grant has a scope (own, team, department, all), so a line manager sees and approves for his own team and nobody else.',
+      'National IDs, KRA PINs and bank details encrypted with AES-256-GCM, yet still searchable through a blind index; revealing one needs a reason and is logged.',
+      'Every action sealed into a SHA-256 hash chain: change or delete one entry and the check catches it. 74 automated tests, deployed live.',
+    ],
+  },
+  {
     slug: 'fashion-fit',
     name: 'Fashion Fit',
     short: 'Fashion Fit',

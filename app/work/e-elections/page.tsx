@@ -400,7 +400,7 @@ export default function EElections() {
         </div>
       </section>
 
-      <NextProject href="/work/fashion-fit" name="Fashion Fit" kind="Applied AI · Mobile" />
+      <NextProject href="/work/kilele-hr" name="Kilele HR" kind="HR platform · Security" />
     </>
   );
 }

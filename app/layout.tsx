@@ -32,6 +32,8 @@ export const metadata: Metadata = {
     'Paystack',
     'E-ELECTIONS',
     'digital voting Kenya',
+    'Kilele HR',
+    'HR management system',
     'portfolio',
   ],
   authors: [{ name: 'Jeremy Nduati' }],

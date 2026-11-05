@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 
 // Initialize Resend lazily to avoid build-time errors
 function getResend() {
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = process.env.RESEND_API_KEY || process.env.RESEND_API;
   if (!apiKey) {
     throw new Error('RESEND_API_KEY is not configured');
   }
